@@ -1,32 +1,53 @@
-
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap/all";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
+gsap.registerPlugin(ScrollTrigger);
 
+type CountUpProps = {
+  end: number;
+  duration?: number;
+  suffix?: string;
+};
 
-export default function CountUp({ end = 1000, duration = 2, suffix = "", start = 0 }) {
+/**
+ * Counts up to `end` when scrolled into view.
+ *
+ * The rendered markup starts at the FINAL value rather than zero: if the
+ * scroll trigger never fires, JS is slow, or motion is reduced, the page shows
+ * the real figure instead of advertising "0+".
+ */
+export default function CountUp({ end, duration = 2, suffix = "" }: CountUpProps) {
   const el = useRef<HTMLSpanElement | null>(null);
-  const counter = useRef({ val: start });
+  const prefersReducedMotion = usePrefersReducedMotion();
 
-  useGSAP(() => {
-    const anim = gsap.to(counter.current, {
-      val: end,
-      duration,
-      ease: "power1.out",
-      onUpdate: () => {
-        el.current!.textContent =
-          Math.floor(counter.current.val).toLocaleString() + suffix;
-      },
-      scrollTrigger: {
-        trigger: el.current,
-        start: "top 85%",
-        once: true,
-      },
-    });
+  useGSAP(
+    () => {
+      if (prefersReducedMotion || !el.current) return;
 
-    return () => anim.kill();
-  }, [end, duration, suffix, start]);
+      const counter = { val: 0 };
+      const node = el.current;
+      node.textContent = "0" + suffix;
 
-  return <span ref={el}>{start.toLocaleString() + suffix}</span>;
+      const anim = gsap.to(counter, {
+        val: end,
+        duration,
+        ease: "power1.out",
+        onUpdate: () => {
+          node.textContent = Math.floor(counter.val).toLocaleString() + suffix;
+        },
+        onComplete: () => {
+          node.textContent = end.toLocaleString() + suffix;
+        },
+        scrollTrigger: { trigger: node, start: "top 85%", once: true },
+      });
+
+      return () => anim.kill();
+    },
+    { dependencies: [end, duration, suffix, prefersReducedMotion] }
+  );
+
+  return <span ref={el}>{end.toLocaleString() + suffix}</span>;
 }

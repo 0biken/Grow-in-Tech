@@ -24,6 +24,27 @@ const STAGES = [
 const DEFAULT_MEMBER = { name: '', email: '', phone: '', role: '', department: '', level: '' };
 const STORAGE_KEY = 'innotech_registration_draft_v2';
 
+/* ---- shared field primitives -------------------------------------------- */
+
+const inputClass =
+  "w-full rounded-xl border border-git-border bg-git-base px-4 py-3 font-sans text-base text-git-white " +
+  "placeholder:text-git-muted/70 transition-colors duration-150 hover:border-git-muted/60 " +
+  "focus:border-git-accent focus:outline-none";
+
+const Label = ({ children }: { children: React.ReactNode }) => (
+  <span className="mb-1.5 block font-sans text-sm font-semibold text-git-light">
+    {children}
+  </span>
+);
+
+const Hint = ({ children }: { children: React.ReactNode }) => (
+  <p className="mt-1.5 font-sans text-sm text-git-muted">{children}</p>
+);
+
+const FieldError = ({ children }: { children: React.ReactNode }) => (
+  <p className="mt-1.5 font-sans text-sm font-medium text-red-400">{children}</p>
+);
+
 export default function Register() {
   const [teamName, setTeamName] = useState('');
   const [innovationTitle, setInnovationTitle] = useState('');
@@ -46,7 +67,6 @@ export default function Register() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [registrationId, setRegistrationId] = useState<string | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -67,15 +87,15 @@ export default function Register() {
         setMembers(d.members && d.members.length ? d.members : [{...DEFAULT_MEMBER},{...DEFAULT_MEMBER},{...DEFAULT_MEMBER}]);
         setTerms(d.terms || {accurate:false,enrolled:false,rules:false,truthful:false});
       }
-    } catch (err) {
-      // ignore
+    } catch {
+      // ignore malformed drafts
     }
   }, []);
 
   useEffect(() => {
     const draft = { teamName, innovationTitle, category, sdgs, description, problem, solution, impact, stage, videoUrl, documentUrl, members, terms };
     const t = setTimeout(() => {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(draft)); } catch(e){}
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(draft)); } catch { /* quota */ }
     }, 700);
     return () => clearTimeout(t);
   }, [teamName, innovationTitle, category, sdgs, description, problem, solution, impact, stage, videoUrl, documentUrl, members, terms]);
@@ -174,422 +194,379 @@ export default function Register() {
 
   if (submitted) {
     return (
-      <div style={{background:'var(--bg-light)'}} className="page-root">
-        <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-        <main className="container center">
-          <div className="success-card">
-            <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:56,height:56,borderRadius:999,background:'var(--mint)',color:'var(--dark)',fontWeight:800}}>✓</div>
-            <h1 className="h2">Registration Received</h1>
-            <p className="muted">Thank you — your team has been registered for Innotech 4.0.</p>
-            <div className="stat-card">
-              <div>
-                <p className="stat-number">{registrationId}</p>
-                <p className="stat-label">Registration ID</p>
-              </div>
-              <div>
-                <p className="muted">A confirmation email will be sent to your team lead.</p>
-              </div>
-            </div>
-            <div style={{display:'flex', gap:12, justifyContent:'center', marginTop:18}}>
-              <button className="btn-primary" onClick={()=>window.location.reload()}>Register Another Team</button>
-            </div>
-          </div>
-        </main>
-        <Footer />
-        <Style />
+      <div className="container-page max-w-2xl py-20 text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-git-accent-solid text-2xl font-bold text-git-white">
+          ✓
+        </div>
+        <h1 className="mt-6 text-[length:var(--text-h1)] font-extrabold text-git-white">
+          Registration Received
+        </h1>
+        <p className="mt-3 font-sans text-git-muted">
+          Thank you — your team has been registered for Innotech 4.0.
+        </p>
+        <div className="mt-8 rounded-3xl border border-git-border bg-git-surface p-8">
+          <p className="font-heading text-3xl font-extrabold text-git-light">{registrationId}</p>
+          <p className="mt-1 font-sans text-sm uppercase tracking-widest text-git-muted">
+            Registration ID
+          </p>
+          <p className="mt-5 font-sans text-sm text-git-muted">
+            A confirmation email will be sent to your team lead.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="mt-8 rounded-full bg-git-accent-solid px-8 py-3.5 font-sans font-bold text-git-white transition-colors duration-150 hover:bg-git-accent-hover"
+          onClick={() => window.location.reload()}
+        >
+          Register Another Team
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="page-root">
-      <Style />
-      <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <main>
-        <section className="hero">
-          <div className="hero-inner container">
-            <div className="hero-content">
-              <p className="eyebrow">INNOTECH 4.0</p>
-              <h1 className="hero-title">Building solutions for tomorrow</h1>
-              <p className="hero-sub">The premier innovation & pitch competition uniting students, founders, and industry leaders to design, build and launch impactful technology solutions.</p>
-            </div>
-          </div>
-        </section>
+    <div className="container-page max-w-3xl py-12 sm:py-16">
+      <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-git-light">
+        Innotech 4.0
+      </p>
+      <h1 className="mt-3 text-[length:var(--text-h1)] font-extrabold text-git-white">
+        Register your team
+      </h1>
+      <p className="mt-4 max-w-xl font-sans leading-relaxed text-git-muted">
+        Six short steps. Progress saves automatically. Teams must have 3–5
+        members, all currently enrolled University of Ibadan students.
+      </p>
 
-        <section id="register" className="section container" style={{paddingTop:40}}>
-          <div className="form-wrap">
-            <div className="form-header">
-              <div>
-                <h2 className="h3">Register your team</h2>
-                <p className="muted">Multi-step registration. Save progress automatically. Required: 3–5 members, must be UI students.</p>
-              </div>
-              <div className="progress-pill">{currentStep+1}/{steps.length}</div>
+      <form onSubmit={handleSubmit} className="mt-10">
+        {/* Stepper */}
+        <ol className="flex gap-2 overflow-x-auto pb-2">
+          {steps.map((s, idx) => (
+            <li
+              key={s.key}
+              aria-current={idx === currentStep ? 'step' : undefined}
+              className={`flex shrink-0 items-center gap-2.5 rounded-full px-3 py-2 font-sans text-sm transition-colors duration-200 ${
+                idx === currentStep
+                  ? 'bg-git-accent-solid text-git-white'
+                  : idx < currentStep
+                  ? 'text-git-light'
+                  : 'text-git-muted'
+              }`}
+            >
+              <span
+                className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${
+                  idx === currentStep
+                    ? 'bg-white/20'
+                    : idx < currentStep
+                    ? 'bg-git-accent/25 text-git-light'
+                    : 'bg-git-surface-2'
+                }`}
+              >
+                {idx < currentStep ? '✓' : idx + 1}
+              </span>
+              <span className="font-medium">{s.title}</span>
+            </li>
+          ))}
+        </ol>
+
+        <div className="mt-6 rounded-3xl border border-git-border bg-git-surface p-6 sm:p-8">
+          {currentStep === 0 && (
+            <div className="flex flex-col gap-5">
+              <label className="block">
+                <Label>Team Name *</Label>
+                <input value={teamName} onChange={e=>setTeamName(e.target.value)} placeholder="e.g., Team Infinity" className={inputClass} />
+              </label>
+              <label className="block">
+                <Label>Team Lead Email *</Label>
+                <input value={members[0]?.email||''} onChange={e=>updateMember(0,'email',e.target.value)} placeholder="lead@university.edu" className={inputClass} />
+                <Hint>This address receives confirmations and next steps.</Hint>
+              </label>
             </div>
-            <form onSubmit={handleSubmit} className="form-card" aria-labelledby="form-heading">
-              <div className="stepper">
-                {steps.map((s, idx) => (
-                  <div key={s.key} className={`step ${idx===currentStep ? 'active' : idx<currentStep ? 'done' : ''}`} aria-current={idx===currentStep ? 'step' : undefined}>
-                    <div className="step-dot">{idx<currentStep ? '✓' : idx+1}</div>
-                    <div className="step-label">{s.title}</div>
-                  </div>
+          )}
+
+          {currentStep === 1 && (
+            <div className="flex flex-col gap-5">
+              <label className="block">
+                <Label>Innovation / Project Title *</Label>
+                <input value={innovationTitle} onChange={e=>setInnovationTitle(e.target.value)} className={inputClass} placeholder="Short, clear title" />
+              </label>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="block">
+                  <Label>Category *</Label>
+                  <select value={category} onChange={e=>setCategory(e.target.value)} className={inputClass}>
+                    <option value="">Select a category</option>
+                    {CATEGORIES.map(c=> <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </label>
+                <label className="block">
+                  <Label>Stage *</Label>
+                  <select value={stage} onChange={e=>setStage(e.target.value)} className={inputClass}>
+                    <option value="">Select stage</option>
+                    {STAGES.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </label>
+              </div>
+              <fieldset>
+                <legend className="mb-1.5 font-sans text-sm font-semibold text-git-light">
+                  UN SDGs (select at least 1) *
+                </legend>
+                <div className="grid max-h-56 gap-1 overflow-auto rounded-xl border border-git-border p-2 sm:grid-cols-2">
+                  {SDG_OPTIONS.map(o => (
+                    <label key={o.v} className="flex cursor-pointer items-center gap-2.5 rounded-lg p-2 font-sans text-sm text-git-white transition-colors duration-150 hover:bg-white/5">
+                      <input type="checkbox" checked={sdgs.includes(o.v)} onChange={()=>toggleSdg(o.v)} className="h-4 w-4 shrink-0 accent-git-accent" />
+                      <span>SDG {o.v}: {o.l}</span>
+                    </label>
+                  ))}
+                </div>
+                {!sdgs.length && <FieldError>Select at least one SDG</FieldError>}
+              </fieldset>
+              <label className="block">
+                <Label>Brief Description (max 200 words) *</Label>
+                <textarea value={description} onChange={e=>handleDescriptionChange(e.target.value)} rows={4} className={inputClass} />
+                <div className="flex justify-between">
+                  <Hint>{wordCount} / 200 words</Hint>
+                  {wordCount>=200 && <FieldError>Maximum reached</FieldError>}
+                </div>
+              </label>
+              <label className="block">
+                <Label>Problem Statement *</Label>
+                <textarea value={problem} onChange={e=>setProblem(e.target.value)} rows={3} className={inputClass} />
+              </label>
+              <label className="block">
+                <Label>Your Solution *</Label>
+                <textarea value={solution} onChange={e=>setSolution(e.target.value)} rows={3} className={inputClass} />
+              </label>
+              <label className="block">
+                <Label>Expected Impact *</Label>
+                <textarea value={impact} onChange={e=>setImpact(e.target.value)} rows={2} className={inputClass} />
+              </label>
+            </div>
+          )}
+
+          {currentStep === 2 && (
+            <div>
+              <div className="mb-5 flex items-center justify-between gap-4">
+                <h2 className="text-[length:var(--text-h3)] font-bold text-git-white">
+                  Team Members ({members.length}/5)
+                </h2>
+                {members.length < 5 && (
+                  <button type="button" className="shrink-0 rounded-full border border-git-border px-4 py-2 font-sans text-sm font-semibold text-git-light transition-colors duration-150 hover:bg-git-surface-2" onClick={addMember}>
+                    + Add member
+                  </button>
+                )}
+              </div>
+              <div className="flex flex-col gap-4">
+                {members.map((m, idx) => (
+                  <fieldset key={idx} className="rounded-2xl border border-git-border bg-git-base p-5">
+                    <legend className="flex items-center gap-3 px-2 font-sans text-sm font-bold text-git-light">
+                      Member {idx+1}
+                      {members.length > 3 && idx > 0 && (
+                        <button type="button" className="font-medium text-red-400 transition-colors duration-150 hover:text-red-300" onClick={()=>removeMember(idx)}>
+                          Remove
+                        </button>
+                      )}
+                    </legend>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <label className="block">
+                        <Label>Full Name *</Label>
+                        <input value={m.name} onChange={e=>updateMember(idx,'name',e.target.value)} className={inputClass}/>
+                      </label>
+                      <label className="block">
+                        <Label>Email *</Label>
+                        <input value={m.email} onChange={e=>updateMember(idx,'email',e.target.value)} className={inputClass}/>
+                        {m.email && !isValidEmail(m.email) && <FieldError>Invalid email</FieldError>}
+                      </label>
+                      <label className="block">
+                        <Label>Phone *</Label>
+                        <input value={m.phone} onChange={e=>updateMember(idx,'phone',e.target.value)} className={inputClass} placeholder="+234..." />
+                        {m.phone && !isValidPhone(m.phone) && <FieldError>Use +234 or 0 format</FieldError>}
+                      </label>
+                      <label className="block">
+                        <Label>Role *</Label>
+                        <input value={m.role} onChange={e=>updateMember(idx,'role',e.target.value)} className={inputClass} placeholder="Developer, Designer..." />
+                      </label>
+                      <label className="block">
+                        <Label>Department *</Label>
+                        <input value={m.department} onChange={e=>updateMember(idx,'department',e.target.value)} className={inputClass} />
+                      </label>
+                      <label className="block">
+                        <Label>Level *</Label>
+                        <select value={m.level} onChange={e=>updateMember(idx,'level',e.target.value)} className={inputClass}>
+                          <option value="">Select</option>
+                          <option>100L</option><option>200L</option><option>300L</option><option>400L</option><option>500L</option><option>600L</option><option>PG</option>
+                        </select>
+                      </label>
+                    </div>
+                  </fieldset>
                 ))}
               </div>
-              <div className="step-content">
-                {currentStep === 0 && (
-                  <section>
-                    <label className="field">
-                      <span className="label">Team Name *</span>
-                      <input id="teamName" value={teamName} onChange={e=>setTeamName(e.target.value)} placeholder="e.g., Team Infinity" className="input" />
-                    </label>
-                    <label className="field">
-                      <span className="label">Team Lead Email *</span>
-                      <input value={members[0]?.email||''} onChange={e=>updateMember(0,'email',e.target.value)} placeholder="lead@university.edu" className="input" />
-                      <p className="hint">This address receives confirmations and next steps.</p>
-                    </label>
-                  </section>
-                )}
-
-                {currentStep === 1 && (
-                  <section>
-                    <label className="field">
-                      <span className="label">Innovation / Project Title *</span>
-                      <input value={innovationTitle} onChange={e=>setInnovationTitle(e.target.value)} className="input" placeholder="Short, clear title" />
-                    </label>
-                    <div className="grid-2">
-                      <label className="field">
-                        <span className="label">Category *</span>
-                        <select value={category} onChange={e=>setCategory(e.target.value)} className="select">
-                          <option value="">Select a category</option>
-                          {CATEGORIES.map(c=> <option key={c} value={c}>{c}</option>)}
-                        </select>
-                      </label>
-                      <label className="field">
-                        <span className="label">Stage *</span>
-                        <select value={stage} onChange={e=>setStage(e.target.value)} className="select">
-                          <option value="">Select stage</option>
-                          {STAGES.map(s => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                      </label>
-                    </div>
-                    <div className="field">
-                      <span className="label">UN SDGs (select at least 1) *</span>
-                      <div className="sdg-grid">
-                        {SDG_OPTIONS.map(o => (
-                          <label key={o.v} className="sdg">
-                            <input type="checkbox" checked={sdgs.includes(o.v)} onChange={()=>toggleSdg(o.v)} />
-                            <span>SDG {o.v}: {o.l}</span>
-                          </label>
-                        ))}
-                      </div>
-                      {!sdgs.length && <p className="error small">Select at least one SDG</p>}
-                    </div>
-                    <label className="field">
-                      <span className="label">Brief Description (max 200 words) *</span>
-                      <textarea value={description} onChange={e=>handleDescriptionChange(e.target.value)} rows={4} className="textarea" />
-                      <div className="hint-row">
-                        <p className="hint small">{wordCount} / 200 words</p>
-                        {wordCount>=200 && <p className="error small">Maximum reached</p>}
-                      </div>
-                    </label>
-                    <label className="field">
-                      <span className="label">Problem Statement *</span>
-                      <textarea value={problem} onChange={e=>setProblem(e.target.value)} rows={3} className="textarea" />
-                    </label>
-                    <label className="field">
-                      <span className="label">Your Solution *</span>
-                      <textarea value={solution} onChange={e=>setSolution(e.target.value)} rows={3} className="textarea" />
-                    </label>
-                    <label className="field">
-                      <span className="label">Expected Impact *</span>
-                      <textarea value={impact} onChange={e=>setImpact(e.target.value)} rows={2} className="textarea" />
-                    </label>
-                  </section>
-                )}
-
-                {currentStep === 2 && (
-                  <section>
-                    <div className="members-header">
-                      <h3 className="h4">Team Members ({members.length}/5)</h3>
-                      <div>
-                        {members.length < 5 && <button type="button" className="btn-ghost" onClick={addMember}>+ Add member</button>}
-                      </div>
-                    </div>
-                    <div className="members-list">
-                      {members.map((m, idx) => (
-                        <div key={idx} className="member-card">
-                          <div className="member-title">
-                            <strong>Member {idx+1}</strong>
-                            {members.length > 3 && idx > 0 && <button className="btn-ghost" onClick={()=>removeMember(idx)}>Remove</button>}
-                          </div>
-                          <div className="grid-2">
-                            <label className="field">
-                              <span className="label">Full Name *</span>
-                              <input value={m.name} onChange={e=>updateMember(idx,'name',e.target.value)} className="input"/>
-                            </label>
-                            <label className="field">
-                              <span className="label">Email *</span>
-                              <input value={m.email} onChange={e=>updateMember(idx,'email',e.target.value)} className="input"/>
-                              {m.email && !isValidEmail(m.email) && <p className="error small">Invalid email</p>}
-                            </label>
-                            <label className="field">
-                              <span className="label">Phone *</span>
-                              <input value={m.phone} onChange={e=>updateMember(idx,'phone',e.target.value)} className="input" placeholder="+234..." />
-                              {m.phone && !isValidPhone(m.phone) && <p className="error small">Use +234 or 0 format</p>}
-                            </label>
-                            <label className="field">
-                              <span className="label">Role *</span>
-                              <input value={m.role} onChange={e=>updateMember(idx,'role',e.target.value)} className="input" placeholder="Developer, Designer..." />
-                            </label>
-                            <label className="field">
-                              <span className="label">Department *</span>
-                              <input value={m.department} onChange={e=>updateMember(idx,'department',e.target.value)} className="input" />
-                            </label>
-                            <label className="field">
-                              <span className="label">Level *</span>
-                              <select value={m.level} onChange={e=>updateMember(idx,'level',e.target.value)} className="select">
-                                <option value="">Select</option>
-                                <option>100L</option><option>200L</option><option>300L</option><option>400L</option><option>500L</option><option>600L</option><option>PG</option>
-                              </select>
-                            </label>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    {hasDuplicateEmails() && <p className="error">Two or more members have the same email — please use unique emails.</p>}
-                  </section>
-                )}
-
-                {currentStep === 3 && (
-                  <section>
-                    <label className="field">
-                      <span className="label">Demo Video Link</span>
-                      <input value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} className="input" placeholder="https://youtube.com/..." />
-                      <p className="hint small">You can share a YouTube or Drive link instead of uploading a large video file.</p>
-                    </label>
-                    <label className="field">
-                      <span className="label">Supporting Document Link</span>
-                      <input value={documentUrl} onChange={e=>setDocumentUrl(e.target.value)} className="input" placeholder="https://drive.google.com/..." />
-                    </label>
-                    <label className="field">
-                      <span className="label">Pitch Deck (PDF/PPT, max 10MB)</span>
-                      <input type="file" accept=".pdf,.ppt,.pptx,.doc,.docx" onChange={e=>setPitchFile(e.target.files?.[0]||null)} />
-                      {pitchFile && <p className="hint small">Selected: {pitchFile.name} • {Math.round(pitchFile.size/1024)} KB</p>}
-                    </label>
-                    <label className="field">
-                      <span className="label">Additional Document (optional)</span>
-                      <input type="file" accept=".pdf,.doc,.docx,.zip" onChange={e=>setDocFile(e.target.files?.[0]||null)} />
-                      {docFile && <p className="hint small">Selected: {docFile.name}</p>}
-                    </label>
-                  </section>
-                )}
-
-                {currentStep === 4 && (
-                  <section>
-                    <div className="card-muted">
-                      <p className="label">Important Requirements</p>
-                      <ul className="muted small">
-                        <li>Teams must have 3–5 members.</li>
-                        <li>Solutions should be STEM-related and align with at least one UN SDG.</li>
-                        <li>All team members must be current University of Ibadan students.</li>
-                      </ul>
-                    </div>
-                    <div className="terms-grid">
-                      <label className="term">
-                        <input type="checkbox" checked={terms.accurate} onChange={e=>setTerms(t=>({...t, accurate:e.target.checked}))} />
-                        <span>I confirm that all information provided is accurate and truthful</span>
-                      </label>
-                      <label className="term">
-                        <input type="checkbox" checked={terms.enrolled} onChange={e=>setTerms(t=>({...t, enrolled:e.target.checked}))} />
-                        <span>All team members are currently enrolled students at the University of Ibadan</span>
-                      </label>
-                      <label className="term">
-                        <input type="checkbox" checked={terms.rules} onChange={e=>setTerms(t=>({...t, rules:e.target.checked}))} />
-                        <span>We agree to abide by the Innotech 4.0 rules and regulations</span>
-                      </label>
-                      <label className="term">
-                        <input type="checkbox" checked={terms.truthful} onChange={e=>setTerms(t=>({...t, truthful:e.target.checked}))} />
-                        <span>We understand that incomplete or false information may lead to disqualification</span>
-                      </label>
-                    </div>
-                    {!allTermsChecked && <p className="error">You must accept all terms to continue.</p>}
-                  </section>
-                )}
-
-                {currentStep === 5 && (
-                  <section>
-                    <div className="review-card">
-                      <h3 className="h4">Summary</h3>
-                      <p><strong>Team:</strong> {teamName}</p>
-                      <p><strong>Title:</strong> {innovationTitle}</p>
-                      <p><strong>Category:</strong> {category} • <strong>Stage:</strong> {stage}</p>
-                      <p><strong>SDGs:</strong> {sdgs.join(', ') || '—'}</p>
-                      <div className="muted" style={{marginTop:10}}>
-                        <p><strong>Description</strong></p>
-                        <p className="small">{description || '—'}</p>
-                      </div>
-                    </div>
-                    <div className="review-card" style={{marginTop:12}}>
-                      <h3 className="h4">Members</h3>
-                      {members.map((m, idx) => (
-                        <div className="member-line" key={idx}>
-                          <div>
-                            <strong>{m.name || `Member ${idx+1}`}</strong> — <span className="muted small">{m.role} ({m.level})</span>
-                          </div>
-                          <div className="muted small">{m.email} • {m.phone}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="review-card" style={{marginTop:12}}>
-                      <h3 className="h4">Files & Links</h3>
-                      <p>Video: {videoUrl || '—'}</p>
-                      <p>Doc link: {documentUrl || '—'}</p>
-                      <p>Pitch file: {pitchFile ? pitchFile.name : '—'}</p>
-                      <p>Additional file: {docFile ? docFile.name : '—'}</p>
-                    </div>
-                    {!baseValidity() && <p className="error">There are validation errors; please fix them before submitting.</p>}
-                  </section>
-                )}
-              </div>
-              <div className="form-actions">
-                <div>
-                  <button type="button" className="btn-ghost" onClick={() => setCurrentStep(s => Math.max(0, s-1))} disabled={currentStep===0}>⟵ Back</button>
-                </div>
-                <div style={{display:'flex', gap:12}}>
-                  <button type="button" className="btn-outline" onClick={() => {
-                    if (!stepValid(currentStep)) { setSubmitError('Please complete required fields in this step before continuing.'); return; }
-                    setSubmitError(null);
-                    setCurrentStep(s => Math.min(steps.length-1, s+1));
-                  }}>{currentStep < steps.length-1 ? <>Next ⟶</> : 'Finish'}</button>
-                  <button type="submit" className="btn-primary" disabled={!baseValidity() || loading}>
-                    {loading ? 'Submitting…' : 'Submit Registration'}
-                  </button>
-                </div>
-              </div>
-              {submitError && <p className="error" role="alert">{submitError}</p>}
-            </form>
-            <div className="support">
-              <p className="muted small">Need help? Contact <a href="mailto:innotech@ui.edu.ng">innotech@ui.edu.ng</a></p>
-              <p className="muted tiny">©️ 2025 Innotech 4.0 | University of Ibadan</p>
+              {hasDuplicateEmails() && <FieldError>Two or more members have the same email — please use unique emails.</FieldError>}
             </div>
-          </div>
-        </section>
+          )}
 
-        <section id="tracks" className="section container">
-          <div className="grid-3">
-            <Card title="Tracks" description="Choose from AgriTech, HealthTech, FinTech and more." />
-            <Card title="Mentorship" description="Get matched with industry mentors." />
-            <Card title="Prizes & Support" description="Funding, incubation opportunities and more." />
+          {currentStep === 3 && (
+            <div className="flex flex-col gap-5">
+              <label className="block">
+                <Label>Demo Video Link</Label>
+                <input value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} className={inputClass} placeholder="https://youtube.com/..." />
+                <Hint>Share a YouTube or Drive link instead of uploading a large file.</Hint>
+              </label>
+              <label className="block">
+                <Label>Supporting Document Link</Label>
+                <input value={documentUrl} onChange={e=>setDocumentUrl(e.target.value)} className={inputClass} placeholder="https://drive.google.com/..." />
+              </label>
+              <label className="block">
+                <Label>Pitch Deck (PDF/PPT, max 10MB)</Label>
+                <input type="file" accept=".pdf,.ppt,.pptx,.doc,.docx" onChange={e=>setPitchFile(e.target.files?.[0]||null)} className="w-full font-sans text-sm text-git-muted file:mr-4 file:rounded-full file:border-0 file:bg-git-surface-2 file:px-5 file:py-2.5 file:font-sans file:text-sm file:font-semibold file:text-git-light hover:file:bg-git-border" />
+                {pitchFile && <Hint>Selected: {pitchFile.name} • {Math.round(pitchFile.size/1024)} KB</Hint>}
+              </label>
+              <label className="block">
+                <Label>Additional Document (optional)</Label>
+                <input type="file" accept=".pdf,.doc,.docx,.zip" onChange={e=>setDocFile(e.target.files?.[0]||null)} className="w-full font-sans text-sm text-git-muted file:mr-4 file:rounded-full file:border-0 file:bg-git-surface-2 file:px-5 file:py-2.5 file:font-sans file:text-sm file:font-semibold file:text-git-light hover:file:bg-git-border" />
+                {docFile && <Hint>Selected: {docFile.name}</Hint>}
+              </label>
+            </div>
+          )}
+
+          {currentStep === 4 && (
+            <div>
+              <div className="rounded-2xl border border-git-accent/30 bg-git-accent/10 p-5">
+                <h2 className="font-sans text-sm font-bold uppercase tracking-widest text-git-light">
+                  Important Requirements
+                </h2>
+                <ul className="mt-3 list-disc space-y-1.5 pl-5 font-sans text-sm text-git-muted">
+                  <li>Teams must have 3–5 members.</li>
+                  <li>Solutions should be STEM-related and align with at least one UN SDG.</li>
+                  <li>All team members must be current University of Ibadan students.</li>
+                </ul>
+              </div>
+              <div className="mt-5 flex flex-col gap-2">
+                {([
+                  ['accurate', 'I confirm that all information provided is accurate and truthful'],
+                  ['enrolled', 'All team members are currently enrolled students at the University of Ibadan'],
+                  ['rules', 'We agree to abide by the Innotech 4.0 rules and regulations'],
+                  ['truthful', 'We understand that incomplete or false information may lead to disqualification'],
+                ] as const).map(([key, text]) => (
+                  <label key={key} className="flex cursor-pointer items-start gap-3 rounded-xl border border-git-border bg-git-base p-4 font-sans text-sm text-git-white transition-colors duration-150 hover:border-git-muted/60">
+                    <input
+                      type="checkbox"
+                      checked={terms[key]}
+                      onChange={e=>setTerms(t=>({...t, [key]: e.target.checked}))}
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-git-accent"
+                    />
+                    <span>{text}</span>
+                  </label>
+                ))}
+              </div>
+              {!allTermsChecked && <FieldError>You must accept all terms to continue.</FieldError>}
+            </div>
+          )}
+
+          {currentStep === 5 && (
+            <div className="flex flex-col gap-4">
+              <section className="rounded-2xl border border-git-border bg-git-base p-5">
+                <h2 className="text-[length:var(--text-h3)] font-bold text-git-white">Summary</h2>
+                <dl className="mt-3 grid gap-2 font-sans text-sm">
+                  {[
+                    ['Team', teamName],
+                    ['Title', innovationTitle],
+                    ['Category', category],
+                    ['Stage', stage],
+                    ['SDGs', sdgs.join(', ')],
+                  ].map(([k, v]) => (
+                    <div key={k} className="flex gap-2">
+                      <dt className="font-semibold text-git-light">{k}:</dt>
+                      <dd className="text-git-muted">{v || '—'}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="mt-4 font-sans text-sm font-semibold text-git-light">Description</p>
+                <p className="mt-1 font-sans text-sm leading-relaxed text-git-muted">{description || '—'}</p>
+              </section>
+
+              <section className="rounded-2xl border border-git-border bg-git-base p-5">
+                <h2 className="text-[length:var(--text-h3)] font-bold text-git-white">Members</h2>
+                <ul className="mt-3 flex flex-col gap-3">
+                  {members.map((m, idx) => (
+                    <li key={idx} className="font-sans text-sm">
+                      <p className="font-semibold text-git-white">
+                        {m.name || `Member ${idx+1}`}{' '}
+                        <span className="font-normal text-git-muted">{m.role} ({m.level})</span>
+                      </p>
+                      <p className="text-git-muted">{m.email} • {m.phone}</p>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <section className="rounded-2xl border border-git-border bg-git-base p-5">
+                <h2 className="text-[length:var(--text-h3)] font-bold text-git-white">Files &amp; Links</h2>
+                <dl className="mt-3 grid gap-2 font-sans text-sm">
+                  {[
+                    ['Video', videoUrl],
+                    ['Doc link', documentUrl],
+                    ['Pitch file', pitchFile?.name],
+                    ['Additional file', docFile?.name],
+                  ].map(([k, v]) => (
+                    <div key={k} className="flex gap-2">
+                      <dt className="font-semibold text-git-light">{k}:</dt>
+                      <dd className="break-all text-git-muted">{v || '—'}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+
+              {!baseValidity() && <FieldError>There are validation errors; please fix them before submitting.</FieldError>}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <button
+            type="button"
+            onClick={() => setCurrentStep(s => Math.max(0, s-1))}
+            disabled={currentStep===0}
+            className="rounded-full px-6 py-3 font-sans font-semibold text-git-light transition-colors duration-150 hover:bg-git-surface disabled:pointer-events-none disabled:opacity-40"
+          >
+            ← Back
+          </button>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            {currentStep < steps.length - 1 && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (!stepValid(currentStep)) { setSubmitError('Please complete required fields in this step before continuing.'); return; }
+                  setSubmitError(null);
+                  setCurrentStep(s => Math.min(steps.length-1, s+1));
+                }}
+                className="rounded-full border border-git-accent px-7 py-3 font-sans font-bold text-git-light transition-colors duration-150 hover:bg-git-accent-solid hover:text-git-white"
+              >
+                Next →
+              </button>
+            )}
+            <button
+              type="submit"
+              disabled={!baseValidity() || loading}
+              className="rounded-full bg-git-accent-solid px-7 py-3 font-sans font-bold text-git-white transition-colors duration-150 hover:bg-git-accent-hover disabled:pointer-events-none disabled:opacity-40"
+            >
+              {loading ? 'Submitting…' : 'Submit Registration'}
+            </button>
           </div>
-        </section>
-      </main>
-      <Footer />
+        </div>
+
+        {submitError && (
+          <p role="alert" className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 font-sans text-sm font-medium text-red-300">
+            {submitError}
+          </p>
+        )}
+      </form>
+
+      <p className="mt-8 font-sans text-sm text-git-muted">
+        Need help? Contact{' '}
+        <a href="mailto:innotech@ui.edu.ng" className="text-git-light underline transition-colors duration-150 hover:text-git-white">
+          innotech@ui.edu.ng
+        </a>
+      </p>
     </div>
   );
 }
-
-function Header({menuOpen, setMenuOpen}:{menuOpen:boolean; setMenuOpen:(v:boolean|((p:boolean)=>boolean))=>void;}) {
-  return (
-    <header className="nav">
-      <div className="nav-inner container">
-        <div className="brand">
-          <div className="logo-mark" aria-hidden>
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 12c0-6 8-6 8 0s8 6 8 0" stroke="var(--teal-dark)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M3 12c0 6 8 6 8 0s8-6 8 0" stroke="var(--mint)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.85"/>
-            </svg>
-          </div>
-          <div>
-            <div className="brand-title">INNOTECH 4.0</div>
-            <div className="brand-tag">Building solutions for tomorrow</div>
-          </div>
-        </div>
-        <nav className={`menu ${menuOpen? 'open':''}`}>
-          <a href="#register">Register</a>
-          <a href="#tracks">Tracks</a>
-          <a href="#sponsors">Sponsors</a>
-          <a href="#timeline">Timeline</a>
-        </nav>
-        <div className="nav-actions">
-          <button className="btn-ghost" onClick={()=>setMenuOpen((m:boolean)=>!m)} aria-label="Toggle menu">☰</button>
-        </div>
-      </div>
-    </header>
-  );
-}
-
-function Footer(){
-  return (
-    <footer className="footer">
-      <div className="container footer-inner">
-        <div className="footer-col">
-          <div className="brand-compact">INNOTECH 4.0</div>
-          <p className="muted small">Empowering students, founders, and industry leaders to design and launch impactful technology solutions.</p>
-        </div>
-        <div className="footer-col">
-          <h4 className="small">Quick Links</h4>
-          <ul className="footer-links">
-            <li><a href="#register">Register</a></li>
-            <li><a href="#tracks">Tracks</a></li>
-            <li><a href="#timeline">Timeline</a></li>
-            <li><a href="#sponsors">Sponsors</a></li>
-          </ul>
-        </div>
-        <div className="footer-col">
-          <h4 className="small">Contact</h4>
-          <p className="muted small">innotech@ui.edu.ng</p>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-function Card({title, description}:{title:string; description:string;}) {
-  return (
-    <div className="impact-card">
-      <div className="impact-icon">∞</div>
-      <h3 className="h4">{title}</h3>
-      <p className="muted small">{description}</p>
-    </div>
-  );
-}
-
-function Style(){
-  return (
-    <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@300;400;600;700&display=swap');
-      :root{
-        --teal: #14B8A6; --teal-dark: #0D9488; --dark: #0A1F1C; --mint: #99F6E4; --mint-2: #5EEAD4;
-        --bg-light: #F9FAFB; --card: #FFFFFF; --muted: #94A3B8; --text: #111827; --success: #10B981; --warning: #F59E0B; --error: #EF4444;
-        --radius-md: 12px; --radius-sm: 8px; --container: 1160px;
-        font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      }
-      *{box-sizing:border-box} body,html,#root{margin:0;padding:0;height:100%}
-      .page-root{background: var(--dark); color:var(--text); min-height:100vh; font-size:16px; line-height:1.6;}
-      .container{max-width:var(--container); margin:0 auto; padding:0 20px;} .center{display:flex; align-items:center; justify-content:center; min-height:60vh;}
-      .nav{position:fixed; top:0; left:0; right:0; height:72px; background:#071212; z-index:60; display:flex; align-items:center;}
-      .nav-inner{display:flex; align-items:center; justify-content:space-between; width:100%;}
-      .brand{display:flex; gap:12px; align-items:center; color:var(--mint);} .logo-mark{width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:var(--teal);} .brand-title{font-weight:700; color:var(--mint); letter-spacing:-0.01em;} .brand-tag{font-size:12px; color:rgba(255,255,255,0.8);} .menu{display:flex; gap:28px; align-items:center;} .menu a{color:rgba(255,255,255,0.95); text-decoration:none; font-weight:600;} .menu.open{display:flex;} .nav-actions{display:flex; gap:8px; align-items:center;} .btn-ghost{background:transparent; border:none; color:var(--mint); padding:8px 10px; border-radius:10px; cursor:pointer;} .btn-ghost:focus{outline:3px solid rgba(20,184,166,0.16);}      
-      .hero{min-height:72vh; display:flex; align-items:center; padding:96px 0 64px; background:#0A1F1C; color:#FFFFFF;} .hero-inner{display:flex; gap:40px; align-items:center;} .hero-content{flex:1; max-width:720px;} .eyebrow{color:var(--mint); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:12px;} .hero-title{font-size:3rem; margin:8px 0 12px; color:#FFFFFF; font-weight:800; line-height:1.05;} .hero-sub{color:rgba(255,255,255,0.92); margin-bottom:18px; max-width:60ch;} .cta-row{display:flex; gap:14px; margin-top:18px;} .btn-primary{background:var(--teal); color:white; padding:12px 32px; border-radius:8px; border:none; font-weight:700; cursor:pointer;} .btn-primary:hover{background:var(--teal-dark);} .btn-primary.large{padding:14px 36px; font-size:1.05rem;} .btn-outline{background:transparent; border:2px solid var(--teal); color:var(--teal); padding:10px 30px; border-radius:8px; cursor:pointer;} .hero-figure{width:320px; display:flex; align-items:center; justify-content:center;} .hero-illustration{width:260px; height:260px; border-radius:24px; background:var(--mint); display:flex; align-items:center; justify-content:center; font-size:64px; color:var(--dark); font-weight:800;}
-      .section{padding:48px 0;} .form-wrap{max-width:900px; margin:0 auto;} .form-header{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:12px;} .form-card{background:var(--card); padding:24px; border-radius:16px; box-shadow: 0 12px 30px rgba(2,6,23,0.12); border:1px solid rgba(30,41,59,0.03);} .progress-pill{background:var(--mint); color:var(--dark); padding:8px 12px; border-radius:999px; font-weight:600;}
-      /* Increase contrast on dark background for section heading */
-      .section .form-header .h3{color:#FFFFFF;}
-      .section .form-header .muted{color:rgba(255,255,255,0.9);}      
-      .stepper{display:flex; gap:10px; margin-bottom:14px; overflow:auto;} .step{display:flex; align-items:center; gap:10px; padding:6px 8px; border-radius:12px; background:transparent; color:var(--muted);} .step.active{background:var(--teal); color:white;} .step .step-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.06); font-weight:700;} .step.done{color:var(--muted); opacity:0.85;} .step-content{margin-top:8px;}
-      .field{display:block; margin-bottom:12px;} .label{display:block; font-weight:600; margin-bottom:6px;} .input, .select, .textarea{width:100%; padding:12px 14px; border-radius:10px; border:1px solid #E6E9EE; font-size:15px; background:#FFF; color:var(--text);} .textarea{min-height:76px; resize:vertical;} .input:focus, .select:focus, .textarea:focus{outline:3px solid rgba(20,184,166,0.14); border-color:var(--teal-dark);} .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:12px;} .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;} .sdg-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:8px; max-height:160px; overflow:auto; padding:6px; border-radius:8px; border:1px dashed rgba(30,41,59,0.04)} .sdg{display:flex; gap:8px; align-items:center; padding:8px; border-radius:8px; cursor:pointer;}
-      .hint{color:var(--muted);} .hint-row{display:flex; justify-content:space-between;} .muted{color:var(--muted);} .small{font-size:0.9rem;} .tiny{font-size:0.8rem;}
-      .input::placeholder, .textarea::placeholder{color:#64748B;}
-      .members-header{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;} .members-list{display:flex; flex-direction:column; gap:12px;} .member-card{border-radius:12px; padding:12px; border:1px solid rgba(30,41,59,0.04); background:#fff;} .member-title{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
-      .card-muted{background: var(--mint); padding:12px; border-radius:12px; color:var(--dark); margin-bottom:12px;} .terms-grid{display:grid; gap:8px;} .term{display:flex; gap:10px; align-items:center; padding:8px; border-radius:10px; background:#FBFEFD;}
-      .review-card{background: #fff; padding:12px; border-radius:10px; border:1px solid rgba(30,41,59,0.04);} .member-line{display:flex; justify-content:space-between; margin-bottom:6px;}
-      .form-actions{display:flex; justify-content:space-between; align-items:center; margin-top:18px;} .btn-outline{background:transparent; border:2px solid var(--teal); color:var(--teal); padding:10px 18px; border-radius:10px; cursor:pointer;} .btn-outline:disabled{opacity:0.5; cursor:not-allowed;} .btn-primary:disabled{opacity:0.6; cursor:not-allowed;}
-      .support{margin-top:14px; display:flex; justify-content:space-between; align-items:center; gap:10px;} .error{color:var(--error); margin-top:8px; font-weight:600;} .stat-card{display:flex; gap:16px; align-items:center; justify-content:center; margin-top:12px; padding:12px; border-radius:12px; background:#0E2A26;} .stat-number{font-weight:800; font-size:20px;} .stat-label{font-size:13px; color:var(--muted);} .impact-card{background: var(--mint); border-radius:16px; padding:24px; text-align:left; color:var(--dark);} .impact-icon{font-size:28px;}
-      .footer{background:var(--dark); color:rgba(255,255,255,0.9); padding:48px 0; margin-top:40px;} .footer-inner{display:flex; gap:40px; align-items:flex-start; justify-content:space-between;} .footer-col{flex:1;} .footer-links{list-style:none; padding:0; margin:8px 0 0; display:flex; flex-direction:column; gap:6px;} .footer-links a{color:rgba(255,255,255,0.8); text-decoration:none;}
-      @media (max-width: 1024px){ .hero-inner{flex-direction:column; align-items:flex-start;} .grid-2{grid-template-columns:1fr;} .container{padding:0 16px;} }
-      /* Show hamburger only on small screens */
-      @media (min-width: 641px){ .nav-actions .btn-ghost{display:none;} }
-      @media (max-width: 640px){ .nav{height:64px;} .menu{display:none;} .menu.open{display:flex; position:absolute; top:64px; right:20px; background:#071212; padding:12px; border-radius:8px; flex-direction:column;} .hero-title{font-size:2rem;} .grid-3{grid-template-columns:1fr;} .stepper{gap:6px;} .input, .textarea{font-size:15px;} .nav-actions .btn-ghost{display:inline-flex;} }
-    `}</style>
-  );
-}
-
-

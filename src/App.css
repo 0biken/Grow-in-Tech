@@ -1,7 +1,169 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Orbitron:wght@400..900&display=swap');
+/* ---------------------------------------------------------------------------
+   Typefaces
+   Archivo = display/headings, Inter = UI/body.
+   Upright faces only; italic is not part of the system. Previously only
+   `archivo/700-italic` was loaded, which silently italicised every heading.
+--------------------------------------------------------------------------- */
+@import "@fontsource/archivo/400.css";
+@import "@fontsource/archivo/600.css";
+@import "@fontsource/archivo/700.css";
+@import "@fontsource/archivo/800.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+
 @import "tailwindcss";
 
-@theme{
-  --font-geist: 'Geist Mono', monospace;
-  --font-orbitron: 'Orbitron', sans-serif;
+/* ---------------------------------------------------------------------------
+   Design tokens — single source of truth.
+
+   This replaces three competing systems (dark navy / light teal / the inline
+   Space Grotesk sheet in Register.tsx). The dark surface is canonical; every
+   foreground token below is contrast-checked against it.
+
+   Contrast vs --color-git-base (#0F1D1D):
+     git-white  21.0:1    git-light  12.1:1
+     git-muted   8.2:1    git-accent  4.2:1  (large text / non-text only)
+--------------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+
+  /* Surfaces — ascending elevation */
+  --color-git-base: #0F1D1D;
+  --color-git-surface: #16302C;
+  --color-git-surface-2: #1D3F39;
+  --color-git-border: #2A544C;
+
+  /* Brand.
+     `accent` is the brand blue, used for text, borders and focus rings on the
+     dark surface. `accent-solid` is the fill used behind white button labels:
+     white on #1379F1 is only 4.17:1, and a 16px bold label is not "large
+     text", so the brand blue alone fails AA as a button background. The
+     deeper fill reads as the same blue and clears 4.8:1. */
+  --color-git-accent: #1379F1;
+  --color-git-accent-solid: #0F6FE0;
+  --color-git-accent-hover: #0B63CC;
+  --color-git-teal: #2DD4BF;
+
+  /* Foreground */
+  --color-git-white: #FFFFFF;
+  --color-git-light: #B6DCFC;
+  --color-git-muted: #9FB8B3;
+
+  /* Fluid display sizes — these carry most of the responsive burden so
+     individual sections don't each need a breakpoint ladder. */
+  --text-display: clamp(2.25rem, 1.2rem + 4.4vw, 4rem);
+  --text-h1: clamp(1.875rem, 1.2rem + 2.8vw, 3rem);
+  --text-h2: clamp(1.5rem, 1.15rem + 1.5vw, 2.25rem);
+  --text-h3: clamp(1.25rem, 1.05rem + 0.85vw, 1.75rem);
+
+  /* Marquee is CSS rather than GSAP so the reduced-motion block below
+     switches it off without any JS involvement. */
+  --animate-marquee: marquee 45s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-git-base);
+    color: var(--color-git-white);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings default to the display face so a missing utility can't silently
+     fall back to body copy the way `font-orbitron` did. */
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Keyboard affordance. Every interactive element previously relied on
+     hover-only feedback, leaving keyboard users with no position indicator. */
+  :focus-visible {
+    outline: 2px solid var(--color-git-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  ::selection {
+    background-color: var(--color-git-accent);
+    color: var(--color-git-white);
+  }
+
+  /* Anchor scrolling clears the fixed navbar. */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+}
+
+@layer components {
+  /* Page gutter. Replaces `px-[5%] lg:px-[10%]` repeated across six files —
+     percentage gutters made the measure grow without bound on wide screens. */
+  .container-page {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-page { padding-inline: 2rem; }
+  }
+  @media (min-width: 1280px) {
+    .container-page { padding-inline: 2.5rem; }
+  }
+
+  /* Section heading pair, used by every section that previously hard-coded
+     `text-black` against the dark base. */
+  .section-heading {
+    font-size: var(--text-h1);
+    font-weight: 700;
+    color: var(--color-git-white);
+    text-align: center;
+  }
+  .section-subheading {
+    margin-top: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    color: var(--color-git-muted);
+    text-align: center;
+    text-wrap: pretty;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion.
+   The marquee, the carousel, the count-ups and every hover transform run
+   unconditionally otherwise. GSAP timelines are additionally gated in JS via
+   `usePrefersReducedMotion`; this covers the CSS-driven half.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -6,20 +6,14 @@ const About = () => {
       </h1>
       <section className="flex px-[5%] gap-[10%]">
         <div className="font-geist w-[50%] flex flex-col gap-5 pr-10">
-          <h1 className="text-3xl">Empowering Innovation And Impact</h1>
-          <p className="text-xl">
-            Since its inception, innotech has been a catalyst for student-led
-            innovation. The 4.0 Edition brings together undergraduates, mentors
-            and investors for hands-on learning, hackathons, and acceleration
-            programs that transform into scalable solutions.Through mentorship,
-            technical workshops, and exhibitions, we help student innovators
-            build products that solve real-world challenges.
+          <h1 className="text-3xl font-bold text-gray-900">Building a Community of Builders</h1>
+          <p className="text-lg text-gray-700 leading-relaxed">
+            Innotech is a vibrant tech community dedicated to fostering innovation and collaboration. We host weekly meetups, skill-building workshops, and collaborative open-source projects. 
+            <br/><br/>
+            Whether you are a seasoned developer, a budding designer, or just tech-curious, our club provides the perfect environment to learn, build, and connect with like-minded peers.
           </p>
-          <button className="relative cursor-pointer max-w-[250px]">
-            <img src="/images/learn.svg" alt="" />
-            <p className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] font-geist text-xl font-[500] text-white">
-              Learn More
-            </p>
+          <button className="mt-2 px-8 py-3 bg-teal-500 hover:bg-teal-600 text-white font-geist text-lg font-bold rounded-full transition-all duration-300 w-max shadow-md">
+            Learn More
           </button>
         </div>
         <div className="relative w-[50%]">
