@@ -94,9 +94,14 @@ export default function Hero() {
         </p>
 
         <div ref={buttonsRef} className="flex flex-col gap-4 sm:flex-row sm:gap-6">
-          <Link to="/get-involved" className="btn-primary">
+          <a
+            href="https://chat.whatsapp.com/EoZRm6mqTG2AYHAp9O2SIM?s=cl&p=a&mlu=4&ilr=4"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
             Join Kommunity
-          </Link>
+          </a>
           <Link to="/programs" className="btn-ghost-dark">
             See Programs
           </Link>

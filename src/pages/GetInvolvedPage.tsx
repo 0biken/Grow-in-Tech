@@ -25,12 +25,14 @@ const GetInvolvedPage = () => {
             bootcamps, and community events. We welcome students from all
             departments and backgrounds.
           </p>
-          <Link
-            to="/programs"
+          <a
+            href="https://chat.whatsapp.com/EoZRm6mqTG2AYHAp9O2SIM?s=cl&p=a&mlu=4&ilr=4"
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-primary w-full text-center relative z-10"
           >
-            Apply for Membership
-          </Link>
+            Join the Kommunity
+          </a>
         </section>
 
         <section className="glass-card p-10 flex flex-col items-start relative overflow-hidden">
