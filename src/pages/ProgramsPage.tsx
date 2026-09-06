@@ -1,5 +1,3 @@
-import React from "react";
-
 const programs = [
   {
     title: "Digital Marketing",
@@ -14,7 +12,7 @@ const programs = [
     link: "https://forms.gle/RNXKeDCPnt2iS9no8"
   },
   {
-    title: "Graphic Design",
+    title: "Graphics Design",
     description: "Design stunning visual assets, brand identities, and user interfaces.",
     color: "bg-git-ocean",
     link: "https://forms.gle/dHryemBXjvbUaX4h6"

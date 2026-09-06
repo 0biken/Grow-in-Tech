@@ -12,7 +12,7 @@ const tracks = [
     title: "Hackathons & Build Nights",
     description:
       "Collaborative sprints where members design, prototype, and build solutions together over the weekend.",
-    cta: { label: "Learn more", to: "/register" },
+    cta: { label: "Learn more", to: "/programs" },
     image: "/images/Hackathon.png",
     category: "Hackathon",
   },

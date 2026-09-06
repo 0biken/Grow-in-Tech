@@ -149,7 +149,7 @@ const Nav = () => {
             </button>
 
             <NavLink
-              to="/register"
+              to="/programs"
               className="hidden shrink-0 btn-primary md:inline-flex"
             >
               Join GiT
@@ -216,7 +216,7 @@ const Nav = () => {
         </ul>
         <div className="mt-12">
           <NavLink
-            to="/register"
+            to="/programs"
             onClick={() => setMenuOpen(false)}
             className="w-full text-center btn-primary justify-center text-lg py-4"
           >

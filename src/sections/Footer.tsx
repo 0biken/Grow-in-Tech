@@ -56,7 +56,7 @@ const Footer = () => {
           <ul className="flex flex-col gap-3">
             <li><Link to="/get-involved" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Get Involved</Link></li>
             <li><Link to="/contact" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Contact</Link></li>
-            <li><Link to="/register" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Register</Link></li>
+            <li><Link to="/programs" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Register</Link></li>
           </ul>
         </nav>
 

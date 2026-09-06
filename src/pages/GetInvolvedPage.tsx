@@ -26,7 +26,7 @@ const GetInvolvedPage = () => {
             departments and backgrounds.
           </p>
           <Link
-            to="/register"
+            to="/programs"
             className="btn-primary w-full text-center relative z-10"
           >
             Apply for Membership
@@ -51,10 +51,10 @@ const GetInvolvedPage = () => {
             <li>• Community Manager</li>
           </ul>
           <Link
-            to="/register"
+            to="/contact"
             className="btn-ghost w-full text-center mt-auto"
           >
-            View Roles &amp; Apply
+            Contact us to apply
           </Link>
         </section>
       </div>

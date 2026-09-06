@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const AnnouncementBar = () => {
-  const message = "🚀 Digital Skill Up 2026 — Sept 16-18 — Register Now";
+  const message = "⚡ ANNOUNCING: Digital Skill Up : The Intelligent Creator — 6 Masterclass Tracks — Register Now";
   
   return (
     <div className="bg-git-dark text-git-white overflow-hidden flex w-full">
