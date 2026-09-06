@@ -118,8 +118,8 @@ const Home = () => {
             </Link>
           </div>
           <div className="shrink-0 flex flex-col items-center justify-center p-6 bg-git-surface-2 rounded-2xl border border-git-border">
-            <span className="font-heading text-3xl font-extrabold text-git-accent">OCT</span>
-            <span className="font-heading text-6xl font-extrabold text-git-title">15</span>
+            <span className="font-heading text-3xl font-extrabold text-git-accent">SEP</span>
+            <span className="font-heading text-6xl font-extrabold text-git-title">16</span>
           </div>
         </div>
       </section>
