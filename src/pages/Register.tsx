@@ -22,17 +22,17 @@ const STAGES = [
 ];
 
 const DEFAULT_MEMBER = { name: '', email: '', phone: '', role: '', department: '', level: '' };
-const STORAGE_KEY = 'innotech_registration_draft_v2';
+const STORAGE_KEY = 'git_registration_draft_v1';
 
 /* ---- shared field primitives -------------------------------------------- */
 
 const inputClass =
-  "w-full rounded-xl border border-git-border bg-git-base px-4 py-3 font-sans text-base text-git-white " +
-  "placeholder:text-git-muted/70 transition-colors duration-150 hover:border-git-muted/60 " +
-  "focus:border-git-accent focus:outline-none";
+  "w-full rounded-xl border border-git-border bg-git-surface px-4 py-3 font-sans text-base text-git-title " +
+  "placeholder:text-git-muted transition-colors duration-150 hover:border-git-border-hover " +
+  "focus:border-git-accent focus:ring-1 focus:ring-git-accent focus:outline-none";
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <span className="mb-1.5 block font-sans text-sm font-semibold text-git-light">
+  <span className="mb-1.5 block font-sans text-sm font-medium text-git-body">
     {children}
   </span>
 );
@@ -42,7 +42,7 @@ const Hint = ({ children }: { children: React.ReactNode }) => (
 );
 
 const FieldError = ({ children }: { children: React.ReactNode }) => (
-  <p className="mt-1.5 font-sans text-sm font-medium text-red-400">{children}</p>
+  <p className="mt-1.5 font-sans text-sm font-medium text-red-500">{children}</p>
 );
 
 export default function Register() {
@@ -155,6 +155,7 @@ export default function Register() {
       if (pitchFile) fd.append('pitchFile', pitchFile);
       if (docFile) fd.append('docFile', docFile);
 
+      // Endpoint unchanged as per requirements
       const res = await fetch('/api/innotech/register', { method: 'POST', body: fd });
       if (!res.ok) {
         const payload = await res.json().catch(()=>null);
@@ -162,7 +163,7 @@ export default function Register() {
       }
       const data = await res.json().catch(()=>({}));
       setSubmitted(true);
-      setRegistrationId(data.registrationId || 'INN-XXXX');
+      setRegistrationId(data.registrationId || 'GiT-XXXX');
       localStorage.removeItem(STORAGE_KEY);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err: any) {
@@ -194,18 +195,18 @@ export default function Register() {
 
   if (submitted) {
     return (
-      <div className="container-page max-w-2xl py-20 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-git-accent-solid text-2xl font-bold text-git-white">
+      <div className="container-page max-w-2xl py-20 text-center bg-git-base">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-git-accent text-2xl font-bold text-white shadow-lg">
           ✓
         </div>
-        <h1 className="mt-6 text-[length:var(--text-h1)] font-extrabold text-git-white">
+        <h1 className="mt-6 text-[length:var(--text-h2)] font-heading font-extrabold text-git-title">
           Registration Received
         </h1>
-        <p className="mt-3 font-sans text-git-muted">
-          Thank you — your team has been registered for Innotech 4.0.
+        <p className="mt-3 font-sans text-git-body">
+          Thank you — your team has been registered for Grow In Tech (GiT).
         </p>
-        <div className="mt-8 rounded-3xl border border-git-border bg-git-surface p-8">
-          <p className="font-heading text-3xl font-extrabold text-git-light">{registrationId}</p>
+        <div className="mt-8 glass-card p-8">
+          <p className="font-heading text-3xl font-extrabold text-git-title">{registrationId}</p>
           <p className="mt-1 font-sans text-sm uppercase tracking-widest text-git-muted">
             Registration ID
           </p>
@@ -215,7 +216,7 @@ export default function Register() {
         </div>
         <button
           type="button"
-          className="mt-8 rounded-full bg-git-accent-solid px-8 py-3.5 font-sans font-bold text-git-white transition-colors duration-150 hover:bg-git-accent-hover"
+          className="btn-primary mt-8"
           onClick={() => window.location.reload()}
         >
           Register Another Team
@@ -225,52 +226,52 @@ export default function Register() {
   }
 
   return (
-    <div className="container-page max-w-3xl py-12 sm:py-16">
-      <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-git-light">
-        Innotech 4.0
+    <div className="container-page max-w-3xl py-12 sm:py-16 bg-git-base">
+      <p className="section-eyebrow">
+        GROW IN TECH (GiT)
       </p>
-      <h1 className="mt-3 text-[length:var(--text-h1)] font-extrabold text-git-white">
+      <h1 className="mt-4 section-heading text-git-title">
         Register your team
       </h1>
-      <p className="mt-4 max-w-xl font-sans leading-relaxed text-git-muted">
+      <p className="mt-4 max-w-xl font-sans leading-relaxed text-git-body">
         Six short steps. Progress saves automatically. Teams must have 3–5
         members, all currently enrolled University of Ibadan students.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-10">
         {/* Stepper */}
-        <ol className="flex gap-2 overflow-x-auto pb-2">
+        <ol className="flex gap-2 overflow-x-auto pb-4 custom-scrollbar">
           {steps.map((s, idx) => (
             <li
               key={s.key}
               aria-current={idx === currentStep ? 'step' : undefined}
-              className={`flex shrink-0 items-center gap-2.5 rounded-full px-3 py-2 font-sans text-sm transition-colors duration-200 ${
+              className={`flex shrink-0 items-center gap-2.5 rounded-full px-4 py-2.5 font-sans text-sm font-medium transition-colors duration-200 border ${
                 idx === currentStep
-                  ? 'bg-git-accent-solid text-git-white'
+                  ? 'bg-git-accent text-white border-git-accent'
                   : idx < currentStep
-                  ? 'text-git-light'
-                  : 'text-git-muted'
+                  ? 'bg-git-surface text-git-title border-git-accent/30'
+                  : 'bg-git-surface-2 text-git-muted border-transparent'
               }`}
             >
               <span
-                className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${
+                className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
                   idx === currentStep
                     ? 'bg-white/20'
                     : idx < currentStep
-                    ? 'bg-git-accent/25 text-git-light'
-                    : 'bg-git-surface-2'
+                    ? 'bg-git-accent/10 text-git-accent'
+                    : 'bg-git-border text-git-muted'
                 }`}
               >
                 {idx < currentStep ? '✓' : idx + 1}
               </span>
-              <span className="font-medium">{s.title}</span>
+              <span>{s.title}</span>
             </li>
           ))}
         </ol>
 
-        <div className="mt-6 rounded-3xl border border-git-border bg-git-surface p-6 sm:p-8">
+        <div className="mt-6 glass-card p-6 sm:p-10">
           {currentStep === 0 && (
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-6">
               <label className="block">
                 <Label>Team Name *</Label>
                 <input value={teamName} onChange={e=>setTeamName(e.target.value)} placeholder="e.g., Team Infinity" className={inputClass} />
@@ -284,12 +285,12 @@ export default function Register() {
           )}
 
           {currentStep === 1 && (
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-6">
               <label className="block">
                 <Label>Innovation / Project Title *</Label>
                 <input value={innovationTitle} onChange={e=>setInnovationTitle(e.target.value)} className={inputClass} placeholder="Short, clear title" />
               </label>
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid gap-6 sm:grid-cols-2">
                 <label className="block">
                   <Label>Category *</Label>
                   <select value={category} onChange={e=>setCategory(e.target.value)} className={inputClass}>
@@ -306,13 +307,13 @@ export default function Register() {
                 </label>
               </div>
               <fieldset>
-                <legend className="mb-1.5 font-sans text-sm font-semibold text-git-light">
+                <legend className="mb-2 font-sans text-sm font-medium text-git-body">
                   UN SDGs (select at least 1) *
                 </legend>
-                <div className="grid max-h-56 gap-1 overflow-auto rounded-xl border border-git-border p-2 sm:grid-cols-2">
+                <div className="grid max-h-56 gap-2 overflow-auto rounded-xl border border-git-border bg-git-surface p-3 sm:grid-cols-2">
                   {SDG_OPTIONS.map(o => (
-                    <label key={o.v} className="flex cursor-pointer items-center gap-2.5 rounded-lg p-2 font-sans text-sm text-git-white transition-colors duration-150 hover:bg-white/5">
-                      <input type="checkbox" checked={sdgs.includes(o.v)} onChange={()=>toggleSdg(o.v)} className="h-4 w-4 shrink-0 accent-git-accent" />
+                    <label key={o.v} className="flex cursor-pointer items-center gap-3 rounded-lg p-2 font-sans text-sm text-git-title transition-colors duration-150 hover:bg-git-surface-2">
+                      <input type="checkbox" checked={sdgs.includes(o.v)} onChange={()=>toggleSdg(o.v)} className="h-4 w-4 shrink-0 accent-git-accent rounded border-gray-300 text-git-accent focus:ring-git-accent" />
                       <span>SDG {o.v}: {o.l}</span>
                     </label>
                   ))}
@@ -344,28 +345,28 @@ export default function Register() {
 
           {currentStep === 2 && (
             <div>
-              <div className="mb-5 flex items-center justify-between gap-4">
-                <h2 className="text-[length:var(--text-h3)] font-bold text-git-white">
+              <div className="mb-6 flex items-center justify-between gap-4 border-b border-git-border pb-4">
+                <h2 className="text-[length:var(--text-h3)] font-heading font-bold text-git-title">
                   Team Members ({members.length}/5)
                 </h2>
                 {members.length < 5 && (
-                  <button type="button" className="shrink-0 rounded-full border border-git-border px-4 py-2 font-sans text-sm font-semibold text-git-light transition-colors duration-150 hover:bg-git-surface-2" onClick={addMember}>
+                  <button type="button" className="btn-ghost py-2 px-4 text-sm" onClick={addMember}>
                     + Add member
                   </button>
                 )}
               </div>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-6">
                 {members.map((m, idx) => (
-                  <fieldset key={idx} className="rounded-2xl border border-git-border bg-git-base p-5">
-                    <legend className="flex items-center gap-3 px-2 font-sans text-sm font-bold text-git-light">
-                      Member {idx+1}
+                  <fieldset key={idx} className="rounded-2xl border border-git-border bg-git-surface-2 p-6 relative">
+                    <legend className="flex items-center justify-between w-full px-1 font-sans text-sm font-bold text-git-title mb-4">
+                      <span>Member {idx+1} {idx === 0 && "(Team Lead)"}</span>
                       {members.length > 3 && idx > 0 && (
-                        <button type="button" className="font-medium text-red-400 transition-colors duration-150 hover:text-red-300" onClick={()=>removeMember(idx)}>
+                        <button type="button" className="font-medium text-red-500 hover:text-red-600 transition-colors" onClick={()=>removeMember(idx)}>
                           Remove
                         </button>
                       )}
                     </legend>
-                    <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="grid gap-5 sm:grid-cols-2">
                       <label className="block">
                         <Label>Full Name *</Label>
                         <input value={m.name} onChange={e=>updateMember(idx,'name',e.target.value)} className={inputClass}/>
@@ -404,7 +405,7 @@ export default function Register() {
           )}
 
           {currentStep === 3 && (
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-6">
               <label className="block">
                 <Label>Demo Video Link</Label>
                 <input value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} className={inputClass} placeholder="https://youtube.com/..." />
@@ -414,44 +415,46 @@ export default function Register() {
                 <Label>Supporting Document Link</Label>
                 <input value={documentUrl} onChange={e=>setDocumentUrl(e.target.value)} className={inputClass} placeholder="https://drive.google.com/..." />
               </label>
-              <label className="block">
-                <Label>Pitch Deck (PDF/PPT, max 10MB)</Label>
-                <input type="file" accept=".pdf,.ppt,.pptx,.doc,.docx" onChange={e=>setPitchFile(e.target.files?.[0]||null)} className="w-full font-sans text-sm text-git-muted file:mr-4 file:rounded-full file:border-0 file:bg-git-surface-2 file:px-5 file:py-2.5 file:font-sans file:text-sm file:font-semibold file:text-git-light hover:file:bg-git-border" />
-                {pitchFile && <Hint>Selected: {pitchFile.name} • {Math.round(pitchFile.size/1024)} KB</Hint>}
-              </label>
-              <label className="block">
-                <Label>Additional Document (optional)</Label>
-                <input type="file" accept=".pdf,.doc,.docx,.zip" onChange={e=>setDocFile(e.target.files?.[0]||null)} className="w-full font-sans text-sm text-git-muted file:mr-4 file:rounded-full file:border-0 file:bg-git-surface-2 file:px-5 file:py-2.5 file:font-sans file:text-sm file:font-semibold file:text-git-light hover:file:bg-git-border" />
-                {docFile && <Hint>Selected: {docFile.name}</Hint>}
-              </label>
+              <div className="border-t border-git-border my-2 pt-6">
+                <label className="block mb-6">
+                  <Label>Pitch Deck (PDF/PPT, max 10MB)</Label>
+                  <input type="file" accept=".pdf,.ppt,.pptx,.doc,.docx" onChange={e=>setPitchFile(e.target.files?.[0]||null)} className="w-full font-sans text-sm text-git-body file:mr-4 file:rounded-full file:border-0 file:bg-git-surface-2 file:px-5 file:py-2.5 file:font-sans file:text-sm file:font-medium file:text-git-title hover:file:bg-git-border transition-colors cursor-pointer" />
+                  {pitchFile && <Hint>Selected: {pitchFile.name} • {Math.round(pitchFile.size/1024)} KB</Hint>}
+                </label>
+                <label className="block">
+                  <Label>Additional Document (optional)</Label>
+                  <input type="file" accept=".pdf,.doc,.docx,.zip" onChange={e=>setDocFile(e.target.files?.[0]||null)} className="w-full font-sans text-sm text-git-body file:mr-4 file:rounded-full file:border-0 file:bg-git-surface-2 file:px-5 file:py-2.5 file:font-sans file:text-sm file:font-medium file:text-git-title hover:file:bg-git-border transition-colors cursor-pointer" />
+                  {docFile && <Hint>Selected: {docFile.name}</Hint>}
+                </label>
+              </div>
             </div>
           )}
 
           {currentStep === 4 && (
             <div>
-              <div className="rounded-2xl border border-git-accent/30 bg-git-accent/10 p-5">
-                <h2 className="font-sans text-sm font-bold uppercase tracking-widest text-git-light">
+              <div className="rounded-2xl bg-git-accent-soft/30 p-6 mb-6">
+                <h2 className="font-sans text-sm font-bold uppercase tracking-widest text-git-title mb-3">
                   Important Requirements
                 </h2>
-                <ul className="mt-3 list-disc space-y-1.5 pl-5 font-sans text-sm text-git-muted">
+                <ul className="list-disc space-y-2 pl-5 font-sans text-sm text-git-body">
                   <li>Teams must have 3–5 members.</li>
                   <li>Solutions should be STEM-related and align with at least one UN SDG.</li>
                   <li>All team members must be current University of Ibadan students.</li>
                 </ul>
               </div>
-              <div className="mt-5 flex flex-col gap-2">
+              <div className="flex flex-col gap-3">
                 {([
                   ['accurate', 'I confirm that all information provided is accurate and truthful'],
                   ['enrolled', 'All team members are currently enrolled students at the University of Ibadan'],
-                  ['rules', 'We agree to abide by the Innotech 4.0 rules and regulations'],
+                  ['rules', 'We agree to abide by the Grow In Tech (GiT) rules and regulations'],
                   ['truthful', 'We understand that incomplete or false information may lead to disqualification'],
                 ] as const).map(([key, text]) => (
-                  <label key={key} className="flex cursor-pointer items-start gap-3 rounded-xl border border-git-border bg-git-base p-4 font-sans text-sm text-git-white transition-colors duration-150 hover:border-git-muted/60">
+                  <label key={key} className="flex cursor-pointer items-start gap-4 rounded-xl border border-git-border bg-git-surface p-4 font-sans text-sm text-git-title transition-colors hover:border-git-border-hover">
                     <input
                       type="checkbox"
                       checked={terms[key]}
                       onChange={e=>setTerms(t=>({...t, [key]: e.target.checked}))}
-                      className="mt-0.5 h-4 w-4 shrink-0 accent-git-accent"
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-git-accent rounded border-gray-300 text-git-accent focus:ring-git-accent"
                     />
                     <span>{text}</span>
                   </label>
@@ -462,10 +465,10 @@ export default function Register() {
           )}
 
           {currentStep === 5 && (
-            <div className="flex flex-col gap-4">
-              <section className="rounded-2xl border border-git-border bg-git-base p-5">
-                <h2 className="text-[length:var(--text-h3)] font-bold text-git-white">Summary</h2>
-                <dl className="mt-3 grid gap-2 font-sans text-sm">
+            <div className="flex flex-col gap-6">
+              <section className="rounded-2xl border border-git-border bg-git-surface-2 p-6">
+                <h2 className="text-[length:var(--text-h3)] font-heading font-bold text-git-title mb-4 border-b border-git-border pb-2">Summary</h2>
+                <dl className="grid gap-3 font-sans text-sm">
                   {[
                     ['Team', teamName],
                     ['Title', innovationTitle],
@@ -473,64 +476,67 @@ export default function Register() {
                     ['Stage', stage],
                     ['SDGs', sdgs.join(', ')],
                   ].map(([k, v]) => (
-                    <div key={k} className="flex gap-2">
-                      <dt className="font-semibold text-git-light">{k}:</dt>
-                      <dd className="text-git-muted">{v || '—'}</dd>
+                    <div key={k} className="flex flex-col sm:flex-row sm:gap-4">
+                      <dt className="font-medium text-git-body sm:w-32">{k}:</dt>
+                      <dd className="font-medium text-git-title">{v || '—'}</dd>
                     </div>
                   ))}
                 </dl>
-                <p className="mt-4 font-sans text-sm font-semibold text-git-light">Description</p>
-                <p className="mt-1 font-sans text-sm leading-relaxed text-git-muted">{description || '—'}</p>
+                <div className="mt-6 pt-4 border-t border-git-border">
+                  <p className="font-sans text-sm font-medium text-git-body mb-2">Description</p>
+                  <p className="font-sans text-sm leading-relaxed text-git-title">{description || '—'}</p>
+                </div>
               </section>
 
-              <section className="rounded-2xl border border-git-border bg-git-base p-5">
-                <h2 className="text-[length:var(--text-h3)] font-bold text-git-white">Members</h2>
-                <ul className="mt-3 flex flex-col gap-3">
+              <section className="rounded-2xl border border-git-border bg-git-surface-2 p-6">
+                <h2 className="text-[length:var(--text-h3)] font-heading font-bold text-git-title mb-4 border-b border-git-border pb-2">Members</h2>
+                <ul className="grid sm:grid-cols-2 gap-4">
                   {members.map((m, idx) => (
-                    <li key={idx} className="font-sans text-sm">
-                      <p className="font-semibold text-git-white">
+                    <li key={idx} className="font-sans text-sm bg-git-surface p-4 rounded-xl border border-git-border">
+                      <p className="font-semibold text-git-title mb-1">
                         {m.name || `Member ${idx+1}`}{' '}
-                        <span className="font-normal text-git-muted">{m.role} ({m.level})</span>
+                        <span className="font-normal text-git-body block sm:inline">({m.role}, {m.level})</span>
                       </p>
-                      <p className="text-git-muted">{m.email} • {m.phone}</p>
+                      <p className="text-git-muted">{m.email}</p>
+                      <p className="text-git-muted">{m.phone}</p>
                     </li>
                   ))}
                 </ul>
               </section>
 
-              <section className="rounded-2xl border border-git-border bg-git-base p-5">
-                <h2 className="text-[length:var(--text-h3)] font-bold text-git-white">Files &amp; Links</h2>
-                <dl className="mt-3 grid gap-2 font-sans text-sm">
+              <section className="rounded-2xl border border-git-border bg-git-surface-2 p-6">
+                <h2 className="text-[length:var(--text-h3)] font-heading font-bold text-git-title mb-4 border-b border-git-border pb-2">Files &amp; Links</h2>
+                <dl className="grid gap-3 font-sans text-sm">
                   {[
                     ['Video', videoUrl],
                     ['Doc link', documentUrl],
                     ['Pitch file', pitchFile?.name],
                     ['Additional file', docFile?.name],
                   ].map(([k, v]) => (
-                    <div key={k} className="flex gap-2">
-                      <dt className="font-semibold text-git-light">{k}:</dt>
-                      <dd className="break-all text-git-muted">{v || '—'}</dd>
+                    <div key={k} className="flex flex-col sm:flex-row sm:gap-4">
+                      <dt className="font-medium text-git-body sm:w-32">{k}:</dt>
+                      <dd className="break-all text-git-title">{v || '—'}</dd>
                     </div>
                   ))}
                 </dl>
               </section>
 
-              {!baseValidity() && <FieldError>There are validation errors; please fix them before submitting.</FieldError>}
+              {!baseValidity() && <FieldError>There are validation errors; please go back and fix them before submitting.</FieldError>}
             </div>
           )}
         </div>
 
-        <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
           <button
             type="button"
             onClick={() => setCurrentStep(s => Math.max(0, s-1))}
             disabled={currentStep===0}
-            className="rounded-full px-6 py-3 font-sans font-semibold text-git-light transition-colors duration-150 hover:bg-git-surface disabled:pointer-events-none disabled:opacity-40"
+            className="btn-ghost disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            ← Back
+            &larr; Back
           </button>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-col gap-3 sm:flex-row w-full sm:w-auto">
             {currentStep < steps.length - 1 && (
               <button
                 type="button"
@@ -539,15 +545,15 @@ export default function Register() {
                   setSubmitError(null);
                   setCurrentStep(s => Math.min(steps.length-1, s+1));
                 }}
-                className="rounded-full border border-git-accent px-7 py-3 font-sans font-bold text-git-light transition-colors duration-150 hover:bg-git-accent-solid hover:text-git-white"
+                className="btn-primary w-full sm:w-auto"
               >
-                Next →
+                Next Step &rarr;
               </button>
             )}
             <button
               type="submit"
-              disabled={!baseValidity() || loading}
-              className="rounded-full bg-git-accent-solid px-7 py-3 font-sans font-bold text-git-white transition-colors duration-150 hover:bg-git-accent-hover disabled:pointer-events-none disabled:opacity-40"
+              disabled={!baseValidity() || loading || currentStep !== steps.length - 1}
+              className={`btn-primary w-full sm:w-auto ${currentStep !== steps.length - 1 ? 'hidden sm:block opacity-0 pointer-events-none' : ''} disabled:opacity-50 disabled:cursor-not-allowed`}
             >
               {loading ? 'Submitting…' : 'Submit Registration'}
             </button>
@@ -555,18 +561,20 @@ export default function Register() {
         </div>
 
         {submitError && (
-          <p role="alert" className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 font-sans text-sm font-medium text-red-300">
+          <p role="alert" className="mt-6 rounded-xl border border-red-500/30 bg-red-50 p-4 font-sans text-sm font-medium text-red-600">
             {submitError}
           </p>
         )}
       </form>
 
-      <p className="mt-8 font-sans text-sm text-git-muted">
-        Need help? Contact{' '}
-        <a href="mailto:innotech@ui.edu.ng" className="text-git-light underline transition-colors duration-150 hover:text-git-white">
-          innotech@ui.edu.ng
-        </a>
-      </p>
+      <div className="mt-12 pt-8 border-t border-git-border text-center">
+        <p className="font-sans text-sm text-git-muted">
+          Need help? Contact{' '}
+          <a href="mailto:git.kommunity@gmail.com" className="font-medium text-git-accent hover:text-git-accent-hover transition-colors">
+            git.kommunity@gmail.com
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

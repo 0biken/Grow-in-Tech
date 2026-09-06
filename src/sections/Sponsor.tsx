@@ -1,9 +1,3 @@
-/**
- * NOTE: every tile below is still a placeholder — the source data has no real
- * partner names or marks. Swap `partners` for the real list before launch;
- * a credibility section that reads "Logo" seven times undercuts the claim it
- * is making.
- */
 const partners = [
   "Partner One",
   "Partner Two",
@@ -15,8 +9,8 @@ const partners = [
 ];
 
 const Tile = ({ name }: { name: string }) => (
-  <li className="flex h-16 w-52 shrink-0 items-center justify-center rounded-xl border border-git-border/70 bg-git-surface px-4">
-    <span className="truncate font-heading text-base font-semibold text-git-muted">
+  <li className="flex h-16 w-52 shrink-0 items-center justify-center opacity-50 transition-opacity hover:opacity-100 px-4">
+    <span className="truncate font-heading text-base font-semibold text-git-caption">
       {name}
     </span>
   </li>
@@ -25,30 +19,28 @@ const Tile = ({ name }: { name: string }) => (
 const Sponsor = () => (
   <section className="py-16 sm:py-20" aria-labelledby="partners-heading">
     <div className="container-page">
-      <h2 id="partners-heading" className="section-heading">
-        Our Partners
-      </h2>
+      <div className="divider mb-12"></div>
+      <p id="partners-heading" className="section-eyebrow text-center mb-8">
+        TRUSTED BY
+      </p>
     </div>
 
-    {/* The track holds two copies so the 50% translate loops seamlessly. The
-        duplicate is aria-hidden — the previous GSAP version cloned nodes into
-        the live DOM, so assistive tech announced every partner twice. */}
     <div
-      className="relative mt-12 flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
+      className="relative flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] bg-transparent"
       role="group"
       aria-label="Partner organisations"
     >
       <ul className="flex w-max shrink-0 animate-(--animate-marquee) gap-4 pr-4">
-        {partners.map((name) => (
-          <Tile key={name} name={name} />
+        {partners.map((name, i) => (
+          <Tile key={`${name}-${i}`} name={name} />
         ))}
       </ul>
       <ul
         aria-hidden="true"
         className="flex w-max shrink-0 animate-(--animate-marquee) gap-4 pr-4"
       >
-        {partners.map((name) => (
-          <Tile key={name} name={name} />
+        {partners.map((name, i) => (
+          <Tile key={`dup-${name}-${i}`} name={name} />
         ))}
       </ul>
     </div>

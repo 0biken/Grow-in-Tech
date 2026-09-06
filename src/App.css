@@ -1,13 +1,13 @@
 /* ---------------------------------------------------------------------------
    Typefaces
-   Archivo = display/headings, Inter = UI/body.
-   Upright faces only; italic is not part of the system. Previously only
-   `archivo/700-italic` was loaded, which silently italicised every heading.
+   Syne = display/headings (premium, geometric, techy).
+   Inter = UI/body (neutral, highly legible).
 --------------------------------------------------------------------------- */
-@import "@fontsource/archivo/400.css";
-@import "@fontsource/archivo/600.css";
-@import "@fontsource/archivo/700.css";
-@import "@fontsource/archivo/800.css";
+@import "@fontsource/syne/400.css";
+@import "@fontsource/syne/500.css";
+@import "@fontsource/syne/600.css";
+@import "@fontsource/syne/700.css";
+@import "@fontsource/syne/800.css";
 @import "@fontsource/inter/400.css";
 @import "@fontsource/inter/500.css";
 @import "@fontsource/inter/600.css";
@@ -19,50 +19,61 @@
 /* ---------------------------------------------------------------------------
    Design tokens — single source of truth.
 
-   This replaces three competing systems (dark navy / light teal / the inline
-   Space Grotesk sheet in Register.tsx). The dark surface is canonical; every
-   foreground token below is contrast-checked against it.
-
-   Contrast vs --color-git-base (#0F1D1D):
-     git-white  21.0:1    git-light  12.1:1
-     git-muted   8.2:1    git-accent  4.2:1  (large text / non-text only)
+   White-dominant premium layout inspired by Madame Polare.
+   Warm off-white base with pure white elevated surfaces.
+   Dark sections (hero, footer) used for high-contrast impact.
 --------------------------------------------------------------------------- */
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-heading: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Syne', ui-sans-serif, system-ui, sans-serif;
 
-  /* Surfaces — ascending elevation */
-  --color-git-base: #0F1D1D;
-  --color-git-surface: #16302C;
-  --color-git-surface-2: #1D3F39;
-  --color-git-border: #2A544C;
+  /* ── Light surfaces (primary) ── */
+  --color-git-base: #F5F5F5;
+  --color-git-surface: #FFFFFF;
+  --color-git-surface-2: #F0F2F5;
+  --color-git-surface-3: #E8EAEE;
+  --color-git-border: rgba(0, 0, 0, 0.06);
+  --color-git-border-hover: rgba(0, 0, 0, 0.12);
 
-  /* Brand.
-     `accent` is the brand blue, used for text, borders and focus rings on the
-     dark surface. `accent-solid` is the fill used behind white button labels:
-     white on #1379F1 is only 4.17:1, and a 16px bold label is not "large
-     text", so the brand blue alone fails AA as a button background. The
-     deeper fill reads as the same blue and clears 4.8:1. */
-  --color-git-accent: #1379F1;
-  --color-git-accent-solid: #0F6FE0;
-  --color-git-accent-hover: #0B63CC;
-  --color-git-teal: #2DD4BF;
+  /* ── Dark surfaces (hero, footer, contrast sections) ── */
+  --color-git-dark: #0B1215;
+  --color-git-dark-surface: #161E22;
+  --color-git-dark-surface-2: #1D2A2F;
+  --color-git-dark-border: rgba(255, 255, 255, 0.08);
 
-  /* Foreground */
+  /* ── Brand accent — Electric Teal ── */
+  --color-git-accent: #2DD4BF;
+  --color-git-accent-hover: #14B8A6;
+  --color-git-accent-soft: #CCFBF1;
+  --color-git-accent-glow: rgba(45, 212, 191, 0.15);
+
+  /* ── Secondary accents ── */
+  --color-git-yellow: #F59E0B;
+  --color-git-sage: #4A7C6F;
+  --color-git-forest: #1B4332;
+  --color-git-ocean: #1E3A5F;
+
+  /* ── Text (on light surfaces) ── */
+  --color-git-title: #111827;
+  --color-git-body: #374151;
+  --color-git-muted: #6B7280;
+  --color-git-caption: #9CA3AF;
+
+  /* ── Text (on dark surfaces) ── */
   --color-git-white: #FFFFFF;
-  --color-git-light: #B6DCFC;
-  --color-git-muted: #9FB8B3;
+  --color-git-light: #E5E7EB;
+  --color-git-dark-muted: #9CA3AF;
 
-  /* Fluid display sizes — these carry most of the responsive burden so
-     individual sections don't each need a breakpoint ladder. */
-  --text-display: clamp(2.25rem, 1.2rem + 4.4vw, 4rem);
+  /* ── Fluid typography scale ── */
+  --text-display-xl: clamp(3.5rem, 2rem + 8vw, 9rem);
+  --text-display: clamp(2.25rem, 1.2rem + 4.4vw, 4.5rem);
   --text-h1: clamp(1.875rem, 1.2rem + 2.8vw, 3rem);
   --text-h2: clamp(1.5rem, 1.15rem + 1.5vw, 2.25rem);
   --text-h3: clamp(1.25rem, 1.05rem + 0.85vw, 1.75rem);
 
-  /* Marquee is CSS rather than GSAP so the reduced-motion block below
-     switches it off without any JS involvement. */
+  /* ── Animation ── */
   --animate-marquee: marquee 45s linear infinite;
+  --animate-marquee-fast: marquee 25s linear infinite;
 }
 
 @keyframes marquee {
@@ -70,20 +81,35 @@
   to { transform: translateX(-50%); }
 }
 
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
 @layer base {
   body {
     background-color: var(--color-git-base);
-    color: var(--color-git-white);
+    color: var(--color-git-body);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  /* Headings default to the display face so a missing utility can't silently
-     fall back to body copy the way `font-orbitron` did. */
   h1, h2, h3, h4 {
     font-family: var(--font-heading);
-    letter-spacing: -0.02em;
+    color: var(--color-git-title);
+    letter-spacing: -0.03em;
     text-wrap: balance;
   }
 
@@ -91,8 +117,6 @@
     text-wrap: pretty;
   }
 
-  /* Keyboard affordance. Every interactive element previously relied on
-     hover-only feedback, leaving keyboard users with no position indicator. */
   :focus-visible {
     outline: 2px solid var(--color-git-accent);
     outline-offset: 3px;
@@ -107,52 +131,166 @@
     color: var(--color-git-white);
   }
 
-  /* Anchor scrolling clears the fixed navbar. */
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 7rem;
   }
 }
 
 @layer components {
-  /* Page gutter. Replaces `px-[5%] lg:px-[10%]` repeated across six files —
-     percentage gutters made the measure grow without bound on wide screens. */
+  /* ── Page container ── */
   .container-page {
     width: 100%;
-    max-width: 80rem;
+    max-width: 84rem;
     margin-inline: auto;
-    padding-inline: 1.25rem;
+    padding-inline: 1.5rem;
   }
   @media (min-width: 768px) {
-    .container-page { padding-inline: 2rem; }
-  }
-  @media (min-width: 1280px) {
     .container-page { padding-inline: 2.5rem; }
   }
+  @media (min-width: 1280px) {
+    .container-page { padding-inline: 3.5rem; }
+  }
 
-  /* Section heading pair, used by every section that previously hard-coded
-     `text-black` against the dark base. */
+  /* ── Section headings ── */
+  .section-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-git-accent);
+  }
   .section-heading {
     font-size: var(--text-h1);
     font-weight: 700;
-    color: var(--color-git-white);
-    text-align: center;
+    color: var(--color-git-title);
   }
   .section-subheading {
     margin-top: 0.75rem;
     font-family: var(--font-sans);
     font-size: 1.125rem;
     color: var(--color-git-muted);
-    text-align: center;
     text-wrap: pretty;
+    max-width: 40rem;
+  }
+
+  /* Dark variant */
+  .dark-section .section-heading {
+    color: var(--color-git-white);
+  }
+  .dark-section .section-subheading {
+    color: var(--color-git-dark-muted);
+  }
+  .dark-section .section-eyebrow {
+    color: var(--color-git-accent);
+  }
+
+  /* ── Glass surface card ── */
+  .glass-card {
+    background: var(--color-git-surface);
+    border: 1px solid var(--color-git-border);
+    border-radius: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .glass-card:hover {
+    border-color: var(--color-git-border-hover);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Dark variant */
+  .glass-card-dark {
+    background: var(--color-git-dark-surface);
+    border: 1px solid var(--color-git-dark-border);
+    border-radius: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .glass-card-dark:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ── Button system ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background-color: var(--color-git-accent);
+    color: var(--color-git-dark);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    text-decoration: none;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-git-accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px var(--color-git-accent-glow);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background-color: transparent;
+    color: var(--color-git-title);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    border: 1px solid var(--color-git-border-hover);
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+    text-decoration: none;
+  }
+  .btn-ghost:hover {
+    background-color: var(--color-git-surface-2);
+    border-color: var(--color-git-caption);
+    transform: translateY(-1px);
+  }
+
+  /* Ghost on dark backgrounds */
+  .btn-ghost-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background-color: transparent;
+    color: var(--color-git-white);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    border: 1px solid var(--color-git-dark-border);
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+    text-decoration: none;
+  }
+  .btn-ghost-dark:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+  }
+
+  /* ── Divider line ── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--color-git-border);
   }
 }
 
 /* ---------------------------------------------------------------------------
    Reduced motion.
-   The marquee, the carousel, the count-ups and every hover transform run
-   unconditionally otherwise. GSAP timelines are additionally gated in JS via
-   `usePrefersReducedMotion`; this covers the CSS-driven half.
 --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {

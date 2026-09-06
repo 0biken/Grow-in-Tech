@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+"use client";
+
+import { useEffect, useState, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 const navLinks = [
@@ -13,12 +15,9 @@ const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
-  /* Condense the bar once the hero starts leaving. The previous GSAP version
-     drove `width: 60% -> 40%` off a ScrollTrigger bound to the nav itself —
-     a fixed element never moves relative to the viewport, so it could not
-     fire, and animating the width of a content-sized flex row would have
-     crushed the links if it had. */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -26,46 +25,65 @@ const Nav = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close the menu on navigation.
   useEffect(() => setMenuOpen(false), [location.pathname]);
 
-  // Escape closes; lock background scroll while the panel is open.
   useEffect(() => {
     if (!menuOpen) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
     window.addEventListener("keydown", onKey);
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    
+    const focusableElements = menuRef.current?.querySelectorAll(
+      'a[href], button:not([disabled]), textarea, input, select'
+    );
+    const firstElement = focusableElements?.[0] as HTMLElement;
+    const lastElement = focusableElements?.[focusableElements.length - 1] as HTMLElement;
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          lastElement?.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          firstElement?.focus();
+          e.preventDefault();
+        }
+      }
+    };
+    
+    window.addEventListener('keydown', handleTab);
+    firstElement?.focus();
+
     return () => {
       window.removeEventListener("keydown", onKey);
+      window.removeEventListener('keydown', handleTab);
       document.body.style.overflow = previous;
     };
   }, [menuOpen]);
 
-  const linkClass = ({ isActive }: { isActive: boolean }) =>
-    [
-      "relative block py-2 text-sm font-medium transition-colors duration-150",
-      "after:absolute after:bottom-0.5 after:left-0 after:h-px after:bg-git-accent",
-      "after:transition-all after:duration-200",
-      isActive
-        ? "text-git-white after:w-full"
-        : "text-git-muted hover:text-git-white after:w-0 hover:after:w-full",
-    ].join(" ");
-
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center md:top-3">
+    <header className="sticky top-0 z-50 flex flex-col items-center justify-center md:top-3 w-full">
       <nav
         aria-label="Main"
         className={[
-          "w-full md:w-auto",
-          "transition-[background-color,border-color,box-shadow] duration-300",
-          "border-b border-git-border/60 md:rounded-full md:border",
+          "w-full md:w-auto relative z-50",
+          "transition-all duration-300",
+          "border border-git-border md:rounded-full",
           scrolled || menuOpen
-            ? "bg-git-base/85 backdrop-blur-xl md:border-git-border md:shadow-lg md:shadow-black/20"
-            : "bg-git-base/60 backdrop-blur-md md:border-white/10",
+            ? "bg-white/95 shadow-sm backdrop-blur-xl"
+            : "bg-white/80 backdrop-blur-xl",
         ].join(" ")}
       >
-        <div className="flex items-center justify-between gap-8 px-5 py-3 md:px-6 md:py-2.5">
+        <div className="flex items-center justify-between gap-12 px-5 py-3 md:px-6 md:py-2.5">
           <NavLink
             to="/"
             className="shrink-0"
@@ -84,8 +102,17 @@ const Nav = () => {
           <ul className="hidden items-center gap-7 md:flex">
             {navLinks.map((link) => (
               <li key={link.name}>
-                <NavLink to={link.path} end={link.path === "/"} className={linkClass}>
-                  {link.name}
+                <NavLink to={link.path} end={link.path === "/"} className="group relative block py-2 text-sm font-medium transition-colors duration-150 after:absolute after:bottom-0.5 after:left-0 after:h-px after:bg-git-accent after:transition-all after:duration-200">
+                  {({ isActive }) => (
+                    <span className={isActive ? "text-git-title after:w-full inline-block" : "text-git-muted hover:text-git-title after:w-0 hover:after:w-full inline-block"}>
+                      <span className="relative overflow-hidden h-[1.4em] inline-block leading-[1.4em] align-bottom">
+                        <span className="flex flex-col transition-transform duration-300 group-hover:-translate-y-1/2">
+                          <span>{link.name}</span>
+                          <span className={isActive ? "text-git-title" : "text-git-title"}>{link.name}</span>
+                        </span>
+                      </span>
+                    </span>
+                  )}
                 </NavLink>
               </li>
             ))}
@@ -93,75 +120,82 @@ const Nav = () => {
 
           <NavLink
             to="/register"
-            className="hidden shrink-0 rounded-full bg-git-accent-solid px-5 py-2 text-sm font-bold text-git-white transition-colors duration-150 hover:bg-git-accent-hover md:inline-block"
+            className="hidden shrink-0 btn-primary md:inline-flex"
           >
-            Register
+            Join GiT
           </NavLink>
 
           {/* Mobile trigger */}
           <button
+            ref={triggerRef}
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-git-white transition-colors duration-150 hover:bg-white/10 md:hidden"
+            className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-git-title transition-colors duration-150 hover:bg-git-surface-2 md:hidden"
           >
             <span className="relative block h-4 w-5" aria-hidden="true">
               <span
-                className={`absolute left-0 block h-0.5 w-5 bg-current transition-all duration-300 ${
+                className={`absolute left-0 block h-[2px] w-5 bg-current transition-all duration-300 ${
                   menuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"
                 }`}
               />
               <span
-                className={`absolute left-0 top-1/2 block h-0.5 w-5 -translate-y-1/2 bg-current transition-opacity duration-200 ${
+                className={`absolute left-0 top-1/2 block h-[2px] w-5 -translate-y-1/2 bg-current transition-opacity duration-200 ${
                   menuOpen ? "opacity-0" : "opacity-100"
                 }`}
               />
               <span
-                className={`absolute left-0 block h-0.5 w-5 bg-current transition-all duration-300 ${
+                className={`absolute left-0 block h-[2px] w-5 bg-current transition-all duration-300 ${
                   menuOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"
                 }`}
               />
             </span>
           </button>
         </div>
+      </nav>
 
-        {/* Mobile panel */}
-        <div
-          id="mobile-menu"
-          hidden={!menuOpen}
-          className="border-t border-git-border/60 px-5 pb-6 pt-4 md:hidden"
-        >
-          <ul className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <NavLink
-                  to={link.path}
-                  end={link.path === "/"}
-                  className={({ isActive }) =>
-                    `block rounded-xl px-3 py-3 text-base font-medium transition-colors duration-150 ${
-                      isActive
-                        ? "bg-git-accent/15 text-git-white"
-                        : "text-git-muted hover:bg-white/5 hover:text-git-white"
-                    }`
-                  }
-                >
-                  {link.name}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+      {/* Mobile panel */}
+      <div
+        id="mobile-menu"
+        ref={menuRef}
+        hidden={!menuOpen}
+        className="fixed inset-0 z-40 bg-white px-5 pt-28 pb-6 md:hidden flex flex-col"
+      >
+        <ul className="flex flex-col gap-6 mt-8">
+          {navLinks.map((link) => (
+            <li key={link.name}>
+              <NavLink
+                to={link.path}
+                end={link.path === "/"}
+                onClick={() => setMenuOpen(false)}
+                className={({ isActive }) =>
+                  `block text-3xl font-heading font-medium tracking-tight transition-colors duration-150 ${
+                    isActive
+                      ? "text-git-accent"
+                      : "text-git-title hover:text-git-accent"
+                  }`
+                }
+              >
+                {link.name}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-12">
           <NavLink
             to="/register"
-            className="mt-4 block rounded-full bg-git-accent-solid px-5 py-3 text-center text-base font-bold text-git-white transition-colors duration-150 hover:bg-git-accent-hover"
+            onClick={() => setMenuOpen(false)}
+            className="w-full text-center btn-primary justify-center text-lg py-4"
           >
-            Register
+            Join GiT
           </NavLink>
         </div>
-      </nav>
+      </div>
     </header>
   );
 };
 
 export default Nav;
+

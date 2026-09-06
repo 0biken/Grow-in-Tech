@@ -1,62 +1,124 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import ParticleBackground from "../components/ParticleBackground";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 export default function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const eyebrowRef = useRef<HTMLParagraphElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const taglineRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  useGSAP(
+    () => {
+      if (prefersReducedMotion) return;
+
+      const tl = gsap.timeline();
+
+      tl.fromTo(
+        eyebrowRef.current,
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+        0.2
+      )
+        .fromTo(
+          headlineRef.current,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+          0.4
+        )
+        .fromTo(
+          taglineRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+          0.8
+        )
+        .fromTo(
+          buttonsRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+          1.0
+        )
+        .fromTo(
+          scrollIndicatorRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.8, ease: "power2.out" },
+          1.4
+        );
+        
+      gsap.to(".scroll-chevron", {
+        y: 8,
+        duration: 1,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut",
+      });
+    },
+    { scope: heroRef, dependencies: [prefersReducedMotion] }
+  );
+
   return (
-    <section className="relative isolate flex min-h-[34rem] w-full items-end overflow-hidden rounded-3xl lg:min-h-[calc(100vh-7rem)]">
-      {/* Background. `object-cover` + explicit inset is what makes the image
-          fill the section at any aspect ratio — previously it was `w-full`
-          only, so it sized to its own 1704x994 ratio and left bare background
-          below itself on 16:9 viewports. */}
-      <img
-        src="/images/hero.png"
-        alt=""
-        width={1704}
-        height={994}
-        fetchPriority="high"
-        className="absolute inset-0 -z-10 h-full w-full object-cover object-center"
-      />
+    <section
+      ref={heroRef}
+      className="relative isolate flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-git-dark dark-section"
+    >
+      <ParticleBackground />
 
-      {/* Scrim. The headline previously sat directly on the photograph, so its
-          legibility depended on whatever happened to be in that region. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-git-base via-git-base/75 to-git-base/25"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-git-base/80 to-transparent"
-      />
-
-      <div className="w-full px-6 py-12 sm:px-10 sm:py-16 lg:px-14 lg:py-20">
-        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-git-light">
-          Grow In Tech (GiT)
+      <div className="container-page relative z-10 flex flex-col items-center text-center">
+        <p
+          ref={eyebrowRef}
+          className="section-eyebrow tracking-widest text-git-accent mb-6 uppercase"
+        >
+          University of Ibadan
         </p>
 
-        <h1 className="mt-4 max-w-4xl text-[length:var(--text-display)] font-extrabold leading-[1.05] text-git-white">
-          A generation of UI students{" "}
-          <span className="text-git-accent">building the future</span>
+        <h1
+          ref={headlineRef}
+          className="font-heading font-800 text-[length:var(--text-display-xl)] uppercase tracking-tighter text-git-white mb-8 leading-none"
+        >
+          Grow In Tech
         </h1>
 
-        <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-git-light sm:text-lg">
+        <p
+          ref={taglineRef}
+          className="mx-auto max-w-2xl text-lg text-git-dark-muted mb-10"
+        >
           Practical, in-demand digital skills through hands-on training,
           mentorship, and community — regardless of department or prior
           technical background.
         </p>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-          <Link
-            to="/get-involved"
-            className="rounded-full bg-git-accent-solid px-8 py-3.5 text-center font-sans text-base font-bold text-git-white shadow-lg shadow-git-accent/25 transition-colors duration-150 hover:bg-git-accent-hover"
-          >
+        <div ref={buttonsRef} className="flex flex-col gap-4 sm:flex-row sm:gap-6">
+          <Link to="/get-involved" className="btn-primary">
             Join Kommunity
           </Link>
-          <Link
-            to="/programs"
-            className="rounded-full border border-white/20 bg-white/10 px-8 py-3.5 text-center font-sans text-base font-bold text-git-white backdrop-blur-sm transition-colors duration-150 hover:bg-white/20"
-          >
+          <Link to="/programs" className="btn-ghost-dark">
             See Programs
           </Link>
         </div>
+      </div>
+
+      <div
+        ref={scrollIndicatorRef}
+        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-git-dark-muted"
+      >
+        <span className="text-sm font-sans uppercase tracking-widest">
+          Scroll
+        </span>
+        <svg
+          className="scroll-chevron h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
       </div>
     </section>
   );

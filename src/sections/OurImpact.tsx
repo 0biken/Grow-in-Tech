@@ -1,4 +1,11 @@
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import ImpactCard, { type ImpactStat } from "../components/ImpactCard";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const stats: ImpactStat[] = [
   {
@@ -32,23 +39,58 @@ const stats: ImpactStat[] = [
   },
 ];
 
-const OurImpact = () => (
-  <section className="container-page py-16 sm:py-20">
-    <h2 className="section-heading">Our Impact</h2>
-    <p className="section-subheading mx-auto max-w-xl">
-      What the community has built across four years of programmes, hackathons,
-      and conferences.
-    </p>
+const OurImpact = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
-    {/* Single column on phones. The previous `grid-cols-[2fr_1fr]` carried no
-        breakpoint, so a 375px viewport got a two-column grid with 30px
-        headings inside a ~120px column. */}
-    <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {stats.map((stat) => (
-        <ImpactCard key={stat.label} stat={stat} />
-      ))}
-    </div>
-  </section>
-);
+  useGSAP(
+    () => {
+      if (prefersReducedMotion || !containerRef.current) return;
+
+      const cards = gsap.utils.toArray<HTMLElement>(".impact-card-reveal");
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+    },
+    { dependencies: [prefersReducedMotion], scope: containerRef }
+  );
+
+  return (
+    <section className="py-24 md:py-32 bg-git-base" ref={containerRef}>
+      <div className="container-page">
+        <div className="text-left">
+          <p className="section-eyebrow mb-2">OUR IMPACT</p>
+          <h2 className="section-heading text-git-title">What the community has built</h2>
+          <p className="section-subheading mt-4 max-w-xl">
+            What the community has built across four years of programmes, hackathons, and conferences.
+          </p>
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {stats.map((stat, _i) => (
+            <div
+              key={stat.label}
+              className={`impact-card-reveal ${stat.wide ? "lg:col-span-2" : ""}`}
+            >
+              <ImpactCard stat={stat} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default OurImpact;
