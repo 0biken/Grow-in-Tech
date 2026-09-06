@@ -156,7 +156,7 @@ export default function Register() {
       if (docFile) fd.append('docFile', docFile);
 
       // Endpoint unchanged as per requirements
-      const res = await fetch('/api/innotech/register', { method: 'POST', body: fd });
+      const res = await fetch('/api/git/register', { method: 'POST', body: fd });
       if (!res.ok) {
         const payload = await res.json().catch(()=>null);
         throw new Error(payload?.message || `Submission failed (${res.status})`);
