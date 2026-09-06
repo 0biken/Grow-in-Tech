@@ -14,9 +14,26 @@ const navLinks = [
 const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const location = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const isDark = document.documentElement.classList.contains("dark");
+    setTheme(isDark ? "dark" : "light");
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -79,8 +96,8 @@ const Nav = () => {
           "transition-all duration-300",
           "border border-git-border md:rounded-full",
           scrolled || menuOpen
-            ? "bg-white/95 shadow-sm backdrop-blur-xl"
-            : "bg-white/80 backdrop-blur-xl",
+            ? "bg-git-surface/95 shadow-sm backdrop-blur-xl"
+            : "bg-git-surface/80 backdrop-blur-xl",
         ].join(" ")}
       >
         <div className="flex items-center justify-between gap-12 px-5 py-3 md:px-6 md:py-2.5">
@@ -118,41 +135,55 @@ const Nav = () => {
             ))}
           </ul>
 
-          <NavLink
-            to="/register"
-            className="hidden shrink-0 btn-primary md:inline-flex"
-          >
-            Join GiT
-          </NavLink>
+          <div className="flex items-center gap-2 md:gap-4">
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle dark mode"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-git-title transition-colors duration-150 hover:bg-git-surface-2"
+            >
+              {theme === "light" ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+              )}
+            </button>
 
-          {/* Mobile trigger */}
-          <button
-            ref={triggerRef}
-            type="button"
-            onClick={() => setMenuOpen((open) => !open)}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-git-title transition-colors duration-150 hover:bg-git-surface-2 md:hidden"
-          >
-            <span className="relative block h-4 w-5" aria-hidden="true">
-              <span
-                className={`absolute left-0 block h-[2px] w-5 bg-current transition-all duration-300 ${
-                  menuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-1/2 block h-[2px] w-5 -translate-y-1/2 bg-current transition-opacity duration-200 ${
-                  menuOpen ? "opacity-0" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`absolute left-0 block h-[2px] w-5 bg-current transition-all duration-300 ${
-                  menuOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"
-                }`}
-              />
-            </span>
-          </button>
+            <NavLink
+              to="/register"
+              className="hidden shrink-0 btn-primary md:inline-flex"
+            >
+              Join GiT
+            </NavLink>
+
+            {/* Mobile trigger */}
+            <button
+              ref={triggerRef}
+              type="button"
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-git-title transition-colors duration-150 hover:bg-git-surface-2 md:hidden"
+            >
+              <span className="relative block h-4 w-5" aria-hidden="true">
+                <span
+                  className={`absolute left-0 block h-[2px] w-5 bg-current transition-all duration-300 ${
+                    menuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 top-1/2 block h-[2px] w-5 -translate-y-1/2 bg-current transition-opacity duration-200 ${
+                    menuOpen ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 block h-[2px] w-5 bg-current transition-all duration-300 ${
+                    menuOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"
+                  }`}
+                />
+              </span>
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -161,7 +192,7 @@ const Nav = () => {
         id="mobile-menu"
         ref={menuRef}
         hidden={!menuOpen}
-        className="fixed inset-0 z-40 bg-white px-5 pt-28 pb-6 md:hidden flex flex-col"
+        className="fixed inset-0 z-40 bg-git-surface px-5 pt-28 pb-6 md:hidden flex flex-col"
       >
         <ul className="flex flex-col gap-6 mt-8">
           {navLinks.map((link) => (

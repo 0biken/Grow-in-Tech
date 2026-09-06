@@ -135,6 +135,22 @@
     scroll-behavior: smooth;
     scroll-padding-top: 7rem;
   }
+
+  /* ── Dark Mode Overrides ── */
+  html.dark {
+    --color-git-base: var(--color-git-dark);
+    --color-git-surface: var(--color-git-dark-surface);
+    --color-git-surface-2: var(--color-git-dark-surface-2);
+    --color-git-surface-3: #2A3B41;
+    --color-git-border: var(--color-git-dark-border);
+    --color-git-border-hover: rgba(255, 255, 255, 0.15);
+    
+    --color-git-title: var(--color-git-white);
+    --color-git-body: var(--color-git-light);
+    --color-git-muted: var(--color-git-dark-muted);
+    
+    --color-git-accent-soft: rgba(45, 212, 191, 0.15);
+  }
 }
 
 @layer components {
