@@ -85,11 +85,12 @@ const Home = () => {
                 Coming Soon • Flagship Masterclass
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-git-white tracking-tight leading-tight">
-                Digital Skill Up : <br className="hidden sm:inline" />
-                <span className="text-git-accent">The Intelligent Creator</span>
+                Digital Skill Up 2026 : <br className="hidden sm:inline" />
+                <span className="text-git-accent">The Intelligent Creator Workshop</span>
               </h2>
               <p className="mt-4 text-base sm:text-lg text-git-dark-muted leading-relaxed">
-                Empowering University of Ibadan students with the most critical high-leverage skills in today&apos;s digital economy: Digital Marketing, Copywriting, Graphics Design, Vibe Coding, Automation, and Financial Literacy.
+                <span className="text-git-accent font-semibold block mb-2">Digital Skills for The AI Era.</span>
+                Empowering students with the most critical high-leverage skills in today&apos;s digital economy: Digital Marketing, Copywriting, Graphics Design, Vibe Coding, Automation, and Financial Literacy. Learn from top trainers from reputable brands and organizations.
               </p>
               
               <div className="mt-6 flex flex-wrap gap-2 text-xs font-medium text-git-light">
@@ -153,10 +154,10 @@ const Home = () => {
               Flagship Learning Series
             </p>
             <h2 className="text-[length:var(--text-h2)] font-heading font-extrabold text-git-title">
-              Digital Skill Up : The Intelligent Creator
+              Digital Skill Up 2026 : The Intelligent Creator Workshop
             </h2>
             <p className="mt-4 font-sans text-base sm:text-lg leading-relaxed text-git-muted">
-              Discover how learning modern digital skills provides immediate leverage for student founders, freelancers, and innovators. Six tracks with direct mentorship from industry experts.
+              <span className="text-git-title font-semibold">Digital Skills for The AI Era.</span> Discover how learning modern digital skills provides immediate leverage for student founders, freelancers, and innovators. Six tracks with direct mentorship from top industry trainers. Premium training, fully online and 100% free.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
@@ -168,9 +169,9 @@ const Home = () => {
             </div>
           </div>
           <div className="shrink-0 flex flex-col items-center justify-center p-8 bg-git-surface-2 rounded-2xl border border-git-border shadow-sm text-center">
-            <span className="font-heading text-sm font-bold uppercase tracking-widest text-git-accent">Coming Soon</span>
-            <span className="font-heading text-5xl font-extrabold text-git-title mt-1">OCT</span>
-            <span className="font-sans text-xs font-semibold text-git-muted mt-2">University of Ibadan</span>
+            <span className="font-heading text-sm font-bold uppercase tracking-widest text-git-accent">SEP 16-18, 2026</span>
+            <span className="font-heading text-5xl font-extrabold text-git-title mt-1">ONLINE</span>
+            <span className="font-sans text-xs font-semibold text-git-muted mt-2">100% Free Premium Training</span>
           </div>
         </div>
       </section>

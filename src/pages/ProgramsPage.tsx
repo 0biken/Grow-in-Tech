@@ -136,9 +136,9 @@ const ProgramsPage = () => {
           </div>
 
           <h1 className="font-heading font-extrabold text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-git-title uppercase leading-[1.05] mb-8">
-            Digital Skill Up <br />
+            Digital Skill Up 2026 <br />
             <span className="text-git-accent relative inline-block">
-              : The Intelligent Creator
+              : The Intelligent Creator Workshop
               <svg
                 className="absolute left-0 -bottom-2 w-full h-3 text-git-accent/40"
                 viewBox="0 0 100 20"
@@ -149,8 +149,11 @@ const ProgramsPage = () => {
             </span>
           </h1>
 
+          <p className="font-sans text-lg sm:text-xl lg:text-2xl text-git-accent max-w-3xl mx-auto leading-relaxed font-semibold mb-4">
+            Digital Skills for The AI Era.
+          </p>
           <p className="font-sans text-lg sm:text-xl lg:text-2xl text-git-muted max-w-3xl mx-auto leading-relaxed font-normal">
-            Six high-leverage masterclass tracks engineered to turn university students from passive technology consumers into self-sufficient, high-earning creators and builders.
+            Six high-leverage masterclass tracks engineered to turn university students from passive technology consumers into self-sufficient, high-earning creators and builders. Featuring top trainers from reputable brands and organizations.
           </p>
 
           {/* Quick value badges */}
@@ -159,13 +162,13 @@ const ProgramsPage = () => {
               ⚡ 6 Specialised Tracks
             </span>
             <span className="px-4 py-2 rounded-xl bg-git-surface border border-git-border shadow-xs">
-              👨‍🏫 Industry Facilitators
+              👨‍🏫 Top Industry Trainers
             </span>
             <span className="px-4 py-2 rounded-xl bg-git-surface border border-git-border shadow-xs">
               🛠️ 3-Session Practical Sprints
             </span>
             <span className="px-4 py-2 rounded-xl bg-git-surface border border-git-border shadow-xs">
-              🎓 100% Free for UI Students
+              💻 Sep 16-18 • Fully Online & Free
             </span>
           </div>
 
@@ -195,7 +198,7 @@ const ProgramsPage = () => {
             The Six Masterclass Tracks
           </h2>
           <p className="section-subheading mx-auto">
-            Select the track that aligns with your ambitions, or register for multiple to stack your capabilities.
+            Select up to two tracks that align with your ambitions to stack your capabilities (Max 2 tracks per person to avoid schedule conflicts).
           </p>
         </div>
 
