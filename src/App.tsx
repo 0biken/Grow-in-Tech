@@ -7,6 +7,7 @@ import AboutPage from "./pages/AboutPage";
 import ProgramsPage from "./pages/ProgramsPage";
 import GetInvolvedPage from "./pages/GetInvolvedPage";
 import ContactPage from "./pages/ContactPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="programs" element={<ProgramsPage />} />
         <Route path="get-involved" element={<GetInvolvedPage />} />
         <Route path="contact" element={<ContactPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
