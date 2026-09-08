@@ -1,3 +1,4 @@
+import BrandLogo from "../components/BrandLogo";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -30,11 +31,7 @@ const Footer = () => {
       {/* 4-COLUMN GRID */}
       <div className="container-page py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div className="flex flex-col items-start">
-          <img
-            src="/images/20260725_180307.png"
-            alt="Grow In Tech"
-            className="h-10 w-auto"
-          />
+          <BrandLogo className="text-git-ice" labelled />
           <p className="mt-5 text-sm leading-relaxed text-git-dark-muted">
             Practical, in-demand digital skills through hands-on training, mentorship, and community — regardless of department or prior technical background.
           </p>

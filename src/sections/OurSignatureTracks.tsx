@@ -1,3 +1,4 @@
+import BrandPanel from "../components/BrandPanel";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
@@ -59,7 +60,7 @@ const OurSignatureTracks = () => {
         }
       );
     },
-    { dependencies: [prefersReducedMotion], scope: containerRef }
+    { dependencies: [prefersReducedMotion], revertOnUpdate: true, scope: containerRef }
   );
 
   return (
@@ -69,15 +70,9 @@ const OurSignatureTracks = () => {
         <h2 className="section-heading text-git-title">Three ways to learn, build, and connect.</h2>
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {tracks.map((track) => (
+          {tracks.map((track, index) => (
             <div key={track.title} className="track-card-reveal glass-card overflow-hidden flex flex-col group">
-              <div className="aspect-video overflow-hidden relative">
-                <img
-                  src={track.image}
-                  alt={track.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
+              <BrandPanel variant={index} />
               <div className="p-6 flex flex-col flex-grow items-start">
                 <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold rounded-full text-git-accent bg-git-accent-soft">
                   {track.category}

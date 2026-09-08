@@ -1,13 +1,8 @@
 /* ---------------------------------------------------------------------------
    Typefaces
-   Syne = display/headings (premium, geometric, techy).
+   Arial bold italic = web substitute for Nimbus Sans L Bold Italic.
    Inter = UI/body (neutral, highly legible).
 --------------------------------------------------------------------------- */
-@import "@fontsource/syne/400.css";
-@import "@fontsource/syne/500.css";
-@import "@fontsource/syne/600.css";
-@import "@fontsource/syne/700.css";
-@import "@fontsource/syne/800.css";
 @import "@fontsource/inter/400.css";
 @import "@fontsource/inter/500.css";
 @import "@fontsource/inter/600.css";
@@ -19,50 +14,48 @@
 /* ---------------------------------------------------------------------------
    Design tokens — single source of truth.
 
-   White-dominant premium layout inspired by Madame Polare.
-   Warm off-white base with pure white elevated surfaces.
+   GiT deck identity; implementation reference: BRAND_GUIDE.md.
+   White and ice-blue content surfaces.
    Dark sections (hero, footer) used for high-contrast impact.
 --------------------------------------------------------------------------- */
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-heading: 'Syne', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: Arial, Helvetica, sans-serif;
 
   /* ── Light surfaces (primary) ── */
-  --color-git-base: #F5F5F5;
+  --color-git-base: #FFFFFF;
   --color-git-surface: #FFFFFF;
-  --color-git-surface-2: #F0F2F5;
-  --color-git-surface-3: #E8EAEE;
+  --color-git-surface-2: #EEF7FF;
+  --color-git-surface-3: #DDEEFF;
   --color-git-border: rgba(0, 0, 0, 0.06);
   --color-git-border-hover: rgba(0, 0, 0, 0.12);
 
   /* ── Dark surfaces (hero, footer, contrast sections) ── */
-  --color-git-dark: #0B1215;
-  --color-git-dark-surface: #161E22;
-  --color-git-dark-surface-2: #1D2A2F;
+  --color-git-dark: #0B191A;
+  --color-git-dark-surface: #10272E;
+  --color-git-dark-surface-2: #183640;
   --color-git-dark-border: rgba(255, 255, 255, 0.08);
 
-  /* ── Brand accent — Electric Teal ── */
-  --color-git-accent: #2DD4BF;
-  --color-git-accent-hover: #14B8A6;
-  --color-git-accent-soft: #CCFBF1;
-  --color-git-accent-glow: rgba(45, 212, 191, 0.15);
+  /* ── Brand accent — Deck blue ── */
+  --color-git-accent: #158FFC;
+  --color-git-accent-hover: #0A4BA7;
+  --color-git-accent-soft: #B6DFFF;
+  --color-git-accent-glow: rgba(21, 143, 252, 0.15);
 
-  /* ── Secondary accents ── */
-  --color-git-yellow: #F59E0B;
-  --color-git-sage: #4A7C6F;
-  --color-git-forest: #1B4332;
-  --color-git-ocean: #1E3A5F;
+  --color-git-link: #0A4BA7;
+  --color-git-ice: #B6DFFF;
+  --color-git-navy: #010552;
 
   /* ── Text (on light surfaces) ── */
-  --color-git-title: #111827;
-  --color-git-body: #374151;
-  --color-git-muted: #6B7280;
-  --color-git-caption: #9CA3AF;
+  --color-git-title: #0B191A;
+  --color-git-body: #304750;
+  --color-git-muted: #516773;
+  --color-git-caption: #516773;
 
   /* ── Text (on dark surfaces) ── */
   --color-git-white: #FFFFFF;
-  --color-git-light: #E5E7EB;
-  --color-git-dark-muted: #9CA3AF;
+  --color-git-light: #EAF5FF;
+  --color-git-dark-muted: #B6DFFF;
 
   /* ── Fluid typography scale ── */
   --text-display-xl: clamp(3.5rem, 2rem + 8vw, 9rem);
@@ -79,6 +72,71 @@
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
+}
+
+/* Brand treatments: see BRAND_GUIDE.md for source vs. web adaptations. */
+.brand-logo {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 5.5rem;
+  aspect-ratio: 1656 / 799;
+  background: currentColor;
+  mask-image: url('/images/git-mark.png');
+  mask-repeat: no-repeat;
+  mask-size: 197.101449% 229.787234%;
+  mask-position: 49.564677% 50.530376%;
+  vertical-align: middle;
+}
+.brand-hero {
+  min-height: min(40rem, calc(100svh - 8.5rem));
+  padding: 4.5rem 1rem 5.5rem;
+  background: linear-gradient(180deg, #158FFC 0%, #0A4BA7 48%, #010552 100%);
+  border-radius: 0.5rem;
+}
+.hero-title { font-size: clamp(3.2rem, 7.5vw, 7rem); max-width: 100%; padding-inline: 0.08em; }
+.brand-hero.dark-section .section-eyebrow {
+  color: #0B191A;
+  background: #B6DFFF;
+  padding: 0.35rem 0.65rem;
+  border-radius: 2px;
+}
+.brand-hero .btn-primary { background: #FFFFFF; color: #0B191A; }
+.brand-hero .btn-primary:hover { background: #B6DFFF; }
+.brand-hero .btn-ghost-dark { border-color: #B6DFFF; }
+.brand-hero .btn-ghost-dark:hover { background: #0A4BA7; }
+.text-git-accent, .text-git-accent-hover { color: var(--color-git-link); }
+.dark-section { --color-git-link: #B6DFFF; --color-git-caption: #B6DFFF; }
+.dark-section .btn-primary, html.dark .btn-primary { background: #B6DFFF; color: #0B191A; }
+.dark-section .btn-primary:hover, html.dark .btn-primary:hover { background: #FFFFFF; }
+.dark-section .section-eyebrow { color: #B6DFFF; }
+.dark-section .btn-ghost-dark { border-color: #829DAC; }
+.dark-section :focus-visible { outline-color: #B6DFFF; }
+html.dark .btn-ghost { border-color: #829DAC; }
+.brand-panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 9rem;
+  overflow: hidden;
+  gap: 0.7rem;
+  background: #B6DFFF;
+}
+.brand-panel span { width: 2.5rem; height: 4rem; border: 2px solid #0A4BA7; transform: skew(-12deg); }
+.brand-panel span:nth-child(2) { height: 5.5rem; background: #0A4BA7; }
+.brand-panel-1 { background: #0A4BA7; }
+.brand-panel-1 span { border-color: #B6DFFF; transform: rotate(-35deg); }
+.brand-panel-1 span:nth-child(2) { background: #B6DFFF; }
+.brand-panel-2 { background: #0B191A; }
+.brand-panel-2 span { border-color: #B6DFFF; transform: none; width: 3rem; height: 3rem; }
+.brand-panel-2 span:nth-child(2) { background: #B6DFFF; }
+.brand-rule { width: 4rem; height: 0.3rem; background: var(--color-git-link); }
+input, textarea { border-color: #6F8490; }
+input::placeholder, textarea::placeholder { color: var(--color-git-muted); opacity: 1; }
+@media (max-width: 639px) {
+  .brand-hero { min-height: 0; padding: 2.75rem 0 5rem; }
+  .hero-title { max-width: 6em; }
+  .brand-hero .section-eyebrow { margin-bottom: 1.25rem; }
 }
 
 @keyframes fade-up {
@@ -109,6 +167,8 @@
   h1, h2, h3, h4 {
     font-family: var(--font-heading);
     color: var(--color-git-title);
+    font-style: italic;
+    font-weight: 700;
     letter-spacing: -0.03em;
     text-wrap: balance;
   }
@@ -127,7 +187,7 @@
   }
 
   ::selection {
-    background-color: var(--color-git-accent);
+    background-color: #0A4BA7;
     color: var(--color-git-white);
   }
 
@@ -149,7 +209,9 @@
     --color-git-body: var(--color-git-light);
     --color-git-muted: var(--color-git-dark-muted);
     
-    --color-git-accent-soft: rgba(45, 212, 191, 0.15);
+    --color-git-link: #B6DFFF;
+    --color-git-caption: #B6C9D5;
+    --color-git-accent-soft: rgba(21, 143, 252, 0.15);
   }
 }
 
@@ -175,7 +237,7 @@
     font-weight: 600;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--color-git-accent);
+    color: var(--color-git-link);
   }
   .section-heading {
     font-size: var(--text-h1);
@@ -199,7 +261,7 @@
     color: var(--color-git-dark-muted);
   }
   .dark-section .section-eyebrow {
-    color: var(--color-git-accent);
+    color: var(--color-git-link);
   }
 
   /* ── Glass surface card ── */
@@ -230,10 +292,11 @@
   .btn-primary {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1.75rem;
-    background-color: var(--color-git-accent);
-    color: var(--color-git-dark);
+    background-color: var(--color-git-link);
+    color: #FFFFFF;
     font-family: var(--font-sans);
     font-size: 0.9375rem;
     font-weight: 600;
@@ -244,7 +307,7 @@
     text-decoration: none;
   }
   .btn-primary:hover {
-    background-color: var(--color-git-accent-hover);
+    background-color: #063B85;
     transform: translateY(-1px);
     box-shadow: 0 8px 24px var(--color-git-accent-glow);
   }
@@ -255,6 +318,7 @@
   .btn-ghost {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1.75rem;
     background-color: transparent;
@@ -263,7 +327,7 @@
     font-size: 0.9375rem;
     font-weight: 600;
     border-radius: 9999px;
-    border: 1px solid var(--color-git-border-hover);
+    border: 1px solid #6F8490;
     cursor: pointer;
     transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
     text-decoration: none;
@@ -278,6 +342,7 @@
   .btn-ghost-dark {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1.75rem;
     background-color: transparent;

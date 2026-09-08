@@ -4,15 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
-      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      let savedTheme;
+      try { savedTheme = localStorage.getItem('theme'); } catch {}
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
       }
     </script>
-    <!-- 341 bytes, replacing the 224 KB logo.svg that was serving a 16px icon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#F5F5F5" />
+    <meta name="theme-color" content="#FFFFFF" />
+    <script>
+      document.querySelector('meta[name="theme-color"]').content = document.documentElement.classList.contains('dark') ? '#0B191A' : '#FFFFFF';
+    </script>
 
     <title>Grow In Tech (GiT) — Digital skills for University of Ibadan students</title>
     <meta

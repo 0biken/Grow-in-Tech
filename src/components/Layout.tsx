@@ -14,7 +14,7 @@ const Layout = () => {
       </a>
       <AnnouncementBar />
       <Nav />
-      <main id="main" className="flex-1 pt-28 md:pt-32">
+      <main id="main" className="flex-1 pt-4 lg:pt-6">
         <Outlet />
       </main>
       <Footer />

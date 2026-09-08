@@ -1,5 +1,4 @@
-"use client";
-
+import BrandLogo from "../components/BrandLogo";
 import { useEffect, useState, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -27,7 +26,8 @@ const Nav = () => {
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    try { localStorage.setItem("theme", newTheme); } catch { /* Storage may be unavailable. */ }
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", newTheme === "dark" ? "#0B191A" : "#FFFFFF");
     if (newTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
@@ -43,6 +43,13 @@ const Nav = () => {
   }, []);
 
   useEffect(() => setMenuOpen(false), [location.pathname]);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = () => { if (desktop.matches) setMenuOpen(false); };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -88,35 +95,29 @@ const Nav = () => {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 flex flex-col items-center justify-center md:top-3 w-full">
+    <header className="sticky top-0 z-50 flex flex-col items-center justify-center lg:top-3 w-full">
       <nav
         aria-label="Main"
         className={[
-          "w-full md:w-auto relative z-50",
+          "w-full lg:w-auto relative z-50",
           "transition-all duration-300",
-          "border border-git-border md:rounded-full",
+          "border border-git-border lg:rounded-full",
           scrolled || menuOpen
             ? "bg-git-surface/95 shadow-sm backdrop-blur-xl"
             : "bg-git-surface/80 backdrop-blur-xl",
         ].join(" ")}
       >
-        <div className="flex items-center justify-between gap-12 px-5 py-3 md:px-6 md:py-2.5">
+        <div className="flex items-center justify-between gap-6 px-5 py-3 lg:px-6 lg:py-2.5">
           <NavLink
             to="/"
             className="shrink-0"
             aria-label="Grow In Tech — home"
           >
-            <img
-              src="/images/20260725_180307.png"
-              alt=""
-              width={40}
-              height={40}
-              className="h-9 w-auto md:h-10"
-            />
+            <BrandLogo className="text-git-title" />
           </NavLink>
 
           {/* Desktop links */}
-          <ul className="hidden items-center gap-7 md:flex">
+          <ul className="hidden items-center gap-7 lg:flex">
             {navLinks.map((link) => (
               <li key={link.name}>
                 <NavLink to={link.path} end={link.path === "/"} className="group relative block py-2 text-sm font-medium transition-colors duration-150 after:absolute after:bottom-0.5 after:left-0 after:h-px after:bg-git-accent after:transition-all after:duration-200">
@@ -125,7 +126,7 @@ const Nav = () => {
                       <span className="relative overflow-hidden h-[1.4em] inline-block leading-[1.4em] align-bottom">
                         <span className="flex flex-col transition-transform duration-300 group-hover:-translate-y-1/2">
                           <span>{link.name}</span>
-                          <span className={isActive ? "text-git-title" : "text-git-title"}>{link.name}</span>
+                          <span aria-hidden="true" className="text-git-title">{link.name}</span>
                         </span>
                       </span>
                     </span>
@@ -135,10 +136,11 @@ const Nav = () => {
             ))}
           </ul>
 
-          <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex items-center gap-2 lg:gap-4">
             <button
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
+              aria-pressed={theme === "dark"}
               className="inline-flex h-10 w-10 items-center justify-center rounded-full text-git-title transition-colors duration-150 hover:bg-git-surface-2"
             >
               {theme === "light" ? (
@@ -150,7 +152,7 @@ const Nav = () => {
 
             <NavLink
               to="/programs"
-              className="hidden shrink-0 btn-primary md:inline-flex"
+              className="hidden shrink-0 btn-primary lg:inline-flex"
             >
               Join GiT
             </NavLink>
@@ -163,7 +165,7 @@ const Nav = () => {
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
-              className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-git-title transition-colors duration-150 hover:bg-git-surface-2 md:hidden"
+              className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-git-title transition-colors duration-150 hover:bg-git-surface-2 lg:hidden"
             >
               <span className="relative block h-4 w-5" aria-hidden="true">
                 <span
@@ -192,7 +194,7 @@ const Nav = () => {
         id="mobile-menu"
         ref={menuRef}
         hidden={!menuOpen}
-        className="fixed inset-0 z-40 bg-git-surface px-5 pt-28 pb-6 md:hidden flex flex-col"
+        className="fixed inset-0 z-40 bg-git-surface px-5 pt-28 pb-6 lg:hidden flex flex-col overflow-y-auto"
       >
         <ul className="flex flex-col gap-6 mt-8">
           {navLinks.map((link) => (

@@ -1,7 +1,7 @@
 const programs = [
   {
     title: "Digital Marketing",
-    icon: "📈",
+    icon: "01",
     category: "Distribution & Growth",
     description: "Master audience acquisition, campaign analytics, social algorithms, and organic growth strategies for tech ventures and products.",
     color: "bg-git-accent",
@@ -12,55 +12,55 @@ const programs = [
   },
   {
     title: "Copywriting",
-    icon: "✍️",
+    icon: "02",
     category: "Persuasion & Sales",
     description: "Craft magnetic words that sell. Master psychological hooks, landing page storytelling, email marketing, and conversion copywriting.",
-    color: "bg-git-sage",
-    accentText: "text-git-sage",
+    color: "bg-git-accent",
+    accentText: "text-git-accent",
     link: "https://forms.gle/RNXKeDCPnt2iS9no8",
     sessions: "3 Hands-On Sessions",
     takeaway: "Transform passive readers into active buyers, community members, and investors."
   },
   {
     title: "Graphics Design",
-    icon: "🎨",
+    icon: "03",
     category: "Visual Identity & UI",
     description: "Design stunning visual systems, brand identities, pitch assets, and modern interface layouts using Figma and industry tools.",
-    color: "bg-git-ocean",
-    accentText: "text-git-ocean",
+    color: "bg-git-accent",
+    accentText: "text-git-accent",
     link: "https://forms.gle/dHryemBXjvbUaX4h6",
     sessions: "3 Hands-On Sessions",
     takeaway: "Establish instant credibility and command premium pricing with world-class aesthetics."
   },
   {
     title: "Vibe Coding",
-    icon: "⚡",
+    icon: "04",
     category: "AI & Rapid Prototyping",
     description: "Build and deploy production-ready web apps in hours using modern AI coding agents, natural language prompting, and modern frameworks.",
-    color: "bg-git-forest",
-    accentText: "text-git-forest",
+    color: "bg-git-accent",
+    accentText: "text-git-accent",
     link: "https://forms.gle/zcZ39HQyNMaP65MW6",
     sessions: "3 Hands-On Sessions",
     takeaway: "Bypass syntax roadblocks and turn complex software ideas into reality in a single weekend."
   },
   {
     title: "Automation",
-    icon: "⚙️",
+    icon: "05",
     category: "Systems & 10x Leverage",
     description: "Streamline repetitive digital tasks, connect apps with APIs, and build intelligent no-code automated workflows that run 24/7.",
-    color: "bg-git-yellow",
-    accentText: "text-git-yellow",
+    color: "bg-git-accent",
+    accentText: "text-git-accent",
     link: "https://forms.gle/8QgzFQ7Pd8F7Ezhe9",
     sessions: "3 Hands-On Sessions",
     takeaway: "Save 15+ hours every week and run a multi-person business operation as a solo student."
   },
   {
     title: "Financial Literacy",
-    icon: "💼",
+    icon: "06",
     category: "Wealth & Equity Management",
     description: "Master personal and startup financial management, cross-border freelance monetization, equity allocation, budgeting, and long-term wealth compounding.",
-    color: "bg-[#7C3AED]",
-    accentText: "text-[#7C3AED]",
+    color: "bg-git-accent",
+    accentText: "text-git-accent",
     link: "https://forms.gle/sACU5y985mM597Dt6",
     sessions: "3 Hands-On Sessions",
     takeaway: "Retain your income, navigate foreign exchange, and structure venture ownership wisely."
@@ -70,7 +70,7 @@ const programs = [
 const caseStudies = [
   {
     title: "Digital Marketing",
-    icon: "📈",
+    icon: "01",
     advantage: "Audience & Zero-Cost Distribution",
     caseStudy:
       "A campus founder developed a student marketplace app but had zero users. By applying organic content funnels, campus-specific micro-influencer strategies, and algorithmic TikTok hooks, she onboarded 2,400 active UI students in 3 weeks with zero advertising budget.",
@@ -79,7 +79,7 @@ const caseStudies = [
   },
   {
     title: "Copywriting",
-    icon: "✍️",
+    icon: "02",
     advantage: "High-Ticket Conversion & Persuasion",
     caseStudy:
       "A student freelancer was pitching international clients for technical writing and getting ignored with generic proposals. After rewriting his cold outreach and portfolio with benefit-driven hooks and objection-handling copy, his response rate jumped from 3% to 28%, landing him two $800/mo retainer clients.",
@@ -88,7 +88,7 @@ const caseStudies = [
   },
   {
     title: "Graphics Design",
-    icon: "🎨",
+    icon: "03",
     advantage: "Instant Trust & Perceived Value",
     caseStudy:
       "A group of engineering students built an AI tool for exam prep but their MVP looked unpolished and untrustworthy. A design overhaul—clean typography, cohesive color palette, and sleek mockups—helped them win a $1,500 hackathon grant because judges immediately trusted their execution quality.",
@@ -97,7 +97,7 @@ const caseStudies = [
   },
   {
     title: "Vibe Coding",
-    icon: "⚡",
+    icon: "04",
     advantage: "Speed of Execution with AI",
     caseStudy:
       "A non-technical economics major had an idea for an automated CGPA calculator and academic progress tracker for UI students. Instead of waiting 6 months to learn syntax from scratch, he used AI coding assistants and natural language prompting to ship a live, responsive web app in 36 hours.",
@@ -106,7 +106,7 @@ const caseStudies = [
   },
   {
     title: "Automation",
-    icon: "⚙️",
+    icon: "05",
     advantage: "10x Output & Time Multiplication",
     caseStudy:
       "A student society executive spent 5 hours every Monday manually checking payment receipts, updating spreadsheets, and sending confirmation emails. By building a 3-step automation workflow linking Google Forms, webhooks, and email triggers, registrations are verified in 2 seconds with zero human error.",
@@ -115,7 +115,7 @@ const caseStudies = [
   },
   {
     title: "Financial Literacy",
-    icon: "💼",
+    icon: "06",
     advantage: "Wealth Preservation & Equity Protection",
     caseStudy:
       "A student who started earning remote freelance income in dollars quickly fell into panic when tax and currency fluctuation ate into his earnings. Financial literacy training taught him how to hedge currency risk, budget for operational runway, and retain equity when approached by outside investors.",
@@ -135,7 +135,7 @@ const ProgramsPage = () => {
             JCIN UI × Grow In Tech (GiT) Presents
           </div>
 
-          <h1 className="font-heading font-extrabold text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-git-title uppercase leading-[1.05] mb-8">
+          <h1 className="font-heading font-bold text-4xl sm:text-6xl lg:text-7xl tracking-tight text-git-title uppercase leading-[1.05] mb-8">
             Digital Skill Up 2026 <br />
             <span className="text-git-accent relative inline-block">
               : The Intelligent Creator Workshop
@@ -159,16 +159,16 @@ const ProgramsPage = () => {
           {/* Quick value badges */}
           <div className="mt-10 flex flex-wrap justify-center items-center gap-3 sm:gap-4 text-xs sm:text-sm font-semibold text-git-title">
             <span className="px-4 py-2 rounded-xl bg-git-surface border border-git-border shadow-xs">
-              ⚡ 6 Specialised Tracks
+               6 Specialised Tracks
             </span>
             <span className="px-4 py-2 rounded-xl bg-git-surface border border-git-border shadow-xs">
-              👨‍🏫 Top Industry Trainers
+               Top Industry Trainers
             </span>
             <span className="px-4 py-2 rounded-xl bg-git-surface border border-git-border shadow-xs">
-              🛠️ 3-Session Practical Sprints
+               3-Session Practical Sprints
             </span>
             <span className="px-4 py-2 rounded-xl bg-git-surface border border-git-border shadow-xs">
-              💻 Sep 16-18 • Fully Online & Free
+               Sep 16-18 • Fully Online & Free
             </span>
           </div>
 
@@ -211,7 +211,7 @@ const ProgramsPage = () => {
               {/* Color Stripe Header */}
               <div className={`absolute top-0 left-0 right-0 h-2 ${program.color}`} />
 
-              <div className="flex items-center justify-between mb-4 mt-2">
+              <div className="flex flex-wrap gap-3 items-center justify-between mb-4 mt-2">
                 <span className="text-3xl p-2 rounded-xl bg-git-surface-2">{program.icon}</span>
                 <span className="text-xs font-semibold px-3 py-1 rounded-full bg-git-surface-2 text-git-muted border border-git-border">
                   {program.category}
@@ -235,7 +235,7 @@ const ProgramsPage = () => {
                 </p>
               </div>
 
-              <div className="mt-8 pt-4 border-t border-git-border flex items-center justify-between">
+              <div className="mt-8 pt-4 border-t border-git-border flex flex-wrap gap-3 items-center justify-between">
                 <span className="text-xs font-medium text-git-caption">
                   {program.sessions}
                 </span>
@@ -293,14 +293,14 @@ const ProgramsPage = () => {
                       {item.caseStudy}
                     </p>
                     <div className="mt-3 pt-2 border-t border-git-border/40 inline-block font-sans text-xs font-bold text-git-accent">
-                      ✓ Impact: {item.keyMetric}
+                       Impact: {item.keyMetric}
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-git-border">
                   <p className="font-sans text-xs font-bold uppercase tracking-wider text-git-muted mb-1">
-                    💡 Creator Tip
+                     Creator Tip
                   </p>
                   <p className="font-sans text-xs text-git-title italic leading-relaxed">
                     &ldquo;{item.tip}&rdquo;
@@ -325,32 +325,26 @@ const ProgramsPage = () => {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-center mb-8">
                 <div className="p-3 bg-git-surface rounded-xl border border-git-border shadow-2xs">
-                  <span className="block text-xl mb-1">⚡</span>
                   <p className="text-xs font-bold text-git-title">Vibe Coding</p>
                   <p className="text-[10px] text-git-muted">To Build Fast</p>
                 </div>
                 <div className="p-3 bg-git-surface rounded-xl border border-git-border shadow-2xs">
-                  <span className="block text-xl mb-1">🎨</span>
                   <p className="text-xs font-bold text-git-title">Graphics</p>
                   <p className="text-[10px] text-git-muted">To Look Premium</p>
                 </div>
                 <div className="p-3 bg-git-surface rounded-xl border border-git-border shadow-2xs">
-                  <span className="block text-xl mb-1">✍️</span>
                   <p className="text-xs font-bold text-git-title">Copywriting</p>
                   <p className="text-[10px] text-git-muted">To Persuade</p>
                 </div>
                 <div className="p-3 bg-git-surface rounded-xl border border-git-border shadow-2xs">
-                  <span className="block text-xl mb-1">📈</span>
                   <p className="text-xs font-bold text-git-title">Marketing</p>
                   <p className="text-[10px] text-git-muted">To Reach Crowds</p>
                 </div>
                 <div className="p-3 bg-git-surface rounded-xl border border-git-border shadow-2xs">
-                  <span className="block text-xl mb-1">⚙️</span>
                   <p className="text-xs font-bold text-git-title">Automation</p>
                   <p className="text-[10px] text-git-muted">To Scale 10x</p>
                 </div>
                 <div className="p-3 bg-git-surface rounded-xl border border-git-border shadow-2xs">
-                  <span className="block text-xl mb-1">💼</span>
                   <p className="text-xs font-bold text-git-title">Finance</p>
                   <p className="text-[10px] text-git-muted">To Keep Wealth</p>
                 </div>

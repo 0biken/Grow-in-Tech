@@ -9,7 +9,7 @@ const partners = [
 ];
 
 const Tile = ({ name }: { name: string }) => (
-  <li className="flex h-16 w-52 shrink-0 items-center justify-center opacity-50 transition-opacity hover:opacity-100 px-4">
+  <li className="flex h-16 w-52 shrink-0 items-center justify-center px-4">
     <span className="truncate font-heading text-base font-semibold text-git-caption">
       {name}
     </span>

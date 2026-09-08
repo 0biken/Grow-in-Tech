@@ -64,7 +64,7 @@ const OurImpact = () => {
         }
       );
     },
-    { dependencies: [prefersReducedMotion], scope: containerRef }
+    { dependencies: [prefersReducedMotion], revertOnUpdate: true, scope: containerRef }
   );
 
   return (
@@ -79,7 +79,7 @@ const OurImpact = () => {
         </div>
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {stats.map((stat, _i) => (
+          {stats.map((stat) => (
             <div
               key={stat.label}
               className={`impact-card-reveal ${stat.wide ? "lg:col-span-2" : ""}`}

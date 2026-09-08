@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import ParticleBackground from "../components/ParticleBackground";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 export default function Hero() {
@@ -59,15 +58,14 @@ export default function Hero() {
         ease: "power1.inOut",
       });
     },
-    { scope: heroRef, dependencies: [prefersReducedMotion] }
+    { scope: heroRef, dependencies: [prefersReducedMotion], revertOnUpdate: true }
   );
 
   return (
     <section
       ref={heroRef}
-      className="relative isolate flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-git-dark dark-section"
+      className="brand-hero relative isolate flex w-full flex-col items-center justify-center overflow-hidden dark-section"
     >
-      <ParticleBackground />
 
       <div className="container-page relative z-10 flex flex-col items-center text-center">
         <p
@@ -79,14 +77,14 @@ export default function Hero() {
 
         <h1
           ref={headlineRef}
-          className="font-heading font-800 text-[length:var(--text-display-xl)] uppercase tracking-tighter text-git-white mb-8 leading-none"
+          className="font-heading font-bold hero-title uppercase tracking-tighter text-git-white mb-6 leading-none"
         >
           Grow In Tech
         </h1>
 
         <p
           ref={taglineRef}
-          className="mx-auto max-w-2xl text-lg text-git-dark-muted mb-10"
+          className="mx-auto max-w-2xl text-base sm:text-lg text-git-light mb-8"
         >
           Practical, in-demand digital skills through hands-on training,
           mentorship, and community — regardless of department or prior
@@ -110,7 +108,7 @@ export default function Hero() {
 
       <div
         ref={scrollIndicatorRef}
-        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-git-dark-muted"
+        className="absolute bottom-5 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-git-dark-muted"
       >
         <span className="text-sm font-sans uppercase tracking-widest">
           Scroll

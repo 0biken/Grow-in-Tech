@@ -24,12 +24,7 @@ const ImpactCard = ({ stat }: { stat: ImpactStat }) => (
       </p>
     </div>
 
-    <img
-      src={stat.image}
-      alt=""
-      loading="lazy"
-      className="h-32 w-full self-end object-contain object-right sm:h-36"
-    />
+    <div className="brand-rule" aria-hidden="true" />
   </article>
 );
 

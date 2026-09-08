@@ -20,23 +20,23 @@ const AboutPage = () => {
       </div>
 
       {/* Mission / Vision / Values */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-24">
         <div className="glass-card p-8 sm:p-10 flex flex-col items-start text-left">
-          <div className="text-4xl mb-6 text-git-accent">🎯</div>
+          <div className="brand-rule mb-6" aria-hidden="true" />
           <h2 className="text-[length:var(--text-h3)] font-heading font-bold text-git-title mb-4">Mission</h2>
           <p className="font-sans text-git-muted leading-relaxed">
             To equip students with practical, in-demand digital skills through hands-on training, mentorship, and community — regardless of department or prior technical background.
           </p>
         </div>
         <div className="glass-card p-8 sm:p-10 flex flex-col items-start text-left">
-          <div className="text-4xl mb-6 text-git-accent">🔭</div>
+          <div className="brand-rule mb-6" aria-hidden="true" />
           <h2 className="text-[length:var(--text-h3)] font-heading font-bold text-git-title mb-4">Vision</h2>
           <p className="font-sans text-git-muted leading-relaxed">
             A generation of University of Ibadan students confidently building, creating, and competing in the digital and AI-driven economy.
           </p>
         </div>
         <div className="glass-card p-8 sm:p-10 flex flex-col items-start text-left">
-          <div className="text-4xl mb-6 text-git-accent">💎</div>
+          <div className="brand-rule mb-6" aria-hidden="true" />
           <h2 className="text-[length:var(--text-h3)] font-heading font-bold text-git-title mb-4">Core Values</h2>
           <ul className="font-sans text-git-muted leading-relaxed list-disc list-inside space-y-2">
             <li>Practical over theoretical</li>

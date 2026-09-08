@@ -1,3 +1,4 @@
+import BrandPanel from "./BrandPanel";
 import { Link } from "react-router-dom";
 
 interface ProjectCardProps {
@@ -9,17 +10,10 @@ interface ProjectCardProps {
   link: string;
 }
 
-const ProjectCard = ({ title, category, description, result, image, link }: ProjectCardProps) => {
+const ProjectCard = ({ title, category, description, result, link }: ProjectCardProps) => {
   return (
     <Link to={link} className="glass-card overflow-hidden flex flex-col group block h-full">
-      <div className="aspect-video bg-git-surface-2 overflow-hidden relative">
-        <img
-          src={image}
-          alt={title}
-          loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-      </div>
+      <BrandPanel variant={category === "Hackathon" ? 0 : category === "Workshop" ? 1 : 2} />
       <div className="p-6 flex flex-col flex-grow items-start">
         <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold rounded-full text-git-accent bg-git-accent-soft">
           {category}
