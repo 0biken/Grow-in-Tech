@@ -46,13 +46,13 @@ const OurSignatureTracks = () => {
       const cards = gsap.utils.toArray<HTMLElement>(".track-card-reveal");
       gsap.fromTo(
         cards,
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: 16 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
-          stagger: 0.15,
-          ease: "power2.out",
+          duration: 0.45,
+          stagger: 0.06,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top 80%",

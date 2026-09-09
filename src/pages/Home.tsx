@@ -1,3 +1,5 @@
+import { ArrowRight } from "@phosphor-icons/react";
+import { Icon } from "../components/Icon";
 import { Link } from "react-router-dom";
 import Hero from "../sections/Hero";
 import Sponsor from "../sections/Sponsor";
@@ -28,7 +30,7 @@ const Home = () => {
               </h2>
               <p className="mt-4 text-base sm:text-lg text-git-dark-muted leading-relaxed">
                 <span className="text-git-accent font-semibold block mb-2">Digital Skills for The AI Era.</span>
-                Empowering students with the most critical high-leverage skills in today&apos;s digital economy: Digital Marketing, Copywriting, Graphics Design, Vibe Coding, Automation, and Financial Literacy. Learn from top trainers from reputable brands and organizations.
+                Empowering students with the most critical high-leverage skills in today&apos;s digital economy: Digital Marketing, Copywriting, Graphics Design, Building with AI, Automation, and Financial Literacy. Learn from top trainers from reputable brands and organizations.
               </p>
               
               <div className="mt-6 flex flex-wrap gap-2 text-xs font-medium text-git-light">
@@ -42,9 +44,9 @@ const Home = () => {
             <div className="shrink-0 flex flex-col sm:flex-row lg:flex-col gap-4">
               <Link
                 to="/programs"
-                className="btn-primary text-center justify-center text-base py-3.5 px-7 font-bold shadow-lg hover:shadow-git-accent/25 transition-all"
+                className="btn-primary text-center justify-center text-base py-3.5 px-7 font-bold shadow-lg hover:shadow-git-accent/25"
               >
-                Explore Tracks &amp; Register &rarr;
+                Explore Tracks &amp; Register <Icon icon={ArrowRight} size={20} weight="bold" />
               </Link>
               <Link
                 to="/programs#why-tech-skills"
@@ -81,7 +83,7 @@ const Home = () => {
                 to="/programs"
                 className="btn-primary inline-flex"
               >
-                View 6 Tracks &amp; Register &rarr;
+                View 6 Tracks &amp; Register <Icon icon={ArrowRight} size={20} weight="bold" />
               </Link>
             </div>
           </div>

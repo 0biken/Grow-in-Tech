@@ -1,50 +1,55 @@
-const partners = [
-  "Partner One",
-  "Partner Two",
-  "Partner Three",
-  "Partner Four",
-  "Partner Five",
-  "Partner Six",
-  "Partner Seven",
-];
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
+const Sponsor = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
-const Tile = ({ name }: { name: string }) => (
-  <li className="flex h-16 w-52 shrink-0 items-center justify-center px-4">
-    <span className="truncate font-heading text-base font-semibold text-git-caption">
-      {name}
-    </span>
-  </li>
-);
+  useGSAP(
+    () => {
+      if (prefersReducedMotion || !containerRef.current) return;
+      
+      const elements = gsap.utils.toArray<HTMLElement>(".sponsor-reveal");
+      gsap.fromTo(
+        elements,
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.45,
+          stagger: 0.06,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+    },
+    { dependencies: [prefersReducedMotion], revertOnUpdate: true, scope: containerRef }
+  );
 
-const Sponsor = () => (
-  <section className="py-16 sm:py-20" aria-labelledby="partners-heading">
+  return (
+  <section ref={containerRef} className="py-16 sm:py-20 sponsor-reveal" aria-labelledby="partners-heading">
     <div className="container-page">
       <div className="divider mb-12"></div>
       <p id="partners-heading" className="section-eyebrow text-center mb-8">
-        TRUSTED BY
+        PARTNER
       </p>
-    </div>
-
-    <div
-      className="relative flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] bg-transparent"
-      role="group"
-      aria-label="Partner organisations"
-    >
-      <ul className="flex w-max shrink-0 animate-(--animate-marquee) gap-4 pr-4">
-        {partners.map((name, i) => (
-          <Tile key={`${name}-${i}`} name={name} />
-        ))}
-      </ul>
-      <ul
-        aria-hidden="true"
-        className="flex w-max shrink-0 animate-(--animate-marquee) gap-4 pr-4"
-      >
-        {partners.map((name, i) => (
-          <Tile key={`dup-${name}-${i}`} name={name} />
-        ))}
-      </ul>
+      <div className="mx-auto flex max-w-sm items-center justify-center rounded-2xl border border-git-border bg-git-surface p-6 sm:p-8">
+        <img
+          src="/images/jci-ui.jpg"
+          alt="JCI Nigeria, University of Ibadan"
+          width={1280}
+          height={1280}
+          loading="lazy"
+          className="h-24 w-24 rounded-xl object-cover sm:h-28 sm:w-28"
+        />
+      </div>
     </div>
   </section>
-);
+  );
+};
 
 export default Sponsor;

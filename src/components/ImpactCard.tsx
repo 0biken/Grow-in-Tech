@@ -11,7 +11,7 @@ export type ImpactStat = {
 };
 
 const ImpactCard = ({ stat }: { stat: ImpactStat }) => (
-  <article className="glass-card flex h-full flex-col justify-between gap-6 p-8 transition-all duration-300">
+  <article className="glass-card flex h-full flex-col justify-between gap-6 p-8 ">
     <div>
       <p className="font-heading text-[length:var(--text-h2)] font-extrabold leading-none text-git-accent">
         <CountUp end={stat.value} suffix={stat.suffix} />

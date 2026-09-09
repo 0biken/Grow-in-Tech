@@ -1,3 +1,5 @@
+import { CaretDown } from "@phosphor-icons/react";
+import { Icon } from "../components/Icon";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
@@ -17,46 +19,13 @@ export default function Hero() {
     () => {
       if (prefersReducedMotion) return;
 
-      const tl = gsap.timeline();
-
-      tl.fromTo(
-        eyebrowRef.current,
-        { opacity: 0, y: -10 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
-        0.2
-      )
-        .fromTo(
-          headlineRef.current,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
-          0.4
-        )
-        .fromTo(
-          taglineRef.current,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
-          0.8
-        )
-        .fromTo(
-          buttonsRef.current,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
-          1.0
-        )
-        .fromTo(
-          scrollIndicatorRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.8, ease: "power2.out" },
-          1.4
-        );
-        
-      gsap.to(".scroll-chevron", {
-        y: 8,
-        duration: 1,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut",
-      });
+      const elements = [eyebrowRef.current, headlineRef.current, taglineRef.current, buttonsRef.current, scrollIndicatorRef.current];
+      
+      gsap.fromTo(
+        elements,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: "power3.out" }
+      );
     },
     { scope: heroRef, dependencies: [prefersReducedMotion], revertOnUpdate: true }
   );
@@ -113,15 +82,7 @@ export default function Hero() {
         <span className="text-sm font-sans uppercase tracking-widest">
           Scroll
         </span>
-        <svg
-          className="scroll-chevron h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
+        <Icon icon={CaretDown} size={24} className="mt-1" />
       </div>
     </section>
   );

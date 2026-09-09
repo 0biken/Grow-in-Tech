@@ -1,3 +1,5 @@
+import { Sun, Moon } from "@phosphor-icons/react";
+import { Icon } from "../components/Icon";
 import BrandLogo from "../components/BrandLogo";
 import { useEffect, useState, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
@@ -100,7 +102,7 @@ const Nav = () => {
         aria-label="Main"
         className={[
           "w-full lg:w-auto relative z-50",
-          "transition-all duration-300",
+          "transition-[background-color,box-shadow] duration-300",
           "border border-git-border lg:rounded-full",
           scrolled || menuOpen
             ? "bg-git-surface/95 shadow-sm backdrop-blur-xl"
@@ -120,9 +122,9 @@ const Nav = () => {
           <ul className="hidden items-center gap-7 lg:flex">
             {navLinks.map((link) => (
               <li key={link.name}>
-                <NavLink to={link.path} end={link.path === "/"} className="group relative block py-2 text-sm font-medium transition-colors duration-150 after:absolute after:bottom-0.5 after:left-0 after:h-px after:bg-git-accent after:transition-all after:duration-200">
+                <NavLink to={link.path} end={link.path === "/"} className="group relative block py-2 text-sm font-medium transition-colors duration-150 after:absolute after:bottom-0.5 after:left-0 after:h-px after:bg-git-accent after:transition-transform after:duration-200 after:origin-left">
                   {({ isActive }) => (
-                    <span className={isActive ? "text-git-title after:w-full inline-block" : "text-git-muted hover:text-git-title after:w-0 hover:after:w-full inline-block"}>
+                    <span className={isActive ? "text-git-title after:w-full after:scale-x-100 inline-block" : "text-git-muted hover:text-git-title after:w-full after:scale-x-0 hover:after:scale-x-100 inline-block"}>
                       <span className="relative overflow-hidden h-[1.4em] inline-block leading-[1.4em] align-bottom">
                         <span className="flex flex-col transition-transform duration-300 group-hover:-translate-y-1/2">
                           <span>{link.name}</span>
@@ -144,9 +146,9 @@ const Nav = () => {
               className="inline-flex h-10 w-10 items-center justify-center rounded-full text-git-title transition-colors duration-150 hover:bg-git-surface-2"
             >
               {theme === "light" ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <Icon icon={Moon} size={20} />
               ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <Icon icon={Sun} size={20} />
               )}
             </button>
 
@@ -169,8 +171,8 @@ const Nav = () => {
             >
               <span className="relative block h-4 w-5" aria-hidden="true">
                 <span
-                  className={`absolute left-0 block h-[2px] w-5 bg-current transition-all duration-300 ${
-                    menuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"
+                  className={`absolute left-0 top-1/2 block h-[2px] w-5 bg-current transition-transform duration-300 ${
+                    menuOpen ? "-translate-y-1/2 rotate-45" : "-translate-y-[calc(50%+6px)]"
                   }`}
                 />
                 <span
@@ -179,8 +181,8 @@ const Nav = () => {
                   }`}
                 />
                 <span
-                  className={`absolute left-0 block h-[2px] w-5 bg-current transition-all duration-300 ${
-                    menuOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"
+                  className={`absolute left-0 top-1/2 block h-[2px] w-5 bg-current transition-transform duration-300 ${
+                    menuOpen ? "-translate-y-1/2 -rotate-45" : "-translate-y-[calc(50%-6px)]"
                   }`}
                 />
               </span>

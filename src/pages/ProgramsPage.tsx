@@ -1,7 +1,9 @@
+import { Megaphone, PencilCircle, Palette, Robot, Lightning, CurrencyDollar } from "@phosphor-icons/react";
+import { Icon } from "../components/Icon";
 const programs = [
   {
     title: "Digital Marketing",
-    icon: "01",
+    icon: Megaphone,
     category: "Distribution & Growth",
     description: "Master audience acquisition, campaign analytics, social algorithms, and organic growth strategies for tech ventures and products.",
     color: "bg-git-accent",
@@ -12,7 +14,7 @@ const programs = [
   },
   {
     title: "Copywriting",
-    icon: "02",
+    icon: PencilCircle,
     category: "Persuasion & Sales",
     description: "Craft magnetic words that sell. Master psychological hooks, landing page storytelling, email marketing, and conversion copywriting.",
     color: "bg-git-accent",
@@ -23,7 +25,7 @@ const programs = [
   },
   {
     title: "Graphics Design",
-    icon: "03",
+    icon: Palette,
     category: "Visual Identity & UI",
     description: "Design stunning visual systems, brand identities, pitch assets, and modern interface layouts using Figma and industry tools.",
     color: "bg-git-accent",
@@ -33,8 +35,8 @@ const programs = [
     takeaway: "Establish instant credibility and command premium pricing with world-class aesthetics."
   },
   {
-    title: "Vibe Coding",
-    icon: "04",
+    title: "Building with AI",
+    icon: Robot,
     category: "AI & Rapid Prototyping",
     description: "Build and deploy production-ready web apps in hours using modern AI coding agents, natural language prompting, and modern frameworks.",
     color: "bg-git-accent",
@@ -45,7 +47,7 @@ const programs = [
   },
   {
     title: "Automation",
-    icon: "05",
+    icon: Lightning,
     category: "Systems & 10x Leverage",
     description: "Streamline repetitive digital tasks, connect apps with APIs, and build intelligent no-code automated workflows that run 24/7.",
     color: "bg-git-accent",
@@ -56,7 +58,7 @@ const programs = [
   },
   {
     title: "Financial Literacy",
-    icon: "06",
+    icon: CurrencyDollar,
     category: "Wealth & Equity Management",
     description: "Master personal and startup financial management, cross-border freelance monetization, equity allocation, budgeting, and long-term wealth compounding.",
     color: "bg-git-accent",
@@ -70,7 +72,7 @@ const programs = [
 const caseStudies = [
   {
     title: "Digital Marketing",
-    icon: "01",
+    icon: Megaphone,
     advantage: "Audience & Zero-Cost Distribution",
     caseStudy:
       "A campus founder developed a student marketplace app but had zero users. By applying organic content funnels, campus-specific micro-influencer strategies, and algorithmic TikTok hooks, she onboarded 2,400 active UI students in 3 weeks with zero advertising budget.",
@@ -79,7 +81,7 @@ const caseStudies = [
   },
   {
     title: "Copywriting",
-    icon: "02",
+    icon: PencilCircle,
     advantage: "High-Ticket Conversion & Persuasion",
     caseStudy:
       "A student freelancer was pitching international clients for technical writing and getting ignored with generic proposals. After rewriting his cold outreach and portfolio with benefit-driven hooks and objection-handling copy, his response rate jumped from 3% to 28%, landing him two $800/mo retainer clients.",
@@ -88,7 +90,7 @@ const caseStudies = [
   },
   {
     title: "Graphics Design",
-    icon: "03",
+    icon: Palette,
     advantage: "Instant Trust & Perceived Value",
     caseStudy:
       "A group of engineering students built an AI tool for exam prep but their MVP looked unpolished and untrustworthy. A design overhaul—clean typography, cohesive color palette, and sleek mockups—helped them win a $1,500 hackathon grant because judges immediately trusted their execution quality.",
@@ -96,8 +98,8 @@ const caseStudies = [
     keyMetric: "Instant Credibility → $1,500 Grant Win"
   },
   {
-    title: "Vibe Coding",
-    icon: "04",
+    title: "Building with AI",
+    icon: Robot,
     advantage: "Speed of Execution with AI",
     caseStudy:
       "A non-technical economics major had an idea for an automated CGPA calculator and academic progress tracker for UI students. Instead of waiting 6 months to learn syntax from scratch, he used AI coding assistants and natural language prompting to ship a live, responsive web app in 36 hours.",
@@ -106,7 +108,7 @@ const caseStudies = [
   },
   {
     title: "Automation",
-    icon: "05",
+    icon: Lightning,
     advantage: "10x Output & Time Multiplication",
     caseStudy:
       "A student society executive spent 5 hours every Monday manually checking payment receipts, updating spreadsheets, and sending confirmation emails. By building a 3-step automation workflow linking Google Forms, webhooks, and email triggers, registrations are verified in 2 seconds with zero human error.",
@@ -115,7 +117,7 @@ const caseStudies = [
   },
   {
     title: "Financial Literacy",
-    icon: "06",
+    icon: CurrencyDollar,
     advantage: "Wealth Preservation & Equity Protection",
     caseStudy:
       "A student who started earning remote freelance income in dollars quickly fell into panic when tax and currency fluctuation ate into his earnings. Financial literacy training taught him how to hedge currency risk, budget for operational runway, and retain equity when approached by outside investors.",
@@ -139,13 +141,7 @@ const ProgramsPage = () => {
             Digital Skill Up 2026 <br />
             <span className="text-git-accent relative inline-block">
               : The Intelligent Creator Workshop
-              <svg
-                className="absolute left-0 -bottom-2 w-full h-3 text-git-accent/40"
-                viewBox="0 0 100 20"
-                preserveAspectRatio="none"
-              >
-                <path d="M0 10 Q 50 20 100 10" stroke="currentColor" strokeWidth="4" fill="none" />
-              </svg>
+              
             </span>
           </h1>
 
@@ -206,13 +202,13 @@ const ProgramsPage = () => {
           {programs.map((program) => (
             <li
               key={program.title}
-              className="flex flex-col relative overflow-hidden glass-card p-8 sm:p-9 transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 border border-git-border"
+              className="flex flex-col relative overflow-hidden glass-card p-8 sm:p-9 transition-[transform,box-shadow,border-color] duration-300 hover:shadow-xl hover:-translate-y-1.5 border border-git-border"
             >
               {/* Color Stripe Header */}
               <div className={`absolute top-0 left-0 right-0 h-2 ${program.color}`} />
 
               <div className="flex flex-wrap gap-3 items-center justify-between mb-4 mt-2">
-                <span className="text-3xl p-2 rounded-xl bg-git-surface-2">{program.icon}</span>
+                <span className="text-3xl p-2 rounded-xl bg-git-surface-2"><Icon icon={program.icon} size={28} /></span>
                 <span className="text-xs font-semibold px-3 py-1 rounded-full bg-git-surface-2 text-git-muted border border-git-border">
                   {program.category}
                 </span>
@@ -274,7 +270,7 @@ const ProgramsPage = () => {
               >
                 <div>
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="text-2xl p-2 rounded-lg bg-git-surface-2">{item.icon}</span>
+                    <span className="text-2xl p-2 rounded-lg bg-git-surface-2"><Icon icon={item.icon} size={24} /></span>
                     <div>
                       <h3 className="font-heading font-bold text-lg text-git-title">
                         {item.title}
@@ -325,7 +321,7 @@ const ProgramsPage = () => {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-center mb-8">
                 <div className="p-3 bg-git-surface rounded-xl border border-git-border shadow-2xs">
-                  <p className="text-xs font-bold text-git-title">Vibe Coding</p>
+                  <p className="text-xs font-bold text-git-title">Building with AI</p>
                   <p className="text-[10px] text-git-muted">To Build Fast</p>
                 </div>
                 <div className="p-3 bg-git-surface rounded-xl border border-git-border shadow-2xs">
@@ -375,3 +371,5 @@ const ProgramsPage = () => {
 };
 
 export default ProgramsPage;
+
+

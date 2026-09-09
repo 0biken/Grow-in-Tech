@@ -47,7 +47,6 @@ const Footer = () => {
           <ul className="flex flex-col gap-3">
             <li><Link to="/about" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">About</Link></li>
             <li><Link to="/programs" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Programs</Link></li>
-            <li><Link to="#" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Events</Link></li>
           </ul>
         </nav>
 
@@ -68,9 +67,6 @@ const Footer = () => {
           </h3>
           <ul className="flex flex-col gap-3">
             <li><a href="mailto:git.kommunity@gmail.com" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">git.kommunity@gmail.com</a></li>
-            <li><a href="#" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Twitter/X</a></li>
-            <li><a href="#" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">LinkedIn</a></li>
-            <li><a href="#" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Discord</a></li>
           </ul>
         </nav>
       </div>
