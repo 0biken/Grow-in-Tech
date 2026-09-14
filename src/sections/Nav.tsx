@@ -17,7 +17,7 @@ const Nav = () => {
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const location = useLocation();
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -53,45 +53,19 @@ const Nav = () => {
     return () => desktop.removeEventListener("change", closeOnDesktop);
   }, []);
 
+  const closeMenu = () => {
+    setMenuOpen(false);
+    triggerRef.current?.focus({ preventScroll: true });
+  };
+
   useEffect(() => {
-    if (!menuOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setMenuOpen(false);
-        triggerRef.current?.focus();
-      }
-    };
-    window.addEventListener("keydown", onKey);
+    const dialog = menuRef.current;
+    if (!menuOpen || !dialog) return;
+    dialog.showModal();
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    
-    const focusableElements = menuRef.current?.querySelectorAll(
-      'a[href], button:not([disabled]), textarea, input, select'
-    );
-    const firstElement = focusableElements?.[0] as HTMLElement;
-    const lastElement = focusableElements?.[focusableElements.length - 1] as HTMLElement;
-
-    const handleTab = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return;
-      if (e.shiftKey) {
-        if (document.activeElement === firstElement) {
-          lastElement?.focus();
-          e.preventDefault();
-        }
-      } else {
-        if (document.activeElement === lastElement) {
-          firstElement?.focus();
-          e.preventDefault();
-        }
-      }
-    };
-    
-    window.addEventListener('keydown', handleTab);
-    firstElement?.focus();
-
     return () => {
-      window.removeEventListener("keydown", onKey);
-      window.removeEventListener('keydown', handleTab);
+      dialog.close();
       document.body.style.overflow = previous;
     };
   }, [menuOpen]);
@@ -126,7 +100,7 @@ const Nav = () => {
                   {({ isActive }) => (
                     <span className={isActive ? "text-git-title after:w-full after:scale-x-100 inline-block" : "text-git-muted hover:text-git-title after:w-full after:scale-x-0 hover:after:scale-x-100 inline-block"}>
                       <span className="relative overflow-hidden h-[1.4em] inline-block leading-[1.4em] align-bottom">
-                        <span className="flex flex-col transition-transform duration-300 group-hover:-translate-y-1/2">
+                        <span className="flex flex-col transition-transform duration-300 motion-safe:group-hover:-translate-y-1/2">
                           <span>{link.name}</span>
                           <span aria-hidden="true" className="text-git-title">{link.name}</span>
                         </span>
@@ -163,10 +137,11 @@ const Nav = () => {
             <button
               ref={triggerRef}
               type="button"
-              onClick={() => setMenuOpen((open) => !open)}
+              onClick={() => setMenuOpen(true)}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-label="Open menu"
+              aria-haspopup="dialog"
               className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-git-title transition-colors duration-150 hover:bg-git-surface-2 lg:hidden"
             >
               <span className="relative block h-4 w-5" aria-hidden="true">
@@ -192,13 +167,18 @@ const Nav = () => {
       </nav>
 
       {/* Mobile panel */}
-      <div
+      <dialog
         id="mobile-menu"
         ref={menuRef}
-        hidden={!menuOpen}
-        className="fixed inset-0 z-40 bg-git-surface px-5 pt-28 pb-6 lg:hidden flex flex-col overflow-y-auto"
+        aria-label="Site navigation"
+        onCancel={(event) => { event.preventDefault(); closeMenu(); }}
+        className="mobile-menu bg-git-surface text-git-title"
       >
-        <ul className="flex flex-col gap-6 mt-8">
+        <div className="flex items-center justify-between gap-4">
+          <BrandLogo className="text-git-title" />
+          <button type="button" onClick={closeMenu} className="btn-ghost" autoFocus>Close menu <span aria-hidden="true">×</span></button>
+        </div>
+        <ul className="flex flex-col gap-6 mt-10">
           {navLinks.map((link) => (
             <li key={link.name}>
               <NavLink
@@ -227,10 +207,9 @@ const Nav = () => {
             Join GiT
           </NavLink>
         </div>
-      </div>
+      </dialog>
     </header>
   );
 };
 
 export default Nav;
-

@@ -1,7 +1,10 @@
 import { useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
+gsap.registerPlugin(ScrollTrigger);
+
 const Sponsor = () => {
   const containerRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -10,15 +13,13 @@ const Sponsor = () => {
     () => {
       if (prefersReducedMotion || !containerRef.current) return;
       
-      const elements = gsap.utils.toArray<HTMLElement>(".sponsor-reveal");
       gsap.fromTo(
-        elements,
+        containerRef.current,
         { opacity: 0, y: 16 },
         {
           opacity: 1,
           y: 0,
           duration: 0.45,
-          stagger: 0.06,
           ease: "power3.out",
           scrollTrigger: {
             trigger: containerRef.current,

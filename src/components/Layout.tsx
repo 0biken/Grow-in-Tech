@@ -1,3 +1,4 @@
+import RouteEffects from "./RouteEffects";
 import { Outlet } from "react-router-dom";
 import Nav from "../sections/Nav";
 import Footer from "../sections/Footer";
@@ -12,9 +13,10 @@ const Layout = () => {
       >
         Skip to content
       </a>
+      <RouteEffects />
       <AnnouncementBar />
       <Nav />
-      <main id="main" className="flex-1 pt-4 lg:pt-6">
+      <main id="main" tabIndex={-1} className="flex-1 pt-4 lg:pt-6">
         <Outlet />
       </main>
       <Footer />

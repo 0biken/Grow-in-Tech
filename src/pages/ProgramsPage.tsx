@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Megaphone, PencilCircle, Palette, Robot, Lightning, CurrencyDollar } from "@phosphor-icons/react";
 import { Icon } from "../components/Icon";
 const programs = [
@@ -170,18 +171,18 @@ const ProgramsPage = () => {
 
           {/* Jump to Why Tech Skills CTA */}
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="#tracks"
+            <Link
+              to="#tracks"
               className="btn-primary py-3.5 px-8 text-base font-bold shadow-md hover:shadow-git-accent/20"
             >
               Choose Your Track &rarr;
-            </a>
-            <a
-              href="#why-tech-skills"
+            </Link>
+            <Link
+              to="#why-tech-skills"
               className="btn-ghost py-3.5 px-6 text-sm font-semibold text-git-muted hover:text-git-title"
             >
               Why Learn Tech Skills? (Case Studies) &darr;
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -202,7 +203,7 @@ const ProgramsPage = () => {
           {programs.map((program) => (
             <li
               key={program.title}
-              className="flex flex-col relative overflow-hidden glass-card p-8 sm:p-9 transition-[transform,box-shadow,border-color] duration-300 hover:shadow-xl hover:-translate-y-1.5 border border-git-border"
+              className="flex flex-col relative overflow-hidden glass-card p-8 sm:p-9 transition-[transform,box-shadow,border-color] duration-300 hover:shadow-xl motion-safe:hover:-translate-y-1.5 border border-git-border"
             >
               {/* Color Stripe Header */}
               <div className={`absolute top-0 left-0 right-0 h-2 ${program.color}`} />
@@ -347,12 +348,12 @@ const ProgramsPage = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row justify-center gap-4 items-center">
-                <a
-                  href="#tracks"
+                <Link
+                  to="#tracks"
                   className="btn-primary py-3 px-8 text-sm sm:text-base font-bold"
                 >
                   Pick Your Masterclass Track &rarr;
-                </a>
+                </Link>
                 <a
                   href="https://chat.whatsapp.com/EoZRm6mqTG2AYHAp9O2SIM?s=cl&p=a&mlu=4&ilr=4"
                   target="_blank"

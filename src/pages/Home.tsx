@@ -43,7 +43,7 @@ const Home = () => {
 
             <div className="shrink-0 flex flex-col sm:flex-row lg:flex-col gap-4">
               <Link
-                to="/programs"
+                to="/programs#tracks"
                 className="btn-primary text-center justify-center text-base py-3.5 px-7 font-bold shadow-lg hover:shadow-git-accent/25"
               >
                 Explore Tracks &amp; Register <Icon icon={ArrowRight} size={20} weight="bold" />
@@ -80,7 +80,7 @@ const Home = () => {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
-                to="/programs"
+                to="/programs#tracks"
                 className="btn-primary inline-flex"
               >
                 View 6 Tracks &amp; Register <Icon icon={ArrowRight} size={20} weight="bold" />

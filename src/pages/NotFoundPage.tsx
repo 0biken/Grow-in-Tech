@@ -1,25 +1,31 @@
 import { Link } from "react-router-dom";
+import { ArrowLeft, ArrowRight } from "@phosphor-icons/react";
+import { Icon } from "../components/Icon";
 
-const NotFoundPage = () => {
+export default function NotFoundPage() {
   return (
-    <div className="bg-git-base min-h-[70vh] flex flex-col items-center justify-center container-page text-center py-20">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="font-heading font-extrabold text-git-title tracking-tight text-8xl md:text-9xl mb-4">
-          404
-        </h1>
-        <div className="h-1.5 w-24 bg-git-accent mx-auto mb-8 rounded-full"></div>
-        <h2 className="text-[length:var(--text-h2)] font-heading font-extrabold text-git-title mb-6">
-          Page not found
-        </h2>
-        <p className="font-sans text-lg text-git-muted mb-10 leading-relaxed max-w-lg mx-auto">
-          Sorry, we couldn't find the page you're looking for. It might have been moved or doesn't exist.
-        </p>
-        <Link to="/" className="btn-primary py-3.5 px-8 text-base shadow-md hover:shadow-git-accent/20">
-          Return to Home &rarr;
-        </Link>
+    <section className="container-page py-10 sm:py-16 lg:py-20" aria-labelledby="not-found-heading">
+      <div className="not-found-layout">
+        <div className="not-found-art" aria-hidden="true">
+          <span className="not-found-caption">ROOM TO EXPLORE</span>
+          <span className="not-found-number">404</span>
+          <span className="not-found-art-footer">GROW IN TECH <span>KEEP GOING ↗</span></span>
+        </div>
+        <div className="not-found-content">
+          <p className="section-eyebrow mb-4">ERROR 404</p>
+          <h1 id="not-found-heading" className="section-heading mb-5 leading-[1.12]">This page took<br className="hidden sm:block" /> a different path.</h1>
+          <p className="max-w-md text-base sm:text-lg leading-relaxed text-git-muted">
+            We couldn’t find the page you’re looking for. The link may be out of date, or the address may have a typo.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-3">
+            <Link to="/" className="btn-primary"><Icon icon={ArrowLeft} size={18} /> Back to home</Link>
+            <Link to="/programs#tracks" className="btn-ghost">Explore programs <Icon icon={ArrowRight} size={18} /></Link>
+          </div>
+          <p className="mt-8 text-sm text-git-muted">
+            Following a link we shared? <Link to="/contact" className="text-git-accent font-semibold underline underline-offset-4">Let us know</Link>.
+          </p>
+        </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default NotFoundPage;
+}

@@ -1,9 +1,14 @@
+import type { MouseEvent } from "react";
 import BrandLogo from "../components/BrandLogo";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollToTop = (event: MouseEvent<HTMLButtonElement>) => {
+    const instant = event.detail === 0 || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const heading = document.querySelector<HTMLElement>("main h1");
+    heading?.setAttribute("tabindex", "-1");
+    heading?.focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: instant ? "instant" : "smooth" });
   };
 
   return (
@@ -57,7 +62,7 @@ const Footer = () => {
           <ul className="flex flex-col gap-3">
             <li><Link to="/get-involved" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Get Involved</Link></li>
             <li><Link to="/contact" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Contact</Link></li>
-            <li><Link to="/programs" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Register</Link></li>
+            <li><Link to="/programs#tracks" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Register</Link></li>
           </ul>
         </nav>
 
