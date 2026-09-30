@@ -31,7 +31,7 @@ Use white text on accessible blue; near-black text on vivid blue or ice blue. Us
 
 ## Typography and spacing
 
-Nimbus font files are not supplied. The approved web substitute is `Arial, Helvetica, sans-serif`, bold (700) and italic for headings. This is a substitution, not an assertion that the fonts are identical. Body copy and controls retain bundled Inter, with regular body weight and medium/semibold emphasis. Do not italicize navigation, form labels, or long paragraphs.
+Nimbus font files are not supplied. The approved web substitute is `Arial, Helvetica, sans-serif`, bold (700) and italic for headings. This is a substitution, not an assertion that the fonts are identical. Body copy and controls use bundled Geist (variable), with regular body weight and medium/semibold emphasis. Do not italicize navigation, form labels, or long paragraphs.
 
 Use fluid headline sizes, tight headline spacing, and generous paragraph line height. The home display title scales from 3.2rem to 7rem; interior headings use the existing fluid heading tokens. Keep paragraph measure around 65 characters. Preserve room around italic glyphs so they are not clipped.
 
@@ -47,7 +47,7 @@ Web defaults: display at 88px wide in navigation and footer, with at least 12px 
 
 ## Imagery and motion
 
-Use real, verified community photography when it is available. Monochrome imagery is directly supported by the deck; brand-blue duotone is an optional PRD-derived treatment. Preserve image context and do not imply stock or sample photographs depict GiT activities.
+Use real, verified community photography when it is available. Photos go in `src/assets/community/` named by slot (see the README there) and replace the illustrative stock photo for that slot automatically. Illustrative stock photos (`src/content/photos.ts`) must stay credited and captioned as illustrative. Monochrome imagery is directly supported by the deck; brand-blue duotone is an optional PRD-derived treatment. Preserve image context and do not imply stock or sample photographs depict GiT activities.
 
 Until verified photography is available, use the site's simple blue/ice-blue geometric panels as decoration, marked `aria-hidden`. These panels are web adaptations, not additional logo marks. Do not repeat the logo as a background pattern. Avoid colorful clip art, emoji badges, particle networks, circuit-board motifs, and terminal styling.
 

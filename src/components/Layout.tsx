@@ -16,7 +16,8 @@ const Layout = () => {
       <RouteEffects />
       <AnnouncementBar />
       <Nav />
-      <main id="main" tabIndex={-1} className="flex-1 pt-4 lg:pt-6">
+      {/* clip (not hidden) keeps sticky descendants working while preventing sideways scroll. */}
+      <main id="main" tabIndex={-1} className="w-full max-w-full flex-1 overflow-x-clip pt-3">
         <Outlet />
       </main>
       <Footer />

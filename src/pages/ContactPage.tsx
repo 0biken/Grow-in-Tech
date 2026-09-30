@@ -1,8 +1,16 @@
-import { ArrowRight } from "@phosphor-icons/react";
+import { useRef, type FormEvent } from "react";
+import { ArrowUpRight, EnvelopeSimple, Phone, MapPin, PaperPlaneTilt } from "@phosphor-icons/react";
 import { Icon } from "../components/Icon";
-import type { FormEvent } from "react";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "../content/site";
+import { useReveal } from "../hooks/useReveal";
+
+const fieldClass =
+  "w-full rounded-2xl border border-git-border bg-git-surface-2/60 px-4 py-3.5 text-git-title outline-none transition-[border-color,box-shadow,background-color] duration-300 focus:border-git-accent focus:bg-git-surface focus:ring-4 focus:ring-git-accent/15";
 
 const ContactPage = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  useReveal(ref);
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const values = new FormData(event.currentTarget);
@@ -11,99 +19,85 @@ const ContactPage = () => {
     const message = values.get("message");
     const subject = encodeURIComponent(`Website enquiry from ${name}`);
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-    window.location.href = `mailto:git.kommunity@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   };
 
+  const channels = [
+    { label: "Email us", value: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}`, icon: EnvelopeSimple },
+    { label: "Call us", value: CONTACT_PHONE.display, href: CONTACT_PHONE.href, icon: Phone },
+  ];
+
   return (
-    <div className="container-page py-20 lg:py-32">
-      <div className="text-center max-w-3xl mx-auto mb-16">
-        <p className="section-eyebrow mb-6">CONTACT</p>
-        <h1 className="section-heading text-git-title mb-6">
-          Let's keep in touch
-        </h1>
-        <p className="section-subheading mx-auto">
-          Have questions about GiT, our programs, or partnerships? Reach out directly.
+    <div ref={ref} className="container-page pb-24 pt-14 md:pb-36 md:pt-20">
+      <div className="mb-16 grid gap-8 lg:grid-cols-12 lg:items-end" data-reveal>
+        <div className="lg:col-span-7">
+          <p className="kicker mb-6">Contact</p>
+          <h1 className="text-[length:var(--text-display)] leading-[1.0]">Let&apos;s keep in touch.</h1>
+        </div>
+        <p className="max-w-md text-lg leading-relaxed text-git-muted lg:col-span-5">
+          Questions about GiT, our programs, or partnerships? Reach out directly.
         </p>
       </div>
 
-      <div className="max-w-4xl mx-auto grid gap-12 lg:grid-cols-5">
-        <div className="lg:col-span-2 glass-card overflow-hidden h-fit">
-          <a
-            href="mailto:git.kommunity@gmail.com"
-            className="flex justify-between items-center p-6 border-b border-git-border hover:bg-git-surface-2 transition-colors duration-200 group"
-          >
-            <div>
-              <p className="font-sans text-sm font-semibold text-git-title mb-1">Email us</p>
-              <p className="font-sans text-git-muted text-sm">git.kommunity@gmail.com</p>
+      <div className="grid gap-4 lg:grid-cols-12" data-reveal-stagger>
+        <div className="flex flex-col gap-4 lg:col-span-5">
+          {channels.map((channel) => (
+            <a key={channel.label} href={channel.href} className="bezel bezel-hover group block">
+              <div className="bezel-core flex items-center justify-between gap-4 p-6 sm:p-7">
+                <div className="flex items-center gap-4">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-git-surface-2 text-git-link">
+                    <Icon icon={channel.icon} size={22} weight="light" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-git-title">{channel.label}</p>
+                    <p className="mt-0.5 break-all text-sm text-git-muted">{channel.value}</p>
+                  </div>
+                </div>
+                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-git-surface-2 text-git-title transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true">
+                  <Icon icon={ArrowUpRight} size={16} />
+                </span>
+              </div>
+            </a>
+          ))}
+          <div className="bezel">
+            <div className="bezel-core flex items-center gap-4 p-6 sm:p-7">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-git-surface-2 text-git-link">
+                <Icon icon={MapPin} size={22} weight="light" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-git-title">Find us on campus</p>
+                <p className="mt-0.5 text-sm text-git-muted">University of Ibadan, Nigeria</p>
+              </div>
             </div>
-            <span className="text-git-muted group-hover:text-git-accent transition-colors"><Icon icon={ArrowRight} size={16} /></span>
-          </a>
-          
-          <a
-            href="tel:+2348162860397"
-            className="flex justify-between items-center p-6 border-b border-git-border hover:bg-git-surface-2 transition-colors duration-200 group"
-          >
-            <div>
-              <p className="font-sans text-sm font-semibold text-git-title mb-1">Call us</p>
-              <p className="font-sans text-git-muted text-sm">+234 816 286 0397</p>
-            </div>
-            <span className="text-git-muted group-hover:text-git-accent transition-colors"><Icon icon={ArrowRight} size={16} /></span>
-          </a>
-          
-          <div
-            className="flex justify-between items-center p-6 hover:bg-git-surface-2 transition-colors duration-200 group"
-          >
-            <div>
-              <p className="font-sans text-sm font-semibold text-git-title mb-1">Visit campus</p>
-              <p className="font-sans text-git-muted text-sm">University of Ibadan, Nigeria</p>
-            </div>
-            <span className="text-git-muted group-hover:text-git-accent transition-colors"><Icon icon={ArrowRight} size={16} /></span>
           </div>
         </div>
 
-        <div className="lg:col-span-3 glass-card p-8 sm:p-10">
-          <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="name" className="block mb-2 font-sans text-sm font-medium text-git-body">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                autoComplete="name"
-                required
-                className="w-full rounded-xl border border-git-border bg-git-surface px-4 py-3 font-sans text-git-title focus:border-git-accent focus:ring-1 focus:ring-git-accent outline-none transition-shadow"
-                placeholder="Your full name"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="block mb-2 font-sans text-sm font-medium text-git-body">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                autoComplete="email"
-                spellCheck={false}
-                required
-                className="w-full rounded-xl border border-git-border bg-git-surface px-4 py-3 font-sans text-git-title focus:border-git-accent focus:ring-1 focus:ring-git-accent outline-none transition-shadow"
-                placeholder="you@example.com"
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="block mb-2 font-sans text-sm font-medium text-git-body">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                rows={4}
-                className="w-full rounded-xl border border-git-border bg-git-surface px-4 py-3 font-sans text-git-title focus:border-git-accent focus:ring-1 focus:ring-git-accent outline-none transition-shadow resize-none"
-                placeholder="How can we help you?"
-              ></textarea>
-            </div>
-            <button type="submit" className="btn-primary w-full py-4 mt-2">
-              Compose Email
-            </button>
-            <p className="text-center text-xs text-git-muted">This opens your email app with your message ready to send.</p>
-          </form>
+        <div className="bezel lg:col-span-7">
+          <div className="bezel-core p-7 sm:p-10">
+            <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="name" className="mb-2 block text-sm font-medium text-git-body">Name</label>
+                  <input type="text" id="name" name="name" autoComplete="name" required className={fieldClass} placeholder="Your full name" />
+                </div>
+                <div>
+                  <label htmlFor="email" className="mb-2 block text-sm font-medium text-git-body">Email</label>
+                  <input type="email" id="email" name="email" autoComplete="email" spellCheck={false} required className={fieldClass} placeholder="you@example.com" />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="message" className="mb-2 block text-sm font-medium text-git-body">Message</label>
+                <textarea id="message" name="message" required rows={6} className={`${fieldClass} resize-none`} placeholder="How can we help you?" />
+              </div>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs text-git-muted">This opens your email app with your message ready to send.</p>
+                <button type="submit" className="btn btn-primary btn-has-icon shrink-0">
+                  <span>Compose email</span>
+                  <span className="btn-icon" aria-hidden="true"><Icon icon={PaperPlaneTilt} size={16} weight="bold" /></span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

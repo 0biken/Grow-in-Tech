@@ -1,88 +1,51 @@
-import { CaretDown } from "@phosphor-icons/react";
-import { Icon } from "../components/Icon";
 import { useRef } from "react";
-import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import Photo from "../components/Photo";
+import CtaLink from "../components/CtaLink";
+import { KOMMUNITY_URL } from "../content/site";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
-  const eyebrowRef = useRef<HTMLParagraphElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const taglineRef = useRef<HTMLParagraphElement>(null);
-  const buttonsRef = useRef<HTMLDivElement>(null);
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useGSAP(
     () => {
       if (prefersReducedMotion) return;
-
-      const elements = [eyebrowRef.current, headlineRef.current, taglineRef.current, buttonsRef.current, scrollIndicatorRef.current];
-      
-      gsap.fromTo(
-        elements,
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: "power3.out" }
-      );
+      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+      tl.fromTo(".hero-shell > .photo img", { scale: 1.12 }, { scale: 1, duration: 2.2 }, 0)
+        .from(".hero-line", { yPercent: 110, duration: 1.2, stagger: 0.1 }, 0.15)
+        .from(".hero-fade", { opacity: 0, y: 20, duration: 1, stagger: 0.08 }, 0.55);
     },
     { scope: heroRef, dependencies: [prefersReducedMotion], revertOnUpdate: true }
   );
 
   return (
-    <section
-      ref={heroRef}
-      className="brand-hero relative isolate flex w-full flex-col items-center justify-center overflow-hidden dark-section"
-    >
+    <section ref={heroRef} className="px-2 sm:px-3" aria-labelledby="hero-heading">
+      <div className="hero-shell dark-section">
+        <Photo slot="hero" width={1920} priority tone="natural" sizes="100vw" decorative shade="hero-wash" />
 
-      <div className="container-page relative z-10 flex flex-col items-center text-center">
-        <p
-          ref={eyebrowRef}
-          className="section-eyebrow tracking-widest text-git-accent mb-6 uppercase"
-        >
-          University of Ibadan
-        </p>
+        <div className="container-page flex flex-col items-center pb-16 pt-24 text-center md:py-28">
+          <p className="hero-fade mb-7 text-sm font-medium tracking-[0.18em] text-git-ice uppercase">
+            Grow In Tech · University of Ibadan
+          </p>
 
-        <h1
-          ref={headlineRef}
-          className="font-heading font-bold hero-title uppercase tracking-tighter text-git-white mb-6 leading-none"
-        >
-          Grow In Tech
-        </h1>
+          <h1 id="hero-heading" className="hero-title mx-auto w-full max-w-6xl">
+            <span className="block overflow-hidden pb-[0.08em]"><span className="hero-line block">Every faculty.</span></span>
+            <span className="block overflow-hidden pb-[0.08em]"><span className="hero-line block text-git-ice">One kommunity building in tech.</span></span>
+          </h1>
 
-        <p
-          ref={taglineRef}
-          className="mx-auto max-w-2xl text-base sm:text-lg text-git-light mb-8"
-        >
-          Practical, in-demand digital skills through hands-on training,
-          mentorship, and community — regardless of department or prior
-          technical background.
-        </p>
+          <p className="hero-fade mx-auto mt-7 max-w-2xl text-base leading-relaxed text-git-light sm:text-lg">
+            Practical, in-demand digital skills through hands-on training, mentorship, and community — regardless of
+            department or prior technical background.
+          </p>
 
-        <div ref={buttonsRef} className="flex flex-col gap-4 sm:flex-row sm:gap-6">
-          <a
-            href="https://chat.whatsapp.com/EoZRm6mqTG2AYHAp9O2SIM?s=cl&p=a&mlu=4&ilr=4"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary"
-          >
-            Join Kommunity
-          </a>
-          <Link to="/programs" className="btn-ghost-dark">
-            See Programs
-          </Link>
+          <div className="hero-fade mt-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
+            <CtaLink href={KOMMUNITY_URL} variant="light">Join the Kommunity</CtaLink>
+            <CtaLink to="/programs" variant="ghost-dark" icon={null}>See what we run</CtaLink>
+          </div>
         </div>
-      </div>
-
-      <div
-        ref={scrollIndicatorRef}
-        className="absolute bottom-5 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-git-dark-muted"
-      >
-        <span className="text-sm font-sans uppercase tracking-widest">
-          Scroll
-        </span>
-        <Icon icon={CaretDown} size={24} className="mt-1" />
       </div>
     </section>
   );

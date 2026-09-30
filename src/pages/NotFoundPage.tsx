@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "@phosphor-icons/react";
-import { Icon } from "../components/Icon";
+import { House } from "@phosphor-icons/react";
+import CtaLink from "../components/CtaLink";
 
 export default function NotFoundPage() {
   return (
@@ -18,8 +18,8 @@ export default function NotFoundPage() {
             We couldn’t find the page you’re looking for. The link may be out of date, or the address may have a typo.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Link to="/" className="btn-primary"><Icon icon={ArrowLeft} size={18} /> Back to home</Link>
-            <Link to="/programs#tracks" className="btn-ghost">Explore programs <Icon icon={ArrowRight} size={18} /></Link>
+            <CtaLink to="/" icon={House}>Back to home</CtaLink>
+            <CtaLink to="/programs" variant="ghost">Explore programs</CtaLink>
           </div>
           <p className="mt-8 text-sm text-git-muted">
             Following a link we shared? <Link to="/contact" className="text-git-accent font-semibold underline underline-offset-4">Let us know</Link>.

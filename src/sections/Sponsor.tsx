@@ -1,56 +1,30 @@
-import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
-gsap.registerPlugin(ScrollTrigger);
-
-const Sponsor = () => {
-  const containerRef = useRef<HTMLElement>(null);
-  const prefersReducedMotion = usePrefersReducedMotion();
-
-  useGSAP(
-    () => {
-      if (prefersReducedMotion || !containerRef.current) return;
-      
-      gsap.fromTo(
-        containerRef.current,
-        { opacity: 0, y: 16 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.45,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 80%",
-          },
-        }
-      );
-    },
-    { dependencies: [prefersReducedMotion], revertOnUpdate: true, scope: containerRef }
-  );
-
-  return (
-  <section ref={containerRef} className="py-16 sm:py-20 sponsor-reveal" aria-labelledby="partners-heading">
+const Sponsor = () => (
+  <section className="py-16 sm:py-20" aria-labelledby="partners-heading">
     <div className="container-page">
-      <div className="divider mb-12"></div>
-      <p id="partners-heading" className="section-eyebrow text-center mb-8">
-        PARTNER
-      </p>
-      <div className="mx-auto flex max-w-sm items-center justify-center rounded-2xl border border-git-border bg-git-surface p-6 sm:p-8">
-        <img
-          src="/images/jci-ui.jpg"
-          alt="JCI Nigeria, University of Ibadan"
-          width={1280}
-          height={1280}
-          loading="lazy"
-          className="h-24 w-24 rounded-xl object-cover sm:h-28 sm:w-28"
-        />
+      <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-center sm:gap-8 sm:text-left">
+        <div className="bezel shrink-0 [--bezel-radius:1.5rem]">
+          <div className="bezel-core p-3">
+            <img
+              src="/images/jci-ui.jpg"
+              alt="JCI Nigeria, University of Ibadan"
+              width={1280}
+              height={1280}
+              loading="lazy"
+              className="h-16 w-16 rounded-xl object-cover sm:h-20 sm:w-20"
+            />
+          </div>
+        </div>
+        <div>
+          <h2 id="partners-heading" className="text-xs font-medium uppercase not-italic tracking-[0.18em] text-git-link [font-family:var(--font-sans)]">
+            In partnership with
+          </h2>
+          <p className="mt-2 max-w-md text-base leading-relaxed text-git-muted">
+            JCI Nigeria, University of Ibadan — co-host of Digital Skill Up 2026.
+          </p>
+        </div>
       </div>
     </div>
   </section>
-  );
-};
+);
 
 export default Sponsor;

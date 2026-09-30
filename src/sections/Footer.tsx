@@ -1,6 +1,31 @@
 import type { MouseEvent } from "react";
-import BrandLogo from "../components/BrandLogo";
 import { Link } from "react-router-dom";
+import { ArrowUp } from "@phosphor-icons/react";
+import BrandLogo from "../components/BrandLogo";
+import CtaLink from "../components/CtaLink";
+import Photo from "../components/Photo";
+import { Icon } from "../components/Icon";
+import { CONTACT_EMAIL, KOMMUNITY_URL } from "../content/site";
+
+const columns = [
+  {
+    title: "Explore",
+    links: [
+      { label: "About", to: "/about" },
+      { label: "Programs", to: "/programs" },
+      { label: "Digital Skill Up recap", to: "/programs#tracks" },
+    ],
+  },
+  {
+    title: "Connect",
+    links: [
+      { label: "Get Involved", to: "/get-involved" },
+      { label: "Contact", to: "/contact" },
+    ],
+  },
+];
+
+const linkClass = "text-sm text-git-dark-muted transition-colors duration-300 hover:text-git-white";
 
 const Footer = () => {
   const scrollToTop = (event: MouseEvent<HTMLButtonElement>) => {
@@ -12,81 +37,72 @@ const Footer = () => {
   };
 
   return (
-    <footer className="dark-section bg-git-dark text-git-white">
-      {/* MEGA-CTA TOP */}
-      <div className="container-page py-20 text-center">
-        <h2 className="text-[length:var(--text-display)] font-heading font-bold text-git-white -tracking-[0.03em]">
-          Let's build the future of campus tech
-        </h2>
-        <div className="mt-10">
-          <a
-            href="https://chat.whatsapp.com/EoZRm6mqTG2AYHAp9O2SIM?s=cl&p=a&mlu=4&ilr=4"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary"
-          >
-            Join Kommunity
-          </a>
-        </div>
-      </div>
-
-      {/* DIVIDER */}
-      <div className="h-px w-full bg-git-dark-border" role="presentation" />
-
-      {/* 4-COLUMN GRID */}
-      <div className="container-page py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        <div className="flex flex-col items-start">
-          <BrandLogo className="text-git-ice" labelled />
-          <p className="mt-5 text-sm leading-relaxed text-git-dark-muted">
-            Practical, in-demand digital skills through hands-on training, mentorship, and community — regardless of department or prior technical background.
-          </p>
-          <span className="mt-4 text-xs font-semibold text-git-accent uppercase tracking-widest">
-            University of Ibadan
-          </span>
+    <footer className="px-2 pb-2 pt-12 sm:px-3 sm:pb-3">
+      <div className="dark-section overflow-hidden rounded-[1.5rem] bg-git-dark text-git-white md:rounded-[2.25rem]">
+        {/* Closing call to action */}
+        <div className="relative">
+          <Photo
+            slot="together"
+            width={1600}
+            tone="duotone"
+            decorative
+            className="absolute inset-0"
+            shade="absolute inset-0 bg-gradient-to-b from-[#0B191A]/70 via-[#0B191A]/80 to-[#0B191A]"
+          />
+          <div className="container-page relative py-28 text-center md:py-40">
+            <h2 className="mx-auto max-w-5xl text-[length:var(--text-display)] leading-[1.02] text-white">
+              Let&apos;s build the future of campus tech.
+            </h2>
+            <div className="mt-12 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+              <CtaLink href={KOMMUNITY_URL} variant="light">Join the Kommunity</CtaLink>
+              <CtaLink to="/get-involved" variant="ghost-dark" icon={null}>Help lead GiT</CtaLink>
+            </div>
+          </div>
         </div>
 
-        <nav aria-label="Explore">
-          <h3 className="text-sm font-semibold text-git-light tracking-wide uppercase mb-4">
-            Explore
-          </h3>
-          <ul className="flex flex-col gap-3">
-            <li><Link to="/about" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">About</Link></li>
-            <li><Link to="/programs" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Programs</Link></li>
-          </ul>
-        </nav>
+        <div className="container-page grid grid-cols-1 gap-12 border-t border-white/10 py-16 md:grid-cols-2 lg:grid-cols-12">
+          <div className="flex flex-col items-start lg:col-span-5">
+            <BrandLogo className="text-git-ice" labelled />
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-git-dark-muted">
+              Practical, in-demand digital skills through hands-on training, mentorship, and community — regardless of
+              department or prior technical background.
+            </p>
+            <span className="mt-5 text-xs font-medium uppercase tracking-[0.18em] text-git-ice">University of Ibadan</span>
+          </div>
 
-        <nav aria-label="Connect">
-          <h3 className="text-sm font-semibold text-git-light tracking-wide uppercase mb-4">
-            Connect
-          </h3>
-          <ul className="flex flex-col gap-3">
-            <li><Link to="/get-involved" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Get Involved</Link></li>
-            <li><Link to="/contact" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Contact</Link></li>
-            <li><Link to="/programs#tracks" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">Register</Link></li>
-          </ul>
-        </nav>
+          {columns.map((column) => (
+            <nav key={column.title} aria-label={column.title} className="lg:col-span-2">
+              <h3 className="mb-5 font-sans text-xs font-medium uppercase not-italic tracking-[0.18em] text-git-light">{column.title}</h3>
+              <ul className="flex flex-col gap-3">
+                {column.links.map((link) => (
+                  <li key={link.label}><Link to={link.to} className={linkClass}>{link.label}</Link></li>
+                ))}
+              </ul>
+            </nav>
+          ))}
 
-        <nav aria-label="Follow">
-          <h3 className="text-sm font-semibold text-git-light tracking-wide uppercase mb-4">
-            Follow
-          </h3>
-          <ul className="flex flex-col gap-3">
-            <li><a href="mailto:git.kommunity@gmail.com" className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200">git.kommunity@gmail.com</a></li>
-          </ul>
-        </nav>
-      </div>
+          <nav aria-label="Follow" className="lg:col-span-3">
+            <h3 className="mb-5 font-sans text-xs font-medium uppercase not-italic tracking-[0.18em] text-git-light">Follow</h3>
+            <ul className="flex flex-col gap-3">
+              <li><a href={`mailto:${CONTACT_EMAIL}`} className={linkClass}>{CONTACT_EMAIL}</a></li>
+              <li>
+                <a href={KOMMUNITY_URL} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                  WhatsApp Kommunity<span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
-      {/* BOTTOM BAR */}
-      <div className="container-page border-t border-git-dark-border pt-6 pb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <p className="text-sm text-git-dark-muted">
-          © {new Date().getFullYear()} Grow In Tech · University of Ibadan
-        </p>
-        <button
-          onClick={scrollToTop}
-          className="text-sm text-git-dark-muted hover:text-git-white transition-colors duration-200 flex items-center gap-2"
-        >
-          Back to top ↑
-        </button>
+        <div className="container-page flex flex-col items-center justify-between gap-4 border-t border-white/10 pb-8 pt-6 sm:flex-row">
+          <p className="text-sm text-git-dark-muted">© {new Date().getFullYear()} Grow In Tech · University of Ibadan</p>
+          <button type="button" onClick={scrollToTop} className={`${linkClass} group inline-flex items-center gap-2`}>
+            Back to top
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-0.5" aria-hidden="true">
+              <Icon icon={ArrowUp} size={14} />
+            </span>
+          </button>
+        </div>
       </div>
     </footer>
   );
