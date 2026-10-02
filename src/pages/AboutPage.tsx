@@ -102,6 +102,9 @@ const AboutPage = () => {
             <p className="section-subheading">
               A proven history of organising impactful events and bringing students together.
             </p>
+            <div className="mt-8">
+              <CtaLink to="/events" variant="ghost">All events</CtaLink>
+            </div>
           </div>
 
           <div className="bezel lg:col-span-8" data-reveal>
@@ -147,7 +150,7 @@ const AboutPage = () => {
                   Profiles coming soon — committee selections are currently in progress.
                 </p>
               </div>
-              <CtaLink to="/get-involved" variant="ghost" className="shrink-0">See open roles</CtaLink>
+              <CtaLink to="/get-involved#committee" variant="ghost" className="shrink-0">See open roles</CtaLink>
             </div>
           </div>
         </div>
