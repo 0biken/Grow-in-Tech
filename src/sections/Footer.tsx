@@ -13,6 +13,7 @@ const columns = [
     links: [
       { label: "About", to: "/about" },
       { label: "Programs", to: "/programs" },
+      { label: "Events", to: "/events" },
       { label: "Digital Skill Up recap", to: "/programs#tracks" },
     ],
   },
@@ -20,6 +21,7 @@ const columns = [
     title: "Connect",
     links: [
       { label: "Get Involved", to: "/get-involved" },
+      { label: "Founding committee", to: "/get-involved#committee" },
       { label: "Contact", to: "/contact" },
     ],
   },
@@ -55,7 +57,7 @@ const Footer = () => {
             </h2>
             <div className="mt-12 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
               <CtaLink href={KOMMUNITY_URL} variant="light">Join the Kommunity</CtaLink>
-              <CtaLink to="/get-involved" variant="ghost-dark" icon={null}>Help lead GiT</CtaLink>
+              <CtaLink to="/get-involved#committee" variant="ghost-dark" icon={null}>Help lead GiT</CtaLink>
             </div>
           </div>
         </div>
