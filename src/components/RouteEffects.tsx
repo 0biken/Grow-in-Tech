@@ -5,7 +5,6 @@ const pageTitles: Record<string, string> = {
   "/": "Digital skills for University of Ibadan students",
   "/about": "About",
   "/programs": "Programs",
-  "/events": "Events",
   "/get-involved": "Get involved",
   "/contact": "Contact",
 };

@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 
 import AboutPage from "./pages/AboutPage";
 import ProgramsPage from "./pages/ProgramsPage";
-import EventsPage from "./pages/EventsPage";
 import GetInvolvedPage from "./pages/GetInvolvedPage";
 import ContactPage from "./pages/ContactPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -17,7 +16,6 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="programs" element={<ProgramsPage />} />
-        <Route path="events" element={<EventsPage />} />
         <Route path="get-involved" element={<GetInvolvedPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="*" element={<NotFoundPage />} />
